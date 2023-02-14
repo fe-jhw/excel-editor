@@ -1,3 +1,4 @@
+import Editor from './components/editor/Editor'
 import Header from './components/Header'
 
 function App() {
@@ -5,6 +6,7 @@ function App() {
     <div className="App">
       <>
         <Header />
+        <Editor />
       </>
     </div>
   )

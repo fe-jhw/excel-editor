@@ -56,7 +56,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ant-design/icons@npm:^5.0.0":
+"@ant-design/icons@npm:^5.0.0, @ant-design/icons@npm:^5.0.1":
   version: 5.0.1
   resolution: "@ant-design/icons@npm:5.0.1"
   dependencies:
@@ -5698,6 +5698,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "fe-jhw-react-boilerplate@workspace:."
   dependencies:
+    "@ant-design/icons": ^5.0.1
     "@babel/core": ^7.20.5
     "@babel/preset-env": ^7.20.2
     "@babel/preset-react": ^7.18.6
