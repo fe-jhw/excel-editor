@@ -8,6 +8,7 @@ export default function Toolbar() {
       style={{
         paddingTop: '4px',
         borderBottom: '1px solid rgb(218, 220, 224)',
+        backgroundColor: '#F5F5F5',
       }}
     >
       <Fontbox />

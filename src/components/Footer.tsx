@@ -15,6 +15,7 @@ export default function Footer() {
       tabBarExtraContent={{
         left: <Button type="text" icon={<PlusCircleOutlined />} size="large" style={{ marginRight: '4px' }} />,
       }}
+      style={{ backgroundColor: '#F5F5F5' }}
     />
   )
 }
