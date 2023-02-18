@@ -24,7 +24,12 @@
     "useUnknownInCatchVariables": true,
 
     // Modules Configuration
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "module": "esnext",
     "moduleResolution": "node",
 

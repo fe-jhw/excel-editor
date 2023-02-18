@@ -1,13 +1,15 @@
-export default function Sheet() {
+import { ICell } from '@/types'
+import { useContext } from 'react'
+import { EditorContext } from '@/context'
+
+export function Sheet() {
+  const { cells } = useContext(EditorContext)
   return (
     <div className="sheet">
       <table>
-        <thead>
-          <Row />
-        </thead>
         <tbody>
-          {new Array(30).fill(0).map((el, idx) => (
-            <Row />
+          {cells.map((row: ICell[], idx: number) => (
+            <Row row={row} key={idx} />
           ))}
         </tbody>
       </table>
@@ -15,12 +17,25 @@ export default function Sheet() {
   )
 }
 
-function Row() {
+interface RowProps {
+  row: ICell[]
+}
+
+function Row({ row }: RowProps) {
   return (
     <tr>
-      {new Array(30).fill(0).map((el, idx) => (
-        <td key={idx + 1} style={{ border: '1px solid rgb(218, 220, 224)', height: '28px', minWidth: '50px' }}></td>
+      {row.map((cell: ICell, idx: number) => (
+        <Cell cell={cell} key={idx} />
       ))}
     </tr>
   )
+}
+
+interface CellProps {
+  cell: ICell
+}
+
+// TODO: useMemo 적용 , equalProps custom
+function Cell({ cell }: CellProps) {
+  return <td style={{ border: '1px solid rgb(218, 220, 224)', height: '28px', minWidth: '50px' }}>{cell.value}</td>
 }

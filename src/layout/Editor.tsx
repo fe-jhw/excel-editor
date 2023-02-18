@@ -1,13 +1,14 @@
-import Toolbar from '../components/Toolbar'
-import Functionbar from '../components/Functionbar'
-import Sheet from '../components/Sheet'
+import { Toolbar, Functionbar, Sheet } from '@/components'
+import { EditorProvider } from '@/context'
 
-export default function Editor() {
+export function Editor() {
   return (
     <div>
-      <Toolbar />
-      <Functionbar />
-      <Sheet />
+      <EditorProvider>
+        <Toolbar />
+        <Functionbar />
+        <Sheet />
+      </EditorProvider>
     </div>
   )
 }

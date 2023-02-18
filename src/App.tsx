@@ -1,6 +1,4 @@
-import Editor from './layout/Editor'
-import Header from './layout/Header'
-import Footer from './layout/Footer'
+import { Header, Editor, Footer } from './layout'
 
 function App() {
   return (

@@ -1,7 +1,7 @@
 import { Input, Dropdown, Button, Divider } from 'antd'
 import type { MenuProps } from 'antd'
 import { useState } from 'react'
-export default function Header() {
+export function Header() {
   return (
     <div className="header">
       <TitleBar />

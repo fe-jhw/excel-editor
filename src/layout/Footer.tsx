@@ -1,7 +1,7 @@
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { Tabs, Button } from 'antd'
 
-export default function Footer() {
+export function Footer() {
   return (
     <Tabs
       tabPosition="bottom"
