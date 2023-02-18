@@ -3,7 +3,7 @@ import type { MenuProps } from 'antd'
 import { useState } from 'react'
 export default function Header() {
   return (
-    <div style={{ borderBottom: '1px solid #dadce0', backgroundColor: '#F5F5F5' }}>
+    <div className="header">
       <TitleBar />
       <DocsBar />
     </div>

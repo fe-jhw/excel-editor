@@ -1,0 +1,63 @@
+$main-bg-color: #F5F5F5;
+$border: 1px solid #dadce0;
+$header-height: 70px;
+$toolbar-height: 100px;
+$functionbar-height: 40px;
+$footer-height: 46px;
+$min-body-height: 600px;
+
+*{
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  width: 100vw;
+  min-width: 760px;
+  height: 100vh;
+  min-height: $min-body-height;
+}
+
+.header {
+  border-bottom: $border;
+  background-color: $main-bg-color;
+  height: $header-height;
+}
+
+.toolbar {
+  height: $toolbar-height;
+  padding-top: 4px;
+  border-bottom: $border;
+  background-color: #F5F5F5;
+}
+
+.functionbar {
+  padding: 4px 0;
+  border-bottom: $border;
+  background-color: $main-bg-color; 
+  height: $functionbar-height;
+}
+
+.sheet {
+  width: 100%;
+  height: calc(100vh - 5px - #{$header-height} - #{$toolbar-height} - #{$functionbar-height} - #{$footer-height});
+  min-height: $min-body-height - $header-height - $toolbar-height - $functionbar-height - $footer-height;
+  overflow: scroll;
+  table {
+    border-collapse: collapse;
+  }
+}
+
+.footer {
+  height: $footer-height;
+}
+
+// ant-tabs style 수정
+.ant-tabs-content-holder {
+  display: none;
+}
+
+.ant-tabs-nav {
+  margin-top: 0 !important;
+}
+// 

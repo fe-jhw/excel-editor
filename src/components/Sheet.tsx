@@ -1,7 +1,7 @@
 export default function Sheet() {
   return (
-    <div style={{ minHeight: '500px', height: '500px', width: '100%', overflow: 'scroll' }}>
-      <table style={{ borderCollapse: 'collapse' }}>
+    <div className="sheet">
+      <table>
         <thead>
           <Row />
         </thead>

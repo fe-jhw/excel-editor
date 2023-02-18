@@ -4,13 +4,7 @@ import { Fontbox, FormatBox, AlignBox, StyleBox, CellBox, EditBox } from './Tool
 // TODO: borderBottom 중복되게 입력하느데 상수로 선언해서 쓰자
 export default function Toolbar() {
   return (
-    <div
-      style={{
-        paddingTop: '4px',
-        borderBottom: '1px solid rgb(218, 220, 224)',
-        backgroundColor: '#F5F5F5',
-      }}
-    >
+    <div className="toolbar">
       <Fontbox />
       <Divider type="vertical" />
       <AlignBox />

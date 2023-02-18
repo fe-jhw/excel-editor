@@ -1,18 +1,18 @@
-const path = require("path")
-const { merge } = require("webpack-merge")
-const common = require("./webpack.config.common.js")
+const path = require('path')
+const { merge } = require('webpack-merge')
+const common = require('./webpack.config.common.js')
 
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
-const Dotenv = require("dotenv-webpack")
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 
 module.exports = merge(common, {
-  mode: "development",
+  mode: 'development',
 
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        test: /\.(css|scss)$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
@@ -26,7 +26,7 @@ module.exports = merge(common, {
 
   plugins: [
     new Dotenv({
-      path: path.resolve(__dirname, "../env/.dev.env"),
+      path: path.resolve(__dirname, '../env/.dev.env'),
     }),
     new ReactRefreshWebpackPlugin(),
   ],
