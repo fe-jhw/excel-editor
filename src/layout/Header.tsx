@@ -13,7 +13,7 @@ export function Header() {
 function TitleBar() {
   const [title, setTitle] = useState('')
   return (
-    <div>
+    <div className="titlebar">
       <Input
         value={title}
         onChange={e => setTitle(e.target.value)}

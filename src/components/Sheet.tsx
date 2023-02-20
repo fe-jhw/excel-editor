@@ -1,41 +1,93 @@
 import { ICell } from '@/types'
-import { useContext } from 'react'
+import { ReactEventHandler, useCallback, useContext, useMemo } from 'react'
 import { EditorContext } from '@/context'
+import { getColumnArr, getRowArr } from '@/utils/SheetUtils'
+
+interface RowProps {
+  row: ICell[]
+  i: number
+}
+
+interface CellProps {
+  cell: ICell
+  i: number
+  j: number
+}
+
+interface HeaderProps {
+  length: number
+}
+
+const baseCellStyle = { border: '1px solid rgb(218, 220, 224)', height: '28px', minWidth: '50px' }
 
 export function Sheet() {
   const { cells } = useContext(EditorContext)
+  const onCellClick: ReactEventHandler = e => {}
   return (
     <div className="sheet">
-      <table>
-        <tbody>
-          {cells.map((row: ICell[], idx: number) => (
-            <Row row={row} key={idx} />
-          ))}
-        </tbody>
-      </table>
+      <ColumnHeader length={cells.length} />
+      <div className="sheet-main">
+        <RowHeader length={cells[0].length} />
+        <table>
+          <tbody>
+            {cells.map((row: ICell[], i: number) => (
+              <Row row={row} key={i} i={i} />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
 
-interface RowProps {
-  row: ICell[]
-}
-
-function Row({ row }: RowProps) {
+function Row({ row, i }: RowProps) {
   return (
     <tr>
-      {row.map((cell: ICell, idx: number) => (
-        <Cell cell={cell} key={idx} />
+      {row.map((cell: ICell, j: number) => (
+        <Cell cell={cell} key={j} i={i} j={j} />
       ))}
     </tr>
   )
 }
 
-interface CellProps {
-  cell: ICell
+// TODO: Memo 적용 , equalProps custom
+function Cell({ cell, i, j }: CellProps) {
+  return (
+    <td style={baseCellStyle} id={`${i}-${j}`}>
+      {cell.value}
+    </td>
+  )
 }
 
-// TODO: useMemo 적용 , equalProps custom
-function Cell({ cell }: CellProps) {
-  return <td style={{ border: '1px solid rgb(218, 220, 224)', height: '28px', minWidth: '50px' }}>{cell.value}</td>
+function RowHeader({ length }: HeaderProps) {
+  const rowArr = useMemo(() => getRowArr(length), [length])
+  return (
+    <table className="table-header row-header">
+      <tbody>
+        {rowArr.map(num => (
+          <tr key={num}>
+            <td style={baseCellStyle}>{num}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
+function ColumnHeader({ length }: HeaderProps) {
+  const columnArr = useMemo(() => getColumnArr(length), [length])
+  return (
+    <table className="table-header column-header">
+      <thead>
+        <tr>
+          <td className="select-all-btn" style={baseCellStyle}></td>
+          {columnArr.map(num => (
+            <td key={num} style={baseCellStyle}>
+              {num}
+            </td>
+          ))}
+        </tr>
+      </thead>
+    </table>
+  )
 }

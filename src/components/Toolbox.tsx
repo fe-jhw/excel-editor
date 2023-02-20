@@ -39,7 +39,7 @@ const SMALL_BTN_WIDTH = 32
 
 function Toolbox({ firstLayer, secondLayer, title }: ToolboxProps) {
   return (
-    <Space direction="vertical" size={SPACE_GAP} align="center">
+    <Space direction="vertical" size={SPACE_GAP} align="center" className="toolbox">
       <Space size={SPACE_GAP}>{firstLayer}</Space>
       <Space size={SPACE_GAP}>{secondLayer}</Space>
       <Typography.Text>{title}</Typography.Text>
