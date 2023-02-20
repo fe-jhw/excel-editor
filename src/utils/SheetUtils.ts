@@ -1,3 +1,4 @@
+import { Selected } from '@/types/Cell'
 export function getRowArr(length: number): number[] {
   return new Array(length).fill(0).map((_, idx) => idx + 1)
 }
@@ -12,4 +13,9 @@ export function changeNumToAlphabet(num: number): string {
     ret = String.fromCharCode((num % b) / a + 65) + ret
   }
   return ret
+}
+
+export function parseCellId(id: string): Selected {
+  const [i, j] = id.split('-').map((str: string) => parseInt(str))
+  return { i, j }
 }

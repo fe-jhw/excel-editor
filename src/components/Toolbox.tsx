@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Button, Divider, Dropdown, Select, Space, Typography } from 'antd'
+import { Button, Dropdown, Select, Space, Typography } from 'antd'
 import {
   AccountBookOutlined,
   AlignCenterOutlined,
@@ -7,7 +7,6 @@ import {
   AlignRightOutlined,
   BgColorsOutlined,
   BoldOutlined,
-  DeleteOutlined,
   FieldTimeOutlined,
   FilterOutlined,
   FontColorsOutlined,

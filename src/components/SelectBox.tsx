@@ -1,11 +1,7 @@
-import { useEffect } from 'react'
+import { EditorContext } from '@/context'
+import { useContext } from 'react'
 
-interface SelectBoxProps {
-  i: number
-  j: number
-}
-
-export function SelectBox({ i, j }: SelectBoxProps) {
-  useEffect(() => {}, [])
-  return <div className="select-box"></div>
+export function SelectBox() {
+  const { selectBoxInfo } = useContext(EditorContext)
+  return <div className="select-box" style={selectBoxInfo} />
 }

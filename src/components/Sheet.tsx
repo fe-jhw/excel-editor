@@ -1,7 +1,8 @@
 import { ICell } from '@/types'
-import { ReactEventHandler, useCallback, useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { EditorContext } from '@/context'
 import { getColumnArr, getRowArr } from '@/utils/SheetUtils'
+import { SelectBox } from '@/components'
 
 interface RowProps {
   row: ICell[]
@@ -21,14 +22,15 @@ interface HeaderProps {
 const baseCellStyle = { border: '1px solid rgb(218, 220, 224)', height: '28px', minWidth: '50px' }
 
 export function Sheet() {
-  const { cells } = useContext(EditorContext)
-  const onCellClick: ReactEventHandler = e => {}
+  const { cells, onCellClick } = useContext(EditorContext)
+
   return (
     <div className="sheet">
       <ColumnHeader length={cells.length} />
       <div className="sheet-main">
         <RowHeader length={cells[0].length} />
-        <table>
+        <SelectBox />
+        <table onClick={onCellClick}>
           <tbody>
             {cells.map((row: ICell[], i: number) => (
               <Row row={row} key={i} i={i} />

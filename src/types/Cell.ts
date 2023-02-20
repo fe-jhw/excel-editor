@@ -12,3 +12,15 @@ export interface ICell {
   format?: string
   function?: string
 }
+
+export interface Selected {
+  i: number
+  j: number
+}
+
+export interface SelectBoxInfo {
+  width: number
+  height: number
+  top: number
+  left: number
+}
