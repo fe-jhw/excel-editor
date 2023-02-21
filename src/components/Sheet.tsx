@@ -1,8 +1,9 @@
 import { ICell } from '@/types'
 import { useContext, useMemo } from 'react'
 import { EditorContext } from '@/context'
-import { getColumnArr, getRowArr } from '@/utils/SheetUtils'
-import { SelectBox } from '@/components'
+import { getColumnArr, getRowArr, isInRange } from '@/utils/SheetUtils'
+import { blockDragEvent } from '@/utils/EventUtils'
+import { SelectBox, SelectArea } from '@/components'
 
 interface RowProps {
   row: ICell[]
@@ -22,15 +23,26 @@ interface HeaderProps {
 const baseCellStyle = { border: '1px solid rgb(218, 220, 224)', height: '28px', minWidth: '50px' }
 
 export function Sheet() {
-  const { cells, onCellClick } = useContext(EditorContext)
+  const { cells, onCellClick, onCellDragStart, onCellDragging, onCellDragEnd } = useContext(EditorContext)
 
   return (
-    <div className="sheet">
+    <div
+      className="sheet"
+      onMouseDown={e => {
+        onCellClick(e)
+        onCellDragStart(e)
+      }}
+      onMouseOver={onCellDragging}
+      onMouseUp={onCellDragEnd}
+      {...blockDragEvent}
+    >
       <ColumnHeader length={cells.length} />
       <div className="sheet-main">
         <RowHeader length={cells[0].length} />
         <SelectBox />
-        <table onClick={onCellClick}>
+        <SelectArea />
+
+        <table>
           <tbody>
             {cells.map((row: ICell[], i: number) => (
               <Row row={row} key={i} i={i} />
@@ -63,12 +75,15 @@ function Cell({ cell, i, j }: CellProps) {
 
 function RowHeader({ length }: HeaderProps) {
   const rowArr = useMemo(() => getRowArr(length), [length])
+  const { activeRowRange } = useContext(EditorContext)
   return (
     <table className="table-header row-header">
       <tbody>
-        {rowArr.map(num => (
+        {rowArr.map((num, idx) => (
           <tr key={num}>
-            <td style={baseCellStyle}>{num}</td>
+            <td style={baseCellStyle} className={isInRange(idx, activeRowRange) ? 'active' : ''}>
+              {num}
+            </td>
           </tr>
         ))}
       </tbody>
@@ -78,13 +93,14 @@ function RowHeader({ length }: HeaderProps) {
 
 function ColumnHeader({ length }: HeaderProps) {
   const columnArr = useMemo(() => getColumnArr(length), [length])
+  const { activeColRange } = useContext(EditorContext)
   return (
     <table className="table-header column-header">
       <thead>
         <tr>
           <td className="select-all-btn" style={baseCellStyle}></td>
-          {columnArr.map(num => (
-            <td key={num} style={baseCellStyle}>
+          {columnArr.map((num, idx) => (
+            <td key={num} style={baseCellStyle} className={isInRange(idx, activeColRange) ? 'active' : ''}>
               {num}
             </td>
           ))}

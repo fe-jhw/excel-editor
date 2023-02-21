@@ -7,6 +7,8 @@ $footer-height: 46px;
 $min-body-height: 600px;
 $base-cell-width: 50px;
 $base-cell-height: 28px;
+$selected-cell-color: rgba(211,211,211,0.4);
+$active-color: rgb(22, 119, 255);
 
 *{
   box-sizing: border-box;
@@ -66,10 +68,18 @@ body {
   }
   .row-header {
     left: 0;
+    .active {
+      background:$selected-cell-color;
+      border-right: 1px solid $active-color !important;
+    }
   }
   .column-header {
     top: 0;
     z-index: 2;
+    .active {
+      background:$selected-cell-color;
+      border-bottom: 1px solid $active-color !important;
+    }
   }
   .sheet-main {
     display: flex;
@@ -84,6 +94,12 @@ body {
   .select-box {
     border: 1px solid black;
     position: absolute;
+    background-color: white;
+  }
+  .select-area {
+    position: absolute;
+    background-color: $selected-cell-color;
+    z-index: -1;
   }
 }
 
@@ -100,3 +116,4 @@ body {
   margin-top: 0 !important;
 }
 // 
+  

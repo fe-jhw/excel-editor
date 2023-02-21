@@ -24,3 +24,13 @@ export interface SelectBoxInfo {
   top: number
   left: number
 }
+
+export interface SelectedArea {
+  si: number
+  sj: number
+  ei: number
+  ej: number
+  active: boolean
+}
+
+export interface SelectAreaInfo extends SelectBoxInfo {}

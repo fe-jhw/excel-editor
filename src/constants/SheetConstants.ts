@@ -1,4 +1,4 @@
-import { ICell, Selected, SelectBoxInfo } from '@/types'
+import { ICell, Selected, SelectBoxInfo, SelectAreaInfo } from '@/types'
 
 export const defaultCell: ICell = {
   value: '',
@@ -15,3 +15,5 @@ export const defaultSelectBoxInfo: SelectBoxInfo = {
   top: defaultCellHeight,
   left: defaultCellWidth,
 }
+
+export const defaultSelectAreaInfo: SelectAreaInfo = defaultSelectBoxInfo
