@@ -1,19 +1,26 @@
 import { useSelectBox, UseSelectBoxReturns } from '@/hooks'
 import { ICell } from '@/types'
-import { defaultCells, defaultSelectAreaInfo, defaultSelectBoxInfo } from '@/constants/SheetConstants'
-import { createContext, ReactNode } from 'react'
+import { defaultCell, defaultCells, defaultSelectAreaInfo, defaultSelectBoxInfo } from '@/constants/SheetConstants'
+import { createContext, ReactNode, useCallback } from 'react'
 import { useSelectArea, UseSelectAreaReturns } from '@/hooks/useSelectArea'
 import { getActiveColumnRange, getActiveRowRange } from '@/utils/SheetUtils'
+import { useCells, UseCellsReturns } from '@/hooks/useCells'
 
-interface IEditorContext extends UseSelectBoxReturns, UseSelectAreaReturns {
+interface IEditorContext extends UseSelectBoxReturns, UseSelectAreaReturns, UseCellsReturns {
   cells: ICell[][]
+  selectedCell: ICell
   activeColRange: [number, number]
   activeRowRange: [number, number]
+  changeSelectedCells: (changes: Partial<ICell>) => void
 }
 
 export const EditorContext = createContext<IEditorContext>({
   cells: defaultCells,
+  changeCell: () => {},
+  changeCells: () => {},
+  changeSelectedCells: () => {},
   selected: { i: 0, j: 0 },
+  selectedCell: defaultCell,
   selectCell: () => {},
   selectBoxInfo: defaultSelectBoxInfo,
   onCellClick: () => {},
@@ -29,15 +36,35 @@ export const EditorContext = createContext<IEditorContext>({
 EditorContext.displayName = 'EditorContext'
 
 export const EditorProvider = ({ children }: { children: ReactNode }) => {
+  const { cells, changeCell, changeCells } = useCells()
   const { selected, selectCell, selectBoxInfo, onCellClick } = useSelectBox()
   const { selectedArea, selectArea, selectAreaInfo, onCellDragStart, onCellDragging, onCellDragEnd } = useSelectArea()
+
+  const changeSelectedCells = useCallback(
+    (changes: Partial<ICell>): void => {
+      if (selectedArea.active) {
+        const { si, sj, ei, ej } = selectedArea
+        changeCells(si, sj, ei, ej, changes)
+      }
+      const { i, j } = selected
+      changeCell(i, j, changes)
+    },
+    [selected, selectedArea]
+  )
+
+  const selectedCell = cells[selected.i][selected.j]
+
   const activeColRange = getActiveColumnRange(selected, selectedArea)
   const activeRowRange = getActiveRowRange(selected, selectedArea)
   return (
     <EditorContext.Provider
       value={{
-        cells: defaultCells,
+        cells,
+        changeCell,
+        changeCells,
+        changeSelectedCells,
         selected,
+        selectedCell,
         selectCell,
         selectBoxInfo,
         onCellClick,

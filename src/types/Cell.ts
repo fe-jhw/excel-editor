@@ -2,7 +2,7 @@ export interface ICell {
   value: string
   fontSize?: number
   fontFamily?: string
-  fontWegiht?: string
+  fontWeight?: string | number
   fontStyle?: string
   textDecoration?: string
   color?: string

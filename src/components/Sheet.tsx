@@ -66,8 +66,9 @@ function Row({ row, i }: RowProps) {
 
 // TODO: Memo 적용 , equalProps custom
 function Cell({ cell, i, j }: CellProps) {
+  const { value, ...cellStyle } = cell
   return (
-    <td style={baseCellStyle} id={`${i}-${j}`}>
+    <td style={{ ...baseCellStyle, ...cellStyle }} id={`${i}-${j}`}>
       {cell.value}
     </td>
   )

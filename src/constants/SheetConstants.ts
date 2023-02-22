@@ -1,7 +1,10 @@
 import { ICell, Selected, SelectBoxInfo, SelectAreaInfo } from '@/types'
+import { fontFamiles } from './ToolBoxConstants'
 
 export const defaultCell: ICell = {
   value: '',
+  fontSize: 11,
+  fontFamily: fontFamiles[0].value,
 }
 
 export const defaultCells: ICell[][] = new Array(30).fill(new Array(30).fill(defaultCell))
@@ -17,3 +20,6 @@ export const defaultSelectBoxInfo: SelectBoxInfo = {
 }
 
 export const defaultSelectAreaInfo: SelectAreaInfo = defaultSelectBoxInfo
+
+export const MAX_FONT_SIZE = 409
+export const MIN_FONT_SIZE = 1

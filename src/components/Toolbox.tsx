@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import { Button, Dropdown, Select, Space, Typography } from 'antd'
+import { ReactNode, useContext } from 'react'
+import { Button, Dropdown, InputNumber, Select, Space, Typography } from 'antd'
 import {
   AccountBookOutlined,
   AlignCenterOutlined,
@@ -24,6 +24,10 @@ import {
   VerticalAlignTopOutlined,
   TableOutlined,
 } from '@ant-design/icons'
+import { fontFamiles } from '@/constants/ToolBoxConstants'
+import { EditorContext } from '@/context'
+import * as O from '@/utils/option'
+import { defaultCell, MAX_FONT_SIZE, MIN_FONT_SIZE } from '@/constants/SheetConstants'
 
 interface ToolboxProps {
   firstLayer: ReactNode
@@ -47,17 +51,33 @@ function Toolbox({ firstLayer, secondLayer, title }: ToolboxProps) {
 }
 
 export function Fontbox() {
+  const { selectedCell, changeSelectedCells } = useContext(EditorContext)
   return (
     <Toolbox
       firstLayer={
         <>
-          <Select style={{ width: `${3 * SMALL_BTN_WIDTH + 2 * SPACE_GAP}px` }} />
-          <Select style={{ width: `${2 * SMALL_BTN_WIDTH + Number(SPACE_GAP)}px` }} />
+          <Select
+            style={{ width: `${3 * SMALL_BTN_WIDTH + 2 * SPACE_GAP}px` }}
+            options={fontFamiles}
+            onSelect={value => changeSelectedCells({ fontFamily: value })}
+            value={O.getOrElseFromUndefined(selectedCell?.fontFamily, defaultCell.fontFamily)}
+          />
+          <InputNumber
+            style={{ width: `${2 * SMALL_BTN_WIDTH + Number(SPACE_GAP)}px` }}
+            max={MAX_FONT_SIZE}
+            min={MIN_FONT_SIZE}
+            value={O.getOrElseFromUndefined(selectedCell?.fontSize, defaultCell.fontSize)}
+            onChange={value => changeSelectedCells({ fontSize: O.getOrElseFromNull(value, defaultCell.fontSize) })}
+          />
         </>
       }
       secondLayer={
         <>
-          <Button icon={<BoldOutlined />} />
+          <Button
+            className={selectedCell?.fontWeight === 'bold' ? 'button-active' : ''}
+            icon={<BoldOutlined />}
+            onClick={() => console.log(selectedCell?.fontWeight)}
+          />
           <Button icon={<ItalicOutlined />} />
           <Button icon={<UnderlineOutlined />} />
           <Dropdown trigger={['click']}>
