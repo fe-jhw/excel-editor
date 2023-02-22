@@ -1,4 +1,5 @@
 import { ReactNode, useContext } from 'react'
+import { ChromePicker } from 'react-color'
 import { Button, Dropdown, InputNumber, Select, Space, Typography } from 'antd'
 import {
   AccountBookOutlined,
@@ -28,6 +29,9 @@ import { fontFamiles } from '@/constants/ToolBoxConstants'
 import { EditorContext } from '@/context'
 import * as O from '@/utils/option'
 import { defaultCell, MAX_FONT_SIZE, MIN_FONT_SIZE } from '@/constants/SheetConstants'
+import { ToggleButton } from '@/components/ToggleButton'
+
+const { Option } = Select
 
 interface ToolboxProps {
   firstLayer: ReactNode
@@ -35,10 +39,10 @@ interface ToolboxProps {
   title: string
 }
 
-// 스타일변경 -> Toggle or Set
-
 const SPACE_GAP = 4
 const SMALL_BTN_WIDTH = 32
+const MIDDLE_BTN_WIDTH = 52
+const SMALL_BTN_HEIGHT = 32
 
 function Toolbox({ firstLayer, secondLayer, title }: ToolboxProps) {
   return (
@@ -57,13 +61,19 @@ export function Fontbox() {
       firstLayer={
         <>
           <Select
-            style={{ width: `${3 * SMALL_BTN_WIDTH + 2 * SPACE_GAP}px` }}
-            options={fontFamiles}
+            style={{ width: `${3 * SMALL_BTN_WIDTH + 3 * SPACE_GAP + MIDDLE_BTN_WIDTH}px` }}
             onSelect={value => changeSelectedCells({ fontFamily: value })}
             value={O.getOrElseFromUndefined(selectedCell?.fontFamily, defaultCell.fontFamily)}
-          />
+          >
+            {fontFamiles.map(fontFamily => (
+              <Option key={fontFamily.label} value={fontFamily.value}>
+                <span style={{ fontFamily: fontFamily.value }}>{fontFamily.label}</span>
+              </Option>
+            ))}
+          </Select>
           <InputNumber
-            style={{ width: `${2 * SMALL_BTN_WIDTH + Number(SPACE_GAP)}px` }}
+            style={{ width: `${Number(MIDDLE_BTN_WIDTH)}px`, padding: '0 4px !important' }}
+            controls={true}
             max={MAX_FONT_SIZE}
             min={MIN_FONT_SIZE}
             value={O.getOrElseFromUndefined(selectedCell?.fontSize, defaultCell.fontSize)}
@@ -73,18 +83,60 @@ export function Fontbox() {
       }
       secondLayer={
         <>
-          <Button
-            className={selectedCell?.fontWeight === 'bold' ? 'button-active' : ''}
+          <ToggleButton
+            value={selectedCell?.fontWeight}
+            valueIfActive={'bold'}
+            propertyName="fontWeight"
             icon={<BoldOutlined />}
-            onClick={() => console.log(selectedCell?.fontWeight)}
           />
-          <Button icon={<ItalicOutlined />} />
-          <Button icon={<UnderlineOutlined />} />
-          <Dropdown trigger={['click']}>
-            <Button icon={<BgColorsOutlined />} />
+          <ToggleButton
+            value={selectedCell?.fontStyle}
+            valueIfActive={'italic'}
+            propertyName="fontStyle"
+            icon={<ItalicOutlined />}
+          />
+          <ToggleButton
+            value={selectedCell?.textDecoration}
+            valueIfActive={'underline'}
+            propertyName="textDecoration"
+            icon={<UnderlineOutlined />}
+          />
+          <Dropdown
+            trigger={['click']}
+            dropdownRender={() => (
+              <ChromePicker
+                disableAlpha
+                onChange={color => changeSelectedCells({ backgroundColor: color.hex })}
+                color={O.getOrElseFromUndefined(selectedCell?.backgroundColor, '#fff')}
+              />
+            )}
+          >
+            <Button icon={<BgColorsOutlined />} style={{ padding: '0 4px', width: MIDDLE_BTN_WIDTH }}>
+              <span
+                className="color-box"
+                style={{
+                  color: O.getOrElseFromUndefined(selectedCell?.backgroundColor, '#fff'),
+                }}
+              >
+                ■
+              </span>
+            </Button>
           </Dropdown>
-          <Dropdown trigger={['click']}>
-            <Button icon={<FontColorsOutlined />} />
+          <Dropdown
+            trigger={['click']}
+            dropdownRender={() => (
+              <ChromePicker
+                disableAlpha
+                onChange={color => changeSelectedCells({ color: color.hex })}
+                color={O.getOrElseFromUndefined(selectedCell?.color, '#000')}
+              />
+            )}
+          >
+            <Button icon={<FontColorsOutlined />} style={{ padding: '0 4px', width: MIDDLE_BTN_WIDTH }}>
+              <span className="color-box" style={{ color: O.getOrElseFromUndefined(selectedCell?.color, '#000') }}>
+                ■
+              </span>
+            </Button>
           </Dropdown>
         </>
       }
@@ -110,7 +162,7 @@ export function AlignBox() {
           <Button icon={<AlignRightOutlined />} />
         </>
       }
-      title="맞춤"
+      title="정렬"
     />
   )
 }

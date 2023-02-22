@@ -10,7 +10,7 @@ export function SelectBox() {
     <div className="select-box" style={selectBoxInfo}>
       <Input
         bordered={false}
-        style={{ position: 'relative', height: '100%', padding: 0, ...cellStyle }}
+        style={{ position: 'relative', height: '100%', borderRadius: 0, padding: 0, ...cellStyle }}
         value={cells[i][j].value}
         onChange={e => changeCell(i, j, { value: e.target.value })}
       />
