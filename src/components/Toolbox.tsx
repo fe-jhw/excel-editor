@@ -146,20 +146,53 @@ export function Fontbox() {
 }
 
 export function AlignBox() {
+  // TODO: 각 Box별로 중복되는 애 처리하기
+  // TODO: textAlign typing 한거 자세히 정리하기
+  const { selectedCell, changeSelectedCells } = useContext(EditorContext)
   return (
     <Toolbox
       firstLayer={
         <>
-          <Button icon={<VerticalAlignTopOutlined />} />
-          <Button icon={<VerticalAlignMiddleOutlined />} />
-          <Button icon={<VerticalAlignBottomOutlined />} />
+          <ToggleButton
+            value={selectedCell?.verticalAlign}
+            valueIfActive="top"
+            propertyName="verticalAlign"
+            icon={<VerticalAlignTopOutlined />}
+          />
+          <ToggleButton
+            value={selectedCell?.verticalAlign}
+            valueIfActive="middle"
+            propertyName="verticalAlign"
+            icon={<VerticalAlignMiddleOutlined />}
+          />
+          <ToggleButton
+            value={selectedCell?.verticalAlign}
+            valueIfActive="bottom"
+            propertyName="verticalAlign"
+            icon={<VerticalAlignBottomOutlined />}
+          />
         </>
       }
       secondLayer={
         <>
-          <Button icon={<AlignLeftOutlined />} />
-          <Button icon={<AlignCenterOutlined />} />
-          <Button icon={<AlignRightOutlined />} />
+          <ToggleButton
+            value={selectedCell?.textAlign}
+            valueIfActive="left"
+            propertyName="textAlign"
+            icon={<AlignLeftOutlined />}
+          />
+          <ToggleButton
+            value={selectedCell?.textAlign}
+            valueIfActive="center"
+            propertyName="textAlign"
+            icon={<AlignCenterOutlined />}
+          />
+          <ToggleButton
+            value={selectedCell?.textAlign}
+            valueIfActive="right"
+            propertyName="textAlign"
+            icon={<AlignRightOutlined />}
+          />
         </>
       }
       title="정렬"

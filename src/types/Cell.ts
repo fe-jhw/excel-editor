@@ -8,10 +8,12 @@ export interface ICell {
   color?: string
   backgroundColor?: string
   verticalAlign?: string
-  align?: string
+  textAlign?: TextAlign
   format?: string
   function?: string
 }
+
+export type TextAlign = 'left' | 'center' | 'right'
 
 export interface Selected {
   i: number
