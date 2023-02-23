@@ -21,10 +21,10 @@ export const useSelectBox = (): UseSelectBoxReturns => {
       if (cellEl) {
         const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = cellEl
         setSelectBoxInfo({
-          width: offsetWidth,
-          height: offsetHeight,
-          top: offsetTop + defaultCellHeight + 1,
-          left: offsetLeft + defaultCellWidth + 1,
+          width: offsetWidth - 2,
+          height: offsetHeight - 2,
+          top: offsetTop + defaultCellHeight + 2,
+          left: offsetLeft + defaultCellWidth + 2,
         })
       }
     }

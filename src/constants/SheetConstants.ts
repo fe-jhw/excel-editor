@@ -5,6 +5,8 @@ export const defaultCell: ICell = {
   value: '',
   fontSize: 11,
   fontFamily: fontFamiles[0].value,
+  format: 'general',
+  backgroundColor: 'white',
 }
 
 export const defaultCells: ICell[][] = new Array(30).fill(new Array(30).fill(defaultCell))

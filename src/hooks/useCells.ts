@@ -33,8 +33,12 @@ export const useCells = (): UseCellsReturns => {
           isInRange(ei, [0, cells.length]) &&
           isInRange(ej, [0, cells[ei].length])
         ) {
-          for (let _i = si; _i <= ei; _i++) {
-            for (let _j = sj; _j <= ej; _j++) {
+          const _si = Math.min(si, ei)
+          const _sj = Math.min(sj, ej)
+          const _ei = Math.max(si, ei)
+          const _ej = Math.max(sj, ej)
+          for (let _i = _si; _i <= _ei; _i++) {
+            for (let _j = _sj; _j <= _ej; _j++) {
               draft[_i][_j] = { ...draft[_i][_j], ...changes }
             }
           }

@@ -41,7 +41,6 @@ export function Sheet() {
         <RowHeader length={cells[0].length} />
         <SelectBox />
         <SelectArea />
-
         <table>
           <tbody>
             {cells.map((row: ICell[], i: number) => (

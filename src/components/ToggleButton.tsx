@@ -20,7 +20,7 @@ export function ToggleButton({ value, valueIfActive, propertyName, icon }: Toggl
   const toggle = useCallback(
     (isActive: boolean) => () => {
       const changes = {} as Partial<ICell>
-      changes[propertyName] = isActive ? '' : valueIfActive
+      changes[propertyName] = isActive ? undefined : valueIfActive
       changeSelectedCells(changes)
     },
     [changeSelectedCells, propertyName, valueIfActive]

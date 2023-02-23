@@ -25,11 +25,11 @@ import {
   VerticalAlignTopOutlined,
   TableOutlined,
 } from '@ant-design/icons'
-import { fontFamiles } from '@/constants/ToolBoxConstants'
+import { fontFamiles, formats } from '@/constants/ToolBoxConstants'
 import { EditorContext } from '@/context'
 import * as O from '@/utils/option'
 import { defaultCell, MAX_FONT_SIZE, MIN_FONT_SIZE } from '@/constants/SheetConstants'
-import { ToggleButton } from '@/components/ToggleButton'
+import { ToggleButton, StylePicker } from '@/components'
 
 const { Option } = Select
 
@@ -201,18 +201,46 @@ export function AlignBox() {
 }
 
 export function FormatBox() {
+  const { selectedCell, changeSelectedCells } = useContext(EditorContext)
+
   return (
     <Toolbox
       firstLayer={
         <>
-          <Select style={{ width: `${3 * SMALL_BTN_WIDTH + 2 * SPACE_GAP}px` }} />
+          <Select
+            style={{ width: `${3 * SMALL_BTN_WIDTH + 2 * SPACE_GAP}px` }}
+            value={O.getOrElseFromUndefined(selectedCell?.format, defaultCell.format)}
+            onSelect={value => changeSelectedCells({ format: value })}
+          >
+            {formats.map(format => (
+              <Option key={format.label} value={format.value}>
+                {format.icon}
+                <span style={{ marginLeft: '8px' }}>{format.label}</span>
+              </Option>
+            ))}
+          </Select>
         </>
       }
       secondLayer={
         <>
-          <Button icon={<AccountBookOutlined />} />
-          <Button icon={<PercentageOutlined />} />
-          <Button icon={<FieldTimeOutlined />} />
+          <ToggleButton
+            value={selectedCell?.format}
+            valueIfActive="account"
+            propertyName="format"
+            icon={<AccountBookOutlined />}
+          />
+          <ToggleButton
+            value={selectedCell?.format}
+            valueIfActive="percentage"
+            propertyName="format"
+            icon={<PercentageOutlined />}
+          />
+          <ToggleButton
+            value={selectedCell?.format}
+            valueIfActive="time"
+            propertyName="format"
+            icon={<FieldTimeOutlined />}
+          />
         </>
       }
       title="표시 형식"
@@ -221,11 +249,16 @@ export function FormatBox() {
 }
 
 export function StyleBox() {
+  const { selectedCell, changeSelectedCells } = useContext(EditorContext)
+
   return (
     <Toolbox
       firstLayer={
         <>
-          <Dropdown trigger={['click']}>
+          <Dropdown
+            trigger={['click']}
+            dropdownRender={() => <StylePicker onChange={style => changeSelectedCells(style)} type="cell" />}
+          >
             <Button icon={<FormOutlined />}>셀 스타일</Button>
           </Dropdown>
         </>
