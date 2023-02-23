@@ -74,5 +74,14 @@ export const styles = {
     { name: '보통', border: 'none', backgroundColor: '#FFEB9C', color: '#000' },
     { name: '좋음', border: 'none', backgroundColor: '#C6EFCE', color: '#000' },
   ],
-  table: [],
+  table: [
+    {
+      header: { border: 'none', backgroundColor: '#C6EFCE', color: '#000' },
+      body: { border: 'none', backgroundColor: '#FFC7CE', color: '#BE5882' },
+    },
+    {
+      header: { border: 'none', backgroundColor: 'blue', color: '#fff' },
+      body: { border: 'none', backgroundColor: 'skyblue', color: 'black' },
+    },
+  ],
 }

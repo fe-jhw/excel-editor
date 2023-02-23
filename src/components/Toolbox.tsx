@@ -29,7 +29,7 @@ import { fontFamiles, formats } from '@/constants/ToolBoxConstants'
 import { EditorContext } from '@/context'
 import * as O from '@/utils/option'
 import { defaultCell, MAX_FONT_SIZE, MIN_FONT_SIZE } from '@/constants/SheetConstants'
-import { ToggleButton, StylePicker } from '@/components'
+import { ToggleButton, CellStylePicker, TableStylePicker } from '@/components'
 
 const { Option } = Select
 
@@ -249,23 +249,20 @@ export function FormatBox() {
 }
 
 export function StyleBox() {
-  const { selectedCell, changeSelectedCells } = useContext(EditorContext)
+  const { selectedArea, changeSelectedCells, changeCells } = useContext(EditorContext)
 
   return (
     <Toolbox
       firstLayer={
         <>
-          <Dropdown
-            trigger={['click']}
-            dropdownRender={() => <StylePicker onChange={style => changeSelectedCells(style)} type="cell" />}
-          >
+          <Dropdown trigger={['click']} dropdownRender={() => <CellStylePicker />}>
             <Button icon={<FormOutlined />}>셀 스타일</Button>
           </Dropdown>
         </>
       }
       secondLayer={
         <>
-          <Dropdown trigger={['click']}>
+          <Dropdown trigger={['click']} dropdownRender={() => <TableStylePicker />}>
             <Button icon={<TableOutlined />}>표 스타일</Button>
           </Dropdown>
         </>

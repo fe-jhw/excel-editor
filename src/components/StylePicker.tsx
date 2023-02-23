@@ -1,14 +1,6 @@
 import { styles } from '@/constants/ToolBoxConstants'
-
-interface StylePickerProps {
-  onChange: (style: CellStyle) => void
-  type: 'cell' | 'table'
-}
-
-//TODO: 'tempalte literal type' 활용해보기
-interface StyleOptionProps {
-  style: CellStyle | TableStyle
-}
+import { EditorContext } from '@/context'
+import { useCallback, useContext } from 'react'
 
 interface CellStyle {
   border?: string
@@ -16,18 +8,22 @@ interface CellStyle {
   color?: string
 }
 
-interface TableStyle {
-  header: CellStyle
-  body: CellStyle
-}
-
-export function StylePicker({ onChange, type }: StylePickerProps) {
+// TODO: Cell, Table 컴포넌트 하나로 합쳐보기
+export function CellStylePicker() {
+  const { changeSelectedCells } = useContext(EditorContext)
+  const onStyleChange = useCallback(
+    (style: CellStyle & { name: string }) => {
+      const { name, ...menuStyle } = style
+      changeSelectedCells(menuStyle)
+    },
+    [changeSelectedCells]
+  )
   return (
     <div className="style-picker">
-      {styles[type].map(style => {
+      {styles.cell.map(style => {
         const { name, ...menuStyle } = style
         return (
-          <div className="style-option" key={name} style={menuStyle} onClick={() => onChange(menuStyle)}>
+          <div className="example-cell" key={name} style={menuStyle} onClick={() => onStyleChange(style)}>
             {style.name}
           </div>
         )
@@ -36,4 +32,54 @@ export function StylePicker({ onChange, type }: StylePickerProps) {
   )
 }
 
-// function StyleOption({ type })
+const TABLE_EXAMPLE_COL = 5
+const TABLE_EXAMPLE_ROW = 3
+
+export function TableStylePicker() {
+  const { selectedArea, changeCells } = useContext(EditorContext)
+  const onStyleChange = useCallback(
+    (header: CellStyle, body: CellStyle) => {
+      const { si, sj, ei, ej } = selectedArea
+      changeCells(si, sj, si, ej, header)
+      changeCells(si + 1, sj, ei, ej, body)
+    },
+    [selectedArea]
+  )
+  return (
+    <div className="style-picker">
+      {styles.table.map((style, idx) => {
+        const { header, body } = style
+        return (
+          <div className="example-table" key={idx} onClick={() => onStyleChange(header, body)}>
+            <ExampleTable header={header} body={body} />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+const EXAMPLE_TABLE_CELL_TEXT = '~'
+
+function ExampleTable({ header, body }: { header: CellStyle; body: CellStyle }) {
+  return (
+    <>
+      <div className="example-table-row">
+        {new Array(TABLE_EXAMPLE_COL).fill(0).map((_, idx) => (
+          <div className="example-table-cell" style={header} key={idx}>
+            {EXAMPLE_TABLE_CELL_TEXT}
+          </div>
+        ))}
+      </div>
+      {new Array(TABLE_EXAMPLE_ROW).fill(0).map((_, idx) => (
+        <div className="example-table-row">
+          {new Array(TABLE_EXAMPLE_COL).fill(0).map((_, idx) => (
+            <div className="example-table-cell" style={body} key={idx}>
+              {EXAMPLE_TABLE_CELL_TEXT}
+            </div>
+          ))}
+        </div>
+      ))}
+    </>
+  )
+}
