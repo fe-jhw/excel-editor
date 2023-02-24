@@ -36,9 +36,9 @@ export function Sheet() {
       onMouseUp={onCellDragEnd}
       {...blockDragEvent}
     >
-      <ColumnHeader length={cells.length} />
+      <ColumnHeader length={cells[0].length} />
       <div className="sheet-main">
-        <RowHeader length={cells[0].length} />
+        <RowHeader length={cells.length} />
         <SelectBox />
         <SelectArea />
         <table>

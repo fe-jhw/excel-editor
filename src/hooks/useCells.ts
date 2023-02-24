@@ -1,15 +1,21 @@
 import { ICell } from '@/types'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import produce from 'immer'
-import { defaultCells } from '@/constants/SheetConstants'
+import { defaultCell, defaultCells } from '@/constants/SheetConstants'
 import { isInRange } from '@/utils/SheetUtils'
 
 export interface UseCellsReturns {
   cells: ICell[][]
   changeCell: ChangeCell
   changeCells: ChangeCells
+  insertRowAbove: InsertRow
+  insertRowBelow: InsertRow
+  insertColLeft: InsertCol
+  insertColRight: InsertCol
 }
 
+type InsertCol = (col: number) => void
+type InsertRow = (row: number) => void
 type ChangeCell = (i: number, j: number, changes: Partial<ICell>) => void
 type ChangeCells = (si: number, sj: number, ei: number, ej: number, changes: Partial<ICell>) => void
 
@@ -46,5 +52,49 @@ export const useCells = (): UseCellsReturns => {
       })
     )
   }
-  return { cells, changeCell, changeCells }
+  const insertRowAbove: InsertRow = useCallback(
+    (row: number): void => {
+      setCells(prev =>
+        produce(prev, draft => {
+          draft.splice(row, 0, new Array(prev[row].length).fill(defaultCell))
+        })
+      )
+    },
+    [setCells]
+  )
+  const insertRowBelow: InsertRow = useCallback(
+    (row: number): void => {
+      setCells(prev =>
+        produce(prev, draft => {
+          draft.splice(row + 1, 0, new Array(prev[row].length).fill(defaultCell))
+        })
+      )
+    },
+    [setCells]
+  )
+  const insertColLeft: InsertCol = useCallback(
+    (col: number): void => {
+      setCells(prev =>
+        produce(prev, draft => {
+          for (let i = 0; i < prev.length; i++) {
+            draft[i].splice(col, 0, defaultCell)
+          }
+        })
+      )
+    },
+    [setCells]
+  )
+  const insertColRight: InsertCol = useCallback(
+    (col: number): void => {
+      setCells(prev =>
+        produce(prev, draft => {
+          for (let i = 0; i < prev.length; i++) {
+            draft[i].splice(col + 1, 0, defaultCell)
+          }
+        })
+      )
+    },
+    [setCells]
+  )
+  return { cells, changeCell, changeCells, insertRowAbove, insertRowBelow, insertColLeft, insertColRight }
 }

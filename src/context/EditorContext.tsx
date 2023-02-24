@@ -14,10 +14,15 @@ interface IEditorContext extends UseSelectBoxReturns, UseSelectAreaReturns, UseC
   changeSelectedCells: (changes: Partial<ICell>) => void
 }
 
+// TODO: 매번 하드코딩으로 집어넣지 말고 다른 방법을 찾아보자
 export const EditorContext = createContext<IEditorContext>({
   cells: defaultCells,
   changeCell: () => {},
   changeCells: () => {},
+  insertRowAbove: () => {},
+  insertRowBelow: () => {},
+  insertColLeft: () => {},
+  insertColRight: () => {},
   changeSelectedCells: () => {},
   selected: { i: 0, j: 0 },
   selectedCell: defaultCell,
@@ -36,7 +41,7 @@ export const EditorContext = createContext<IEditorContext>({
 EditorContext.displayName = 'EditorContext'
 
 export const EditorProvider = ({ children }: { children: ReactNode }) => {
-  const { cells, changeCell, changeCells } = useCells()
+  const { cells, changeCell, changeCells, insertRowAbove, insertRowBelow, insertColLeft, insertColRight } = useCells()
   const { selected, selectCell, selectBoxInfo, onCellClick } = useSelectBox()
   const { selectedArea, selectArea, selectAreaInfo, onCellDragStart, onCellDragging, onCellDragEnd } = useSelectArea()
 
@@ -63,6 +68,10 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
         changeCell,
         changeCells,
         changeSelectedCells,
+        insertRowAbove,
+        insertRowBelow,
+        insertColLeft,
+        insertColRight,
         selected,
         selectedCell,
         selectCell,

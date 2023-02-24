@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from 'react'
+import { ReactNode, useCallback, useContext } from 'react'
 import { ChromePicker } from 'react-color'
 import { Button, Dropdown, InputNumber, Select, Space, Typography } from 'antd'
 import {
@@ -273,18 +273,34 @@ export function StyleBox() {
 }
 
 export function CellBox() {
+  const { selectedArea, insertRowAbove, insertRowBelow, insertColLeft, insertColRight } = useContext(EditorContext)
+  const insertRowAboveSelected = useCallback(() => {
+    insertRowAbove(selectedArea.si)
+  }, [selectedArea, insertRowAbove])
+
+  const insertRowBelowSelected = useCallback(() => {
+    insertRowBelow(selectedArea.ei)
+  }, [selectedArea, insertRowBelow])
+
+  const insertColLeftSelected = useCallback(() => {
+    insertColLeft(selectedArea.sj)
+  }, [selectedArea, insertColLeft])
+
+  const insertColRightSelected = useCallback(() => {
+    insertColRight(selectedArea.ej)
+  }, [selectedArea, insertColRight])
   return (
     <Toolbox
       firstLayer={
         <>
-          <Button icon={<InsertRowAboveOutlined />} />
-          <Button icon={<InsertRowBelowOutlined />} />
+          <Button icon={<InsertRowAboveOutlined />} onClick={insertRowAboveSelected} />
+          <Button icon={<InsertRowBelowOutlined />} onClick={insertRowBelowSelected} />
         </>
       }
       secondLayer={
         <>
-          <Button icon={<InsertRowLeftOutlined />} />
-          <Button icon={<InsertRowRightOutlined />} />
+          <Button icon={<InsertRowLeftOutlined />} onClick={insertColLeftSelected} />
+          <Button icon={<InsertRowRightOutlined />} onClick={insertColRightSelected} />
         </>
       }
       title="셀"
