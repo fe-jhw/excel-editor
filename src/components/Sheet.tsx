@@ -1,9 +1,10 @@
 import { ICell } from '@/types'
-import { useContext, useMemo } from 'react'
+import { useContext, useMemo, useState, useCallback, MouseEvent } from 'react'
 import { EditorContext } from '@/context'
-import { getColumnArr, getRowArr, isInRange } from '@/utils/SheetUtils'
-import { blockDragEvent } from '@/utils/EventUtils'
-import { SelectBox, SelectArea } from '@/components'
+import { getColumnArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
+import { isMouseDownContextMenu, blockDragEvent } from '@/utils/EventUtils'
+import { SelectBox, SelectArea, ContextMenu } from '@/components'
+import { useContextMenu } from '@/hooks/useContextMenu'
 
 interface RowProps {
   row: ICell[]
@@ -23,22 +24,38 @@ interface HeaderProps {
 const baseCellStyle = { border: '1px solid rgb(218, 220, 224)', height: '28px', minWidth: '50px' }
 
 export function Sheet() {
-  const { cells, onCellClick, onCellDragStart, onCellDragging, onCellDragEnd } = useContext(EditorContext)
+  const { selectedArea, cells, onCellClick, onCellDragStart, onCellDragging, onCellDragEnd } = useContext(EditorContext)
+  const { contextMenu, onContextMenu } = useContextMenu()
+  const onSheetMouseDown = useCallback(
+    (e: MouseEvent) => {
+      if (isMouseDownContextMenu(e)) {
+        const target = e.target as HTMLElement
+        if (target.id) {
+          const { i, j } = parseCellId(target.id)
+          const { si, sj, ei, ej } = selectedArea
+          if (isInRange(i, [si, ei]) && isInRange(j, [sj, ej])) {
+            return
+          }
+        }
+      }
+      onCellClick(e)
+      onCellDragStart(e)
+    },
+    [onCellClick, onCellDragStart, selectedArea]
+  )
 
   return (
     <div
       className="sheet"
-      onMouseDown={e => {
-        onCellClick(e)
-        onCellDragStart(e)
-      }}
+      onMouseDown={onSheetMouseDown}
       onMouseOver={onCellDragging}
       onMouseUp={onCellDragEnd}
       {...blockDragEvent}
     >
       <ColumnHeader length={cells[0].length} />
-      <div className="sheet-main">
+      <div className="sheet-main" onContextMenu={onContextMenu}>
         <RowHeader length={cells.length} />
+        <ContextMenu {...contextMenu} />
         <SelectBox />
         <SelectArea />
         <table>
@@ -77,7 +94,12 @@ function RowHeader({ length }: HeaderProps) {
   const rowArr = useMemo(() => getRowArr(length), [length])
   const { activeRowRange } = useContext(EditorContext)
   return (
-    <table className="table-header row-header">
+    <table
+      className="table-header row-header"
+      onContextMenu={e => {
+        e.stopPropagation()
+      }}
+    >
       <tbody>
         {rowArr.map((num, idx) => (
           <tr key={num}>

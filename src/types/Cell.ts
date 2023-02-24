@@ -4,6 +4,7 @@ export interface ICell {
   fontFamily?: string
   fontWeight?: string | number
   fontStyle?: string
+  border?: string
   textDecoration?: string
   color?: string
   backgroundColor?: string

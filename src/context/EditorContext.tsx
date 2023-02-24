@@ -54,7 +54,7 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
       const { i, j } = selected
       changeCell(i, j, changes)
     },
-    [selected, selectedArea]
+    [selected, selectedArea, changeCell, changeCells]
   )
 
   const selectedCell = cells[selected.i][selected.j]

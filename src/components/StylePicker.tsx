@@ -72,7 +72,7 @@ function ExampleTable({ header, body }: { header: CellStyle; body: CellStyle }) 
         ))}
       </div>
       {new Array(TABLE_EXAMPLE_ROW).fill(0).map((_, idx) => (
-        <div className="example-table-row">
+        <div className="example-table-row" key={idx}>
           {new Array(TABLE_EXAMPLE_COL).fill(0).map((_, idx) => (
             <div className="example-table-cell" style={body} key={idx}>
               {EXAMPLE_TABLE_CELL_TEXT}

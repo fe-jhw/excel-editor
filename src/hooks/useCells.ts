@@ -43,6 +43,7 @@ export const useCells = (): UseCellsReturns => {
           const _sj = Math.min(sj, ej)
           const _ei = Math.max(si, ei)
           const _ej = Math.max(sj, ej)
+          console.log(_si, _sj, _ei, _ej)
           for (let _i = _si; _i <= _ei; _i++) {
             for (let _j = _sj; _j <= _ej; _j++) {
               draft[_i][_j] = { ...draft[_i][_j], ...changes }
