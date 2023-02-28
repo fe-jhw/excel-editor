@@ -144,11 +144,15 @@ export const useCells = (): UseCellsReturns => {
 
   const deleteShiftUp: DeleteShiftUp = useCallback(
     (si, sj, ei, ej) => {
+      const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
       setCells(prev =>
         produce(prev, draft => {
-          for (let j = sj; j <= ej; j++) {
-            for (let i = si; i < prev.length; i++) {
-              draft[i][j] = O.getOrElseFromUndefined(draft[i][j + ei - si + 1], defaultCell)
+          for (let j = _sj; j <= _ej; j++) {
+            for (let i = _si; i < prev.length - (_ei - _si + 1); i++) {
+              draft[i][j] = draft[i + _ei - _si + 1][j]
+            }
+            for (let i = prev.length - (_ei - _si); i < prev.length; i++) {
+              draft[i][j] = defaultCell
             }
           }
         })
@@ -157,7 +161,21 @@ export const useCells = (): UseCellsReturns => {
     [setCells]
   )
 
-  const deleteShiftLeft: DeleteShiftLeft = (si, sj, ei, ej) => {}
+  const deleteShiftLeft: DeleteShiftLeft = useCallback(
+    (si, sj, ei, ej) => {
+      const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
+      setCells(prev =>
+        produce(prev, draft => {
+          for (let i = _si; i <= _ei; i++) {
+            for (let j = _sj; j < prev.length; j++) {
+              draft[i][j] = O.getOrElseFromUndefined(draft[i][j + _ej - _sj + 1], defaultCell)
+            }
+          }
+        })
+      )
+    },
+    [setCells]
+  )
   return {
     cells,
     changeCell,

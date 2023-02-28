@@ -21,7 +21,16 @@ interface HeaderProps {
   length: number
 }
 
-const baseCellStyle = { border: '1px solid rgb(218, 220, 224)', height: '28px', minWidth: '50px' }
+const baseCellStyle = {
+  border: '1px solid rgb(218, 220, 224)',
+  height: '28px',
+  minHeight: '28px',
+  maxHeight: '28px',
+  minWidth: '50px',
+  width: '50px',
+  maxWidth: '50px',
+  overflow: 'hidden',
+}
 
 export function Sheet() {
   const { selectedArea, cells, onCellClick, onCellDragStart, onCellDragging, onCellDragEnd } = useContext(EditorContext)

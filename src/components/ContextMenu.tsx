@@ -52,6 +52,7 @@ export function ContextMenu({ open, x, y }: ContextMenuProps) {
     deleteCols,
     deleteRows,
     deleteShiftUp,
+    deleteShiftLeft,
   } = useContext(EditorContext)
 
   const clearSelectedCells = useCallback(() => {
@@ -80,6 +81,9 @@ export function ContextMenu({ open, x, y }: ContextMenuProps) {
         case 'deleteShiftUp':
           deleteShiftUp(si, sj, ei, ej)
           break
+        case 'deleteShiftLeft':
+          deleteShiftLeft(si, sj, ei, ej)
+          break
         case 'clear':
           clearSelectedCells()
           break
@@ -87,7 +91,7 @@ export function ContextMenu({ open, x, y }: ContextMenuProps) {
           break
       }
     },
-    [clearSelectedCells, copySelectedArea, paste, selectedArea, deleteCols, deleteRows, deleteShiftUp]
+    [clearSelectedCells, copySelectedArea, paste, selectedArea, deleteCols, deleteRows, deleteShiftUp, deleteShiftLeft]
   )
 
   return (

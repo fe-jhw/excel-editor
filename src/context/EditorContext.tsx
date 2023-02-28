@@ -129,9 +129,11 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
       }
     }
     if (copyInfo.status === 'cut') {
+      //TODO: getMinMaxIj 쓰는곳 반복적으로 나타남 -> 없애보자
       const { si, sj, ei, ej } = copyInfo
-      for (let i = si; i <= ei; i++) {
-        for (let j = sj; j <= ej; j++) {
+      const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
+      for (let i = _si; i <= _ei; i++) {
+        for (let j = _sj; j <= _ej; j++) {
           setCell(i, j, defaultCell)
         }
       }
