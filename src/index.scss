@@ -11,6 +11,15 @@ $base-cell-height: 28px;
 $selected-cell-color: rgba(0,0,0,0.2);
 $active-color: rgb(22, 119, 255);
 
+@keyframes border-dance {
+  0% {
+    background-position: left top, right bottom, left bottom, right   top;
+  }
+  100% {
+    background-position: left 15px top, right 15px bottom , left bottom 15px , right   top 15px;
+  }
+}
+
 *{
   box-sizing: border-box;
   font-family: 'Noto Sans KR', sans-serif;
@@ -154,7 +163,7 @@ body {
   }
   .select-box {
     position: absolute;
-    z-index:4;
+    z-index:5;
     background-color: white;
   }
   .select-area {
@@ -165,9 +174,21 @@ body {
     // TODO: 관련해서 정리하기~
     pointer-events: none;
   }
+  .copy-area {
+    // border: 2px dashed black;
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+    background-image: linear-gradient(90deg, black 50%, transparent 50%), linear-gradient(90deg, black 50%, transparent 50%), linear-gradient(0deg, black 50%, transparent 50%), linear-gradient(0deg, black 50%, transparent 50%);
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-size: 15px 2px, 15px 2px, 2px 15px, 2px 15px;
+    background-position: left top, right bottom, left bottom, right   top;
+    animation: border-dance 0.5s infinite linear;
+  }
   .context-menu {
     position: fixed;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background-color: white;
     text-align: left;
     margin: 0;
     z-index: 1000;

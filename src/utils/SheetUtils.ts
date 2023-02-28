@@ -1,3 +1,4 @@
+import { defaultCellHeight, defaultCellWidth } from '@/constants/SheetConstants'
 import { Selected, SelectedArea } from '@/types/Cell'
 
 export function getRowArr(length: number): number[] {
@@ -44,4 +45,43 @@ export function parseCellId(id: string): Selected {
 
 export function getCellRectInfo(el: HTMLElement): [number, number, number, number] {
   return [el.offsetWidth, el.offsetHeight, el.offsetTop, el.offsetLeft]
+}
+
+export function getAreaRect(
+  si: number,
+  sj: number,
+  ei: number,
+  ej: number
+): {
+  width: number
+  height: number
+  top: number
+  left: number
+} | null {
+  const sCellEl = document.getElementById(`${si}-${sj}`)
+  const eCellEl = document.getElementById(`${ei}-${ej}`)
+
+  if (sCellEl && eCellEl) {
+    const [sOffsetWidth, sOffsetHeight, sOffsetTop, sOffsetLeft] = getCellRectInfo(sCellEl)
+    const [eOffsetWidth, eOffsetHeight, eOffsetTop, eOffsetLeft] = getCellRectInfo(eCellEl)
+    const width = Math.abs(eOffsetLeft - sOffsetLeft) + (sOffsetLeft > eOffsetLeft ? sOffsetWidth : eOffsetWidth)
+    const height = Math.abs(eOffsetTop - sOffsetTop) + (sOffsetTop > eOffsetTop ? sOffsetHeight : eOffsetHeight)
+    const top = Math.min(sOffsetTop, eOffsetTop) + defaultCellHeight + 1
+    const left = Math.min(sOffsetLeft, eOffsetLeft) + defaultCellWidth + 1
+    return { width, height, top, left }
+  }
+  return null
+}
+
+export function getMinMaxIj(
+  si: number,
+  sj: number,
+  ei: number,
+  ej: number
+): [_si: number, _sj: number, _ei: number, _ej: number] {
+  const _si = Math.min(si, ei)
+  const _sj = Math.min(sj, ej)
+  const _ei = Math.max(si, ei)
+  const _ej = Math.max(sj, ej)
+  return [_si, _sj, _ei, _ej]
 }

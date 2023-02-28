@@ -1,4 +1,4 @@
-import { parseCellId, getCellRectInfo } from '@/utils/SheetUtils'
+import { parseCellId, getCellRectInfo, getAreaRect } from '@/utils/SheetUtils'
 import { ReactEventHandler, useState, useEffect, useRef } from 'react'
 import { SelectedArea, SelectAreaInfo } from '@/types'
 import { defaultSelectAreaInfo, defaultCellHeight, defaultCellWidth } from '@/constants/SheetConstants'
@@ -25,23 +25,9 @@ export const useSelectArea = (): UseSelectAreaReturns => {
 
   useEffect(() => {
     const { si, sj, ei, ej } = selectedArea
-    const sCellEl = document.getElementById(`${si}-${sj}`)
-    const eCellEl = document.getElementById(`${ei}-${ej}`)
-
-    if (sCellEl && eCellEl) {
-      const [sOffsetWidth, sOffsetHeight, sOffsetTop, sOffsetLeft] = getCellRectInfo(sCellEl)
-      const [eOffsetWidth, eOffsetHeight, eOffsetTop, eOffsetLeft] = getCellRectInfo(eCellEl)
-
-      const width = Math.abs(eOffsetLeft - sOffsetLeft) + (sOffsetLeft > eOffsetLeft ? sOffsetWidth : eOffsetWidth)
-      const height = Math.abs(eOffsetTop - sOffsetTop) + (sOffsetTop > eOffsetTop ? sOffsetHeight : eOffsetHeight)
-      const top = Math.min(sOffsetTop, eOffsetTop) + defaultCellHeight + 1
-      const left = Math.min(sOffsetLeft, eOffsetLeft) + defaultCellWidth + 1
-      setSelectAreaInfo({
-        width,
-        height,
-        top,
-        left,
-      })
+    const rect = getAreaRect(si, sj, ei, ej)
+    if (rect) {
+      setSelectAreaInfo(rect)
     }
   }, [selectedArea])
 

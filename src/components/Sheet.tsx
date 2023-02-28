@@ -3,7 +3,7 @@ import { useContext, useMemo, useState, useCallback, MouseEvent } from 'react'
 import { EditorContext } from '@/context'
 import { getColumnArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
 import { isMouseDownContextMenu, blockDragEvent } from '@/utils/EventUtils'
-import { SelectBox, SelectArea, ContextMenu } from '@/components'
+import { SelectBox, SelectArea, ContextMenu, CopyArea } from '@/components'
 import { useContextMenu } from '@/hooks/useContextMenu'
 
 interface RowProps {
@@ -58,6 +58,7 @@ export function Sheet() {
         <ContextMenu {...contextMenu} />
         <SelectBox />
         <SelectArea />
+        <CopyArea />
         <table>
           <tbody>
             {cells.map((row: ICell[], i: number) => (
