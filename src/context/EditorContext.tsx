@@ -86,6 +86,7 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
       if (selectedArea.active) {
         const { si, sj, ei, ej } = selectedArea
         changeCells(si, sj, ei, ej, changes)
+        return
       }
       const { i, j } = selected
       changeCell(i, j, changes)

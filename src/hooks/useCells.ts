@@ -1,5 +1,5 @@
 import { ICell } from '@/types'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import produce from 'immer'
 import { defaultCell, defaultCells } from '@/constants/SheetConstants'
 import { getMinMaxIj, isInRange } from '@/utils/SheetUtils'
@@ -32,6 +32,7 @@ type SetCell = (i: number, j: number, cell: ICell) => void
 
 export const useCells = (): UseCellsReturns => {
   const [cells, setCells] = useState<ICell[][]>(defaultCells)
+
   const changeCell: ChangeCell = (i, j, changes) => {
     setCells(prev =>
       produce(prev, draft => {
