@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useContext } from 'react'
+import { memo, ReactNode, useCallback, useContext, useEffect } from 'react'
 import { ChromePicker } from 'react-color'
 import { Button, Dropdown, InputNumber, Select, Space, Typography } from 'antd'
 import {
@@ -56,6 +56,7 @@ function Toolbox({ firstLayer, secondLayer, title }: ToolboxProps) {
 
 export function Fontbox() {
   const { selectedCell, changeSelectedCells } = useContext(EditorContext)
+
   return (
     <Toolbox
       firstLayer={

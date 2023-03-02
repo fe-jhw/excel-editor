@@ -23,7 +23,7 @@ export const useSelectBox = (): UseSelectBoxReturns => {
         setSelectBoxInfo({
           width: offsetWidth - 2,
           height: offsetHeight - 2,
-          top: offsetTop + defaultCellHeight + 2,
+          top: offsetTop + 1,
           left: offsetLeft + defaultCellWidth + 2,
         })
       }

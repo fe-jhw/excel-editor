@@ -1,10 +1,11 @@
 import { ICell } from '@/types'
-import { useContext, useMemo, useState, useCallback, MouseEvent } from 'react'
+import { useContext, useMemo, useState, useCallback, MouseEvent, memo } from 'react'
 import { EditorContext } from '@/context'
 import { getColumnArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
 import { isMouseDownContextMenu, blockDragEvent } from '@/utils/EventUtils'
 import { SelectBox, SelectArea, ContextMenu, CopyArea } from '@/components'
 import { useContextMenu } from '@/hooks/useContextMenu'
+import { useIntersectionObserverRef } from '@/hooks/useIntersectionObserver'
 
 interface RowProps {
   row: ICell[]
@@ -19,6 +20,11 @@ interface CellProps {
 
 interface HeaderProps {
   length: number
+}
+
+interface CellAutoAdderProps {
+  length: number
+  type: 'col' | 'row'
 }
 
 const baseCellStyle = {
@@ -80,7 +86,7 @@ export function Sheet() {
   )
 }
 
-function Row({ row, i }: RowProps) {
+const Row = memo(function ({ row, i }: RowProps) {
   return (
     <tr>
       {row.map((cell: ICell, j: number) => (
@@ -88,19 +94,19 @@ function Row({ row, i }: RowProps) {
       ))}
     </tr>
   )
-}
+})
 
 // TODO: Memo 적용 , equalProps custom
-function Cell({ cell, i, j }: CellProps) {
+const Cell = memo(function ({ cell, i, j }: CellProps) {
   const { value, ...cellStyle } = cell
   return (
     <td style={{ ...baseCellStyle, ...cellStyle }} id={`${i}-${j}`}>
       {cell.value}
     </td>
   )
-}
+})
 
-function RowHeader({ length }: HeaderProps) {
+const RowHeader = memo(function ({ length }: HeaderProps) {
   const rowArr = useMemo(() => getRowArr(length), [length])
   const { activeRowRange } = useContext(EditorContext)
   return (
@@ -118,26 +124,46 @@ function RowHeader({ length }: HeaderProps) {
             </td>
           </tr>
         ))}
+        <tr>
+          <CellAutoAdder length={length} type="row" />
+        </tr>
       </tbody>
     </table>
   )
-}
+})
 
-function ColumnHeader({ length }: HeaderProps) {
+const ColumnHeader = memo(function ({ length }: HeaderProps) {
   const columnArr = useMemo(() => getColumnArr(length), [length])
   const { activeColRange } = useContext(EditorContext)
   return (
-    <table className="table-header column-header">
-      <thead>
-        <tr>
-          <td className="select-all-btn" style={baseCellStyle}></td>
-          {columnArr.map((num, idx) => (
-            <td key={num} style={baseCellStyle} className={isInRange(idx, activeColRange) ? 'active' : ''}>
-              {num}
-            </td>
-          ))}
-        </tr>
-      </thead>
-    </table>
+    <>
+      <table className="table-header column-header">
+        <thead>
+          <tr>
+            <td className="select-all-btn" style={baseCellStyle}></td>
+            {columnArr.map((num, idx) => (
+              <td key={num} style={baseCellStyle} className={isInRange(idx, activeColRange) ? 'active' : ''}>
+                {num}
+              </td>
+            ))}
+            <CellAutoAdder length={length} type="col" />
+          </tr>
+        </thead>
+      </table>
+    </>
   )
+})
+
+function CellAutoAdder({ length, type }: CellAutoAdderProps) {
+  const { insertColRight, insertRowBelow } = useContext(EditorContext)
+  const adderRef = useIntersectionObserverRef<HTMLTableDataCellElement>({
+    callback: () => {
+      if (type === 'col') {
+        insertColRight(length - 1)
+      } else {
+        insertRowBelow(length - 1)
+      }
+    },
+  })
+  return <td style={{ visibility: 'hidden' }} ref={adderRef} />
 }

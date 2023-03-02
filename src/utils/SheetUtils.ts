@@ -66,7 +66,7 @@ export function getAreaRect(
     const [eOffsetWidth, eOffsetHeight, eOffsetTop, eOffsetLeft] = getCellRectInfo(eCellEl)
     const width = Math.abs(eOffsetLeft - sOffsetLeft) + (sOffsetLeft > eOffsetLeft ? sOffsetWidth : eOffsetWidth)
     const height = Math.abs(eOffsetTop - sOffsetTop) + (sOffsetTop > eOffsetTop ? sOffsetHeight : eOffsetHeight)
-    const top = Math.min(sOffsetTop, eOffsetTop) + defaultCellHeight + 1
+    const top = Math.min(sOffsetTop, eOffsetTop)
     const left = Math.min(sOffsetLeft, eOffsetLeft) + defaultCellWidth + 1
     return { width, height, top, left }
   }

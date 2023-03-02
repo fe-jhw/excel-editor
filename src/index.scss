@@ -137,7 +137,7 @@ body {
   }
   .row-header {
     left: 0;
-    z-index:5;
+    z-index:6;
     .active {
       background:$selected-cell-color;
       border-right: 1px solid $active-color !important;
@@ -145,13 +145,14 @@ body {
   }
   .column-header {
     top: 0;
-    z-index: 6;
+    z-index: 7;
     .active {
       background:$selected-cell-color;
       border-bottom: 1px solid $active-color !important;
     }
   }
   .sheet-main {
+    position: absolute;
     display: flex;
     flex-direction: row;
   }
