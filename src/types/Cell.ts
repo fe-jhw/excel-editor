@@ -10,10 +10,11 @@ export interface ICell {
   backgroundColor?: string
   verticalAlign?: string
   textAlign?: TextAlign
-  format?: string
+  format?: Format
   function?: string
 }
 
+export type Format = 'general' | 'number' | 'money' | 'account' | 'percentage'
 export type TextAlign = 'left' | 'center' | 'right'
 
 export interface Selected {

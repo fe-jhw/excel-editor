@@ -1,5 +1,29 @@
 import { defaultCellHeight, defaultCellWidth } from '@/constants/SheetConstants'
-import { Selected, SelectedArea } from '@/types/Cell'
+import { Format, Selected, SelectedArea } from '@/types/Cell'
+
+function addComma(number: string) {
+  const parts = number.toString().split('.')
+  const result = Number(parts[0]).toLocaleString() + (parts[1] ? '.' + parts[1] : '')
+  return result
+}
+
+export function format(value: string, type: Format): string {
+  if (value.trim() === '') {
+    return value
+  }
+  switch (type) {
+    case 'general':
+      return value
+    case 'number':
+      return value
+    case 'money':
+      return ['$', addComma(value)].join(' ')
+    case 'percentage':
+      return [value, '%'].join(' ')
+    default:
+      return value
+  }
+}
 
 export function getRowArr(length: number): number[] {
   return new Array(length).fill(0).map((_, idx) => idx + 1)

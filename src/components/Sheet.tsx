@@ -1,11 +1,12 @@
 import { ICell } from '@/types'
 import { useContext, useMemo, useState, useCallback, MouseEvent, memo } from 'react'
 import { EditorContext } from '@/context'
-import { getColumnArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
+import { format, getColumnArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
 import { isMouseDownContextMenu, blockDragEvent } from '@/utils/EventUtils'
 import { SelectBox, SelectArea, ContextMenu, CopyArea } from '@/components'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useIntersectionObserverRef } from '@/hooks/useIntersectionObserver'
+import * as O from '@/utils/option'
 
 interface RowProps {
   row: ICell[]
@@ -101,7 +102,7 @@ const Cell = memo(function ({ cell, i, j }: CellProps) {
   const { value, ...cellStyle } = cell
   return (
     <td style={{ ...baseCellStyle, ...cellStyle }} id={`${i}-${j}`}>
-      {cell.value}
+      {format(cell.value, O.getOrElseFromUndefined(cell.format, 'general'))}
     </td>
   )
 })

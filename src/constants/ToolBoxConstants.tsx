@@ -51,16 +51,6 @@ export const formats = [
     icon: <DollarOutlined />,
   },
   {
-    value: 'account',
-    label: '회계',
-    icon: <AccountBookOutlined />,
-  },
-  {
-    value: 'time',
-    label: '시간',
-    icon: <FieldTimeOutlined />,
-  },
-  {
     value: 'percentage',
     label: '백분율',
     icon: <PercentageOutlined />,

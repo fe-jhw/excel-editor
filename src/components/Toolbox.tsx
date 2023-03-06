@@ -24,6 +24,8 @@ import {
   VerticalAlignMiddleOutlined,
   VerticalAlignTopOutlined,
   TableOutlined,
+  FieldBinaryOutlined,
+  DollarOutlined,
 } from '@ant-design/icons'
 import { fontFamiles, formats } from '@/constants/ToolBoxConstants'
 import { EditorContext } from '@/context'
@@ -226,9 +228,9 @@ export function FormatBox() {
         <>
           <ToggleButton
             value={selectedCell?.format}
-            valueIfActive="account"
+            valueIfActive="money"
             propertyName="format"
-            icon={<AccountBookOutlined />}
+            icon={<DollarOutlined />}
           />
           <ToggleButton
             value={selectedCell?.format}
@@ -238,9 +240,9 @@ export function FormatBox() {
           />
           <ToggleButton
             value={selectedCell?.format}
-            valueIfActive="time"
+            valueIfActive="number"
             propertyName="format"
-            icon={<FieldTimeOutlined />}
+            icon={<FieldBinaryOutlined />}
           />
         </>
       }
