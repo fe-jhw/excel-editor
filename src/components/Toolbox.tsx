@@ -250,8 +250,6 @@ export function FormatBox() {
 }
 
 export function StyleBox() {
-  const { selectedArea, changeSelectedCells, changeCells } = useContext(EditorContext)
-
   return (
     <Toolbox
       firstLayer={

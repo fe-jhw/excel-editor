@@ -1,6 +1,5 @@
 import { styles } from '@/constants/ToolBoxConstants'
 import { EditorContext } from '@/context'
-import { getMinMaxIj } from '@/utils/SheetUtils'
 import { useCallback, useContext } from 'react'
 
 interface CellStyle {
@@ -37,15 +36,14 @@ const TABLE_EXAMPLE_COL = 5
 const TABLE_EXAMPLE_ROW = 3
 
 export function TableStylePicker() {
-  const { selectedArea, changeCells } = useContext(EditorContext)
+  const { selectedAreaSorted, changeCells } = useContext(EditorContext)
   const onStyleChange = useCallback(
     (header: CellStyle, body: CellStyle) => {
-      const { si, sj, ei, ej } = selectedArea
-      const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
-      changeCells(_si, _sj, _si, _ej, header)
-      changeCells(_si + 1, _sj, _ei, _ej, body)
+      const { si, sj, ei, ej } = selectedAreaSorted
+      changeCells(si, sj, si, ej, header)
+      changeCells(si + 1, sj, ei, ej, body)
     },
-    [selectedArea]
+    [selectedAreaSorted, changeCells]
   )
   return (
     <div className="style-picker">

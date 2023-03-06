@@ -10,6 +10,7 @@ export interface UseCellsReturns {
   changeCell: ChangeCell
   changeCells: ChangeCells
   setCell: SetCell
+  setCells: React.Dispatch<React.SetStateAction<ICell[][]>>
   insertRowAbove: InsertRow
   insertRowBelow: InsertRow
   insertColLeft: InsertCol
@@ -182,6 +183,7 @@ export const useCells = (): UseCellsReturns => {
     changeCell,
     changeCells,
     setCell,
+    setCells,
     insertRowAbove,
     insertRowBelow,
     insertColLeft,

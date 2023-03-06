@@ -8,9 +8,21 @@ interface UseHistoryProps {
   setCells: React.Dispatch<React.SetStateAction<ICell[][]>>
 }
 
-export const useHistory = ({ cells, setCells }: UseHistoryProps) => {
+interface UseHistoryReturns {
+  canRedo: boolean
+  canUndo: boolean
+  redo: () => void
+  undo: () => void
+}
+
+export const useHistory = ({ cells, setCells }: UseHistoryProps): UseHistoryReturns => {
   const [histories, setHisotries] = useState<History[]>([])
   const [curIdx, setCurIdx] = useState<number>(0)
+  // cells가 변경될때마다 addhistory한다. redo undo일때 제외하고
+
+  useEffect(() => {
+    console.log('hi~')
+  }, [cells])
 
   const addHistory = useCallback(
     (history: History) => {
@@ -26,4 +38,5 @@ export const useHistory = ({ cells, setCells }: UseHistoryProps) => {
 
   const redo = () => {}
   const undo = () => {}
+  return { canRedo, canUndo, redo, undo }
 }

@@ -1,10 +1,11 @@
 import { parseCellId, getCellRectInfo, getAreaRect } from '@/utils/SheetUtils'
-import { ReactEventHandler, useState, useEffect, useRef } from 'react'
+import { ReactEventHandler, useState, useEffect, useRef, useMemo } from 'react'
 import { SelectedArea, SelectAreaInfo } from '@/types'
 import { defaultSelectAreaInfo, defaultCellHeight, defaultCellWidth } from '@/constants/SheetConstants'
 
 export interface UseSelectAreaReturns {
   selectedArea: SelectedArea
+  selectedAreaSorted: Omit<SelectedArea, 'active'>
   selectArea: (selected: SelectedArea) => void
   selectAreaInfo: SelectAreaInfo
   onCellDragStart: ReactEventHandler
@@ -58,5 +59,18 @@ export const useSelectArea = (): UseSelectAreaReturns => {
     isDragging.current = false
   }
 
-  return { selectedArea, selectArea, selectAreaInfo, onCellDragStart, onCellDragging, onCellDragEnd }
+  const selectedAreaSorted = useMemo(() => {
+    const { si, sj, ei, ej } = selectedArea
+    return { si: Math.min(si, ei), sj: Math.min(sj, ej), ei: Math.max(si, ei), ej: Math.max(sj, ej) }
+  }, [selectedArea])
+
+  return {
+    selectedArea,
+    selectedAreaSorted,
+    selectArea,
+    selectAreaInfo,
+    onCellDragStart,
+    onCellDragging,
+    onCellDragEnd,
+  }
 }
