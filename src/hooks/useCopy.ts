@@ -1,7 +1,8 @@
 import { defaultCell } from '@/constants/SheetConstants'
 import { ICell, SelectedArea } from '@/types'
 import { getMinMaxIj } from '@/utils/SheetUtils'
-import { useCallback, useMemo, useState } from 'react'
+import produce from 'immer'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 interface CopyInfo {
   si: number
@@ -30,6 +31,10 @@ export interface UseCopyReturns {
 export const useCopy = ({ selectedAreaSorted, selectArea, cells, setCell, setCells }: UseCopyProps): UseCopyReturns => {
   const [copyInfo, setCopyInfo] = useState<CopyInfo>({ si: 0, sj: 0, ei: 0, ej: 0, status: 'empty', cells: [] })
 
+  useEffect(() => {
+    setCopyInfo(prev => ({ ...prev, status: 'empty' }))
+  }, [cells])
+
   const copySelectedArea = useCallback(
     (status: 'cut' | 'copy') => {
       const { si, sj, ei, ej } = selectedAreaSorted
@@ -51,27 +56,39 @@ export const useCopy = ({ selectedAreaSorted, selectArea, cells, setCell, setCel
     const { si, sj, ei, ej } = selectedAreaSorted
     const [_si, _sj] = getMinMaxIj(si, sj, ei, ej)
     const [_ei, _ej] = [_si + Math.abs(copyInfo.ei - copyInfo.si), _sj + Math.abs(copyInfo.ej - copyInfo.sj)]
-    for (let i = _si; i <= _ei; i++) {
-      // TODO: 영역 바깥일경우(length보다 긴 경우) insert row or col해야함
-
-      for (let j = _sj; j <= _ej; j++) {
-        // TODO: 동기처리 (cells 늘린 후 cell 값 변경)
-        setCell(i, j, copyInfo.cells[i - si][j - sj])
-      }
-    }
-    if (copyInfo.status === 'cut') {
-      const { si, sj, ei, ej } = copyInfo
-      const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
-      for (let i = _si; i <= _ei; i++) {
-        for (let j = _sj; j <= _ej; j++) {
-          setCell(i, j, defaultCell)
+    setCells(prev =>
+      produce(prev, draft => {
+        for (let i = _si; i <= _ei; i++) {
+          if (i >= draft.length) {
+            draft.push(new Array(draft[0].length).fill(defaultCell))
+          }
+          for (let j = _sj; j <= _ej; j++) {
+            if (j >= draft[i].length) {
+              for (let i = 0; i < draft.length; i++) {
+                draft[i].push(defaultCell)
+              }
+            }
+            draft[i][j] = copyInfo.cells[i - si][j - sj]
+          }
         }
-      }
+        if (copyInfo.status === 'cut') {
+          const { si, sj, ei, ej } = copyInfo
+          const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
+          for (let i = _si; i <= _ei; i++) {
+            for (let j = _sj; j <= _ej; j++) {
+              draft[i][j] = defaultCell
+            }
+          }
+          setCopyInfo(prev => ({ ...prev, status: 'empty' }))
+        }
+      })
+    )
+    if (copyInfo.status === 'cut') {
       setCopyInfo(prev => ({ ...prev, status: 'empty' }))
     }
     // 붙여넣기한 영역 선택처리
     selectArea({ si: _si, sj: _sj, ei: _ei, ej: _ej, active: true })
-  }, [setCell, selectedAreaSorted, copyInfo, selectArea])
+  }, [setCells, selectedAreaSorted, copyInfo, selectArea])
 
   const isSomethingCopied = useMemo(() => copyInfo.status !== 'empty', [copyInfo])
 

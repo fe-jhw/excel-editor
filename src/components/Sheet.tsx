@@ -156,14 +156,15 @@ const ColumnHeader = memo(function ({ length }: HeaderProps) {
 
 function CellAutoAdder({ length, type }: CellAutoAdderProps) {
   const { insertColRight, insertRowBelow } = useContext(EditorContext)
+  const iOcallback = useCallback(() => {
+    if (type === 'col') {
+      insertColRight(length - 1)
+    } else {
+      insertRowBelow(length - 1)
+    }
+  }, [length, insertColRight, insertRowBelow, type])
   const adderRef = useIntersectionObserverRef<HTMLTableDataCellElement>({
-    callback: () => {
-      if (type === 'col') {
-        insertColRight(length - 1)
-      } else {
-        insertRowBelow(length - 1)
-      }
-    },
+    callback: iOcallback,
   })
   return <td style={{ visibility: 'hidden' }} ref={adderRef} />
 }
