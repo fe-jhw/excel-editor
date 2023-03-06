@@ -7,12 +7,22 @@ export function SelectBox() {
   const { i, j } = selected
   const { value, ...cellStyle } = cells[i][j]
   return (
-    <div className="select-box" style={{ ...selectBoxInfo }}>
+    <div
+      className="select-box"
+      style={{
+        ...selectBoxInfo,
+        display: 'flex',
+        alignItems:
+          cellStyle.verticalAlign === 'top' ? 'start' : cellStyle.verticalAlign === 'bottom' ? 'end' : 'center',
+        backgroundColor: cellStyle.backgroundColor,
+        padding: '3px 0',
+      }}
+    >
       <Input
         bordered={false}
         style={{
           position: 'relative',
-          height: '100%',
+          height: cellStyle.fontSize,
           marginTop: '0px',
           borderRadius: 0,
           padding: 0,

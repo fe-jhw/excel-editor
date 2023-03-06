@@ -100,9 +100,12 @@ const Row = memo(function ({ row, i }: RowProps) {
 // TODO: Memo 적용 , equalProps custom
 const Cell = memo(function ({ cell, i, j }: CellProps) {
   const { value, ...cellStyle } = cell
+  const { border, ...baseDivStyle } = cellStyle
   return (
     <td style={{ ...baseCellStyle, ...cellStyle }} id={`${i}-${j}`}>
-      {format(cell.value, O.getOrElseFromUndefined(cell.format, 'general'))}
+      <div style={{ ...baseDivStyle }} id={`${i}-${j}`}>
+        {format(cell.value, O.getOrElseFromUndefined(cell.format, 'general'))}
+      </div>
     </td>
   )
 })
@@ -164,7 +167,7 @@ function CellAutoAdder({ length, type }: CellAutoAdderProps) {
       insertRowBelow(length - 1)
     }
   }, [length, insertColRight, insertRowBelow, type])
-  const adderRef = useIntersectionObserverRef<HTMLTableDataCellElement>({
+  const adderRef = useIntersectionObserverRef<HTMLTableCellElement>({
     callback: iOcallback,
   })
   return <td style={{ visibility: 'hidden' }} ref={adderRef} />

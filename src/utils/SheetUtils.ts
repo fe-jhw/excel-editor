@@ -17,8 +17,15 @@ export function format(value: string, type: Format): string {
     case 'number':
       return value
     case 'money':
+      if (isNaN(Number(value))) {
+        return value
+      }
+
       return ['$', addComma(value)].join(' ')
     case 'percentage':
+      if (isNaN(Number(value))) {
+        return value
+      }
       return [value, '%'].join(' ')
     default:
       return value
