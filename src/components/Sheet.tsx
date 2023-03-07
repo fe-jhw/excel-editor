@@ -1,5 +1,5 @@
 import { ICell } from '@/types'
-import { useContext, useMemo, useState, useCallback, MouseEvent, memo } from 'react'
+import { useContext, useMemo, useState, useCallback, MouseEvent, memo, Fragment } from 'react'
 import { EditorContext } from '@/context'
 import { format, getColumnArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
 import { isMouseDownContextMenu, blockDragEvent } from '@/utils/EventUtils'
@@ -25,6 +25,11 @@ interface HeaderProps {
 
 interface CellAutoAdderProps {
   length: number
+  type: 'col' | 'row'
+}
+
+interface CellAdjusterProps {
+  idx: number
   type: 'col' | 'row'
 }
 
@@ -146,14 +151,21 @@ const ColumnHeader = memo(function ({ length }: HeaderProps) {
           <tr>
             <td className="select-all-btn" style={baseCellStyle}></td>
             {columnArr.map((num, idx) => (
-              <td key={num} style={baseCellStyle} className={isInRange(idx, activeColRange) ? 'active' : ''}>
-                {num}
-              </td>
+              <Fragment key={num}>
+                <td style={baseCellStyle} className={isInRange(idx, activeColRange) ? 'active' : ''}>
+                  {num}
+                </td>
+              </Fragment>
             ))}
             <CellAutoAdder length={length} type="col" />
           </tr>
         </thead>
       </table>
+      <div style={{ position: 'absolute', visibility: 'hidden' }}>
+        {columnArr.map((_, idx) => (
+          <CellAdjuster key={idx} idx={idx} type="col" />
+        ))}
+      </div>
     </>
   )
 })
@@ -171,4 +183,8 @@ function CellAutoAdder({ length, type }: CellAutoAdderProps) {
     callback: iOcallback,
   })
   return <td style={{ visibility: 'hidden' }} ref={adderRef} />
+}
+
+function CellAdjuster({ idx, type }: CellAdjusterProps) {
+  return <div className={`cell-adjuster cell-adjuster-${type}`} />
 }

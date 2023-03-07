@@ -151,6 +151,17 @@ body {
       border-bottom: 1px solid $active-color !important;
     }
   }
+  .cell-adjuster-row {
+    cursor:row-resize    
+  }
+  .cell-adjuster-col {
+    cursor:col-resize;
+    position: relative;
+    display: inline-block;
+    height: 28px;
+    width: 3px;
+    background: transparent;
+  }
   .sheet-main {
     position: absolute;
     display: flex;
