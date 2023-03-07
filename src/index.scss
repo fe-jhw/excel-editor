@@ -151,16 +151,30 @@ body {
       border-bottom: 1px solid $active-color !important;
     }
   }
-  .cell-adjuster-row {
-    cursor:row-resize    
-  }
-  .cell-adjuster-col {
-    cursor:col-resize;
-    position: relative;
-    display: inline-block;
-    height: 28px;
-    width: 3px;
-    background: transparent;
+  .cell-adjuster {
+    position: absolute;
+    z-index: 9;
+    &.row {
+      
+    }
+    &.col {
+      top: 0;
+      height: 28px;
+    }
+    > .border {
+      cursor:row-resize;    
+      &.row {
+
+      }
+      &.col {
+        cursor:col-resize;
+        position: relative;
+        display: inline-block;
+        height: 28px;
+        width: 20px;
+        background: transparent;
+      }
+    }
   }
   .sheet-main {
     position: absolute;
