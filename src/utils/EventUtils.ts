@@ -1,4 +1,4 @@
-import { ReactEventHandler, MouseEvent } from 'react'
+import React, { ReactEventHandler, MouseEvent } from 'react'
 
 export const blockEvent: ReactEventHandler = e => {
   e.stopPropagation()
@@ -15,4 +15,23 @@ export const blockDragEvent = {
   onDragStart: blockEvent,
   onDragEnd: blockEvent,
   onDragEnter: blockEvent,
+}
+
+export const stopEventPropagation: ReactEventHandler = e => {
+  e.stopPropagation()
+}
+
+export const stopPropagationMouseEvent = {
+  onMouseDown: stopEventPropagation,
+  onMouseOver: stopEventPropagation,
+  onMouseUp: stopEventPropagation,
+}
+
+export const setDragCursor = (type: 'col' | 'row' | 'empty'): void => {
+  const bodyEl = document.body
+  if (type === 'empty') {
+    bodyEl.className = ''
+    return
+  }
+  bodyEl.classList.add(`${type}-resizing`)
 }

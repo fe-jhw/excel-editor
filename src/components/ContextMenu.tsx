@@ -5,6 +5,7 @@ import { EditorContext } from '@/context'
 import { defaultCell } from '@/constants/SheetConstants'
 import { MenuItemType } from 'antd/es/menu/hooks/useItems'
 import { IContextMenu, MENU_HEIGHT, MENU_WIDTH, Placement } from '@/hooks/useContextMenu'
+import { blockDragEvent } from '@/utils/EventUtils'
 
 interface ContextMenuProps extends IContextMenu {}
 

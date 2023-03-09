@@ -3,7 +3,7 @@ import { useContext, useMemo, useState, useCallback, MouseEvent, memo, Fragment 
 import { EditorContext } from '@/context'
 import { format, getColumnArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
 import { isMouseDownContextMenu, blockDragEvent } from '@/utils/EventUtils'
-import { SelectBox, SelectArea, ContextMenu, CopyArea } from '@/components'
+import { SelectBox, SelectArea, ContextMenu, CopyArea, CellAdjuster } from '@/components'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useIntersectionObserverRef } from '@/hooks/useIntersectionObserver'
 import * as O from '@/utils/option'
@@ -25,13 +25,6 @@ interface HeaderProps {
 
 interface CellAutoAdderProps {
   length: number
-  type: 'col' | 'row'
-}
-
-interface CellAdjusterProps extends CellAutoAdderProps {}
-
-interface CellAdjusterBorderProps {
-  idx: number
   type: 'col' | 'row'
 }
 
@@ -110,7 +103,19 @@ const Cell = memo(function ({ cell, i, j }: CellProps) {
   const { border, ...baseDivStyle } = cellStyle
   return (
     <td style={{ ...baseCellStyle, ...cellStyle }} id={`${i}-${j}`}>
-      <div style={{ ...baseDivStyle }} id={`${i}-${j}`}>
+      <div
+        style={{
+          ...baseDivStyle,
+          // width,
+          height: `${O.getOrElseFromUndefined(cellStyle.fontSize, 11) + 4}px`,
+          display: 'flex',
+          justifyContent:
+            cellStyle.textAlign === 'right' ? 'flex-end' : cellStyle.textAlign === 'left' ? 'flex-start' : 'center',
+          // alignItems: verticalAlign === 'top' ? 'flex-start' : verticalAlign === 'bottom' ? 'flex-end' : 'center',
+          alignItems: 'center',
+        }}
+        id={`${i}-${j}`}
+      >
         {format(cell.value, O.getOrElseFromUndefined(cell.format, 'general'))}
       </div>
     </td>
@@ -181,37 +186,4 @@ function CellAutoAdder({ length, type }: CellAutoAdderProps) {
     callback: iOcallback,
   })
   return <td style={{ visibility: 'hidden' }} ref={adderRef} />
-}
-
-function CellAdjuster({ length, type }: CellAdjusterProps) {
-  // length 대신 각 row,col 너비,높이 담긴 배열이 온다.
-  return (
-    <div className={`cell-adjuster ${type}`}>
-      {new Array(length).fill(false).map((_, idx) => (
-        <CellAdjusterBorder key={idx} idx={idx} type="col" />
-      ))}
-    </div>
-  )
-}
-
-// TODO: cell의 width,height 관리 방안
-// 1) cell의 width와 height은 row, col별로 따로 관리 (각 row, col만 바꾸면댐 대신 history cells + (width,height) 2개 봐야함)
-// 2) 각 cell별로 관리 -> width 바꿀떄마다 너무 많이 바뀜 (대신 history관리 cells로만 해서 편함)
-function CellAdjusterBorder({ idx, type }: CellAdjusterBorderProps) {
-  return (
-    <div
-      className={`border ${type}`}
-      style={{ left: `${(idx + 1) * 30 + 10 + 50}px` }}
-      draggable="true"
-      onDragStart={e => {
-        console.log('드래그 시작~')
-      }}
-      onDrag={e => {
-        console.log('드래그 중~')
-      }}
-      onDragEnd={e => {
-        console.log('드래그 끝')
-      }}
-    />
-  )
 }

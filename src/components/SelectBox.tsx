@@ -1,4 +1,5 @@
 import { EditorContext } from '@/context'
+import { blockDragEvent } from '@/utils/EventUtils'
 import { Input } from 'antd'
 import { useContext } from 'react'
 
@@ -12,10 +13,11 @@ export function SelectBox() {
       style={{
         ...selectBoxInfo,
         display: 'flex',
+        justifyContent:
+          cellStyle.textAlign === 'right' ? 'flex-end' : cellStyle.textAlign === 'left' ? 'flex-start' : 'center',
         alignItems:
           cellStyle.verticalAlign === 'top' ? 'start' : cellStyle.verticalAlign === 'bottom' ? 'end' : 'center',
         backgroundColor: cellStyle.backgroundColor,
-        padding: '3px 0',
       }}
     >
       <Input

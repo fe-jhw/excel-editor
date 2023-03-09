@@ -9,6 +9,8 @@ export const defaultCell: ICell = {
   border: '1px solid rgb(218, 220, 224)',
   backgroundColor: 'white',
   color: 'black',
+  textAlign: 'left',
+  verticalAlign: 'middle',
 }
 
 export const defaultCells: ICell[][] = new Array(30).fill(new Array(30).fill(defaultCell))
