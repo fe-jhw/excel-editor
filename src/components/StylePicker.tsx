@@ -1,5 +1,6 @@
 import { styles } from '@/constants/ToolBoxConstants'
 import { EditorContext } from '@/context'
+import produce from 'immer'
 import { useCallback, useContext } from 'react'
 
 interface CellStyle {
@@ -36,14 +37,29 @@ const TABLE_EXAMPLE_COL = 5
 const TABLE_EXAMPLE_ROW = 3
 
 export function TableStylePicker() {
-  const { selectedAreaSorted, changeCells } = useContext(EditorContext)
+  const { selectedAreaSorted, changeCells, cells, setCells, addHistory } = useContext(EditorContext)
+  //TODO: changeCells 2개 setCells로 변경하기~
   const onStyleChange = useCallback(
     (header: CellStyle, body: CellStyle) => {
       const { si, sj, ei, ej } = selectedAreaSorted
-      changeCells(si, sj, si, ej, header)
-      changeCells(si + 1, sj, ei, ej, body)
+      const nextCells = produce(cells, draft => {
+        for (let i = si; i <= si; i++) {
+          for (let j = sj; j <= ej; j++) {
+            draft[i][j] = { ...draft[i][j], ...header }
+          }
+        }
+        for (let i = si + 1; i <= ei; i++) {
+          for (let j = sj; j <= ej; j++) {
+            draft[i][j] = { ...draft[i][j], ...body }
+          }
+        }
+      })
+      setCells(nextCells)
+      addHistory(nextCells)
+      // changeCells(si, sj, si, ej, header)
+      // changeCells(si + 1, sj, ei, ej, body)
     },
-    [selectedAreaSorted, changeCells]
+    [selectedAreaSorted, cells, setCells, addHistory]
   )
   return (
     <div className="style-picker">

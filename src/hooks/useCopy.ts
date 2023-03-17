@@ -56,39 +56,38 @@ export const useCopy = ({ selectedAreaSorted, selectArea, cells, setCell, setCel
     const { si, sj, ei, ej } = selectedAreaSorted
     const [_si, _sj] = getMinMaxIj(si, sj, ei, ej)
     const [_ei, _ej] = [_si + Math.abs(copyInfo.ei - copyInfo.si), _sj + Math.abs(copyInfo.ej - copyInfo.sj)]
-    setCells(prev =>
-      produce(prev, draft => {
+    const nextCells = produce(cells, draft => {
+      for (let i = _si; i <= _ei; i++) {
+        if (i >= draft.length) {
+          draft.push(new Array(draft[0].length).fill(defaultCell))
+        }
+        for (let j = _sj; j <= _ej; j++) {
+          if (j >= draft[i].length) {
+            for (let i = 0; i < draft.length; i++) {
+              draft[i].push(defaultCell)
+            }
+          }
+          draft[i][j] = copyInfo.cells[i - si][j - sj]
+        }
+      }
+      if (copyInfo.status === 'cut') {
+        const { si, sj, ei, ej } = copyInfo
+        const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
         for (let i = _si; i <= _ei; i++) {
-          if (i >= draft.length) {
-            draft.push(new Array(draft[0].length).fill(defaultCell))
-          }
           for (let j = _sj; j <= _ej; j++) {
-            if (j >= draft[i].length) {
-              for (let i = 0; i < draft.length; i++) {
-                draft[i].push(defaultCell)
-              }
-            }
-            draft[i][j] = copyInfo.cells[i - si][j - sj]
+            draft[i][j] = defaultCell
           }
         }
-        if (copyInfo.status === 'cut') {
-          const { si, sj, ei, ej } = copyInfo
-          const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
-          for (let i = _si; i <= _ei; i++) {
-            for (let j = _sj; j <= _ej; j++) {
-              draft[i][j] = defaultCell
-            }
-          }
-          setCopyInfo(prev => ({ ...prev, status: 'empty' }))
-        }
-      })
-    )
+        setCopyInfo(prev => ({ ...prev, status: 'empty' }))
+      }
+    })
+    setCells(nextCells)
     if (copyInfo.status === 'cut') {
       setCopyInfo(prev => ({ ...prev, status: 'empty' }))
     }
     // 붙여넣기한 영역 선택처리
     selectArea({ si: _si, sj: _sj, ei: _ei, ej: _ej, active: true })
-  }, [setCells, selectedAreaSorted, copyInfo, selectArea])
+  }, [cells, setCells, selectedAreaSorted, copyInfo, selectArea])
 
   const isSomethingCopied = useMemo(() => copyInfo.status !== 'empty', [copyInfo])
 

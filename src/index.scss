@@ -51,6 +51,12 @@ body {
   min-height: $min-body-height;
 }
 
+.historybox {
+  position: absolute;
+  top: 2px;
+  right: 0px;
+}
+
 .header {
   border-bottom: $border;
   background-color: $main-bg-color;

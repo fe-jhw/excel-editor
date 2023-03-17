@@ -32,6 +32,11 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
     deleteRows,
     deleteShiftLeft,
     deleteShiftUp,
+    canRedo,
+    canUndo,
+    redo,
+    undo,
+    addHistory,
   } = useCells()
   const { selected, selectCell, selectBoxInfo, onCellClick } = useSelectBox()
   const {
@@ -86,6 +91,11 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
         deleteRows,
         deleteShiftLeft,
         deleteShiftUp,
+        canRedo,
+        canUndo,
+        redo,
+        undo,
+        addHistory,
         selected,
         selectedCell,
         selectCell,
