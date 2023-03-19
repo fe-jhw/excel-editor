@@ -143,6 +143,9 @@ body {
     border-collapse: collapse;
     cursor: cell;
   }
+  &:focus {
+    outline: none;
+  }
   .table-header {
     text-align: center;
     background-color: $main-bg-color;

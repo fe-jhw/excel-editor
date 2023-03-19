@@ -7,6 +7,7 @@ import { SelectBox, SelectArea, ContextMenu, CopyArea, CellAdjuster } from '@/co
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useIntersectionObserverRef } from '@/hooks/useIntersectionObserver'
 import * as O from '@/utils/option'
+import { useKeyHandler } from '@/hooks/useKeyHandler'
 
 interface RowProps {
   row: ICell[]
@@ -42,6 +43,7 @@ const baseCellStyle = {
 export function Sheet() {
   const { selectedArea, cells, onCellClick, onCellDragStart, onCellDragging, onCellDragEnd } = useContext(EditorContext)
   const { contextMenu, onContextMenu } = useContextMenu()
+  const { onArrowKey } = useKeyHandler()
   const onSheetMouseDown = useCallback(
     (e: MouseEvent) => {
       if (isMouseDownContextMenu(e)) {
@@ -66,7 +68,9 @@ export function Sheet() {
       onMouseDown={onSheetMouseDown}
       onMouseOver={onCellDragging}
       onMouseUp={onCellDragEnd}
+      onKeyDown={onArrowKey}
       {...blockDragEvent}
+      tabIndex={-1}
     >
       <ColumnHeader length={cells[0].length} />
       <div className="sheet-main" onContextMenu={onContextMenu}>
