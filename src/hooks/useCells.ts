@@ -34,7 +34,7 @@ type SetCell = (i: number, j: number, cell: ICell) => void
 
 export const useCells = (): UseCellsReturns => {
   const [cells, setCells] = useState<ICell[][]>(defaultCells)
-  const { canRedo, canUndo, redo, undo, addHistory } = useHistory({ setCells })
+  const { canRedo, canUndo, redo, undo, addHistory, addHistoryWithDebounce } = useHistory({ setCells })
 
   const changeCell: ChangeCell = (i, j, changes) => {
     const nextCells = produce(cells, draft => {
@@ -43,6 +43,7 @@ export const useCells = (): UseCellsReturns => {
       }
     })
     setCells(nextCells)
+    // input value 변경시를 위해 history add에 debounce 적용
     addHistory(nextCells)
   }
 
@@ -201,5 +202,6 @@ export const useCells = (): UseCellsReturns => {
     redo,
     undo,
     addHistory,
+    addHistoryWithDebounce,
   }
 }

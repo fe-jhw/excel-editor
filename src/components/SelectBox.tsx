@@ -3,12 +3,13 @@ import { useDebounce } from '@/hooks/useDebounce'
 import { blockDragEvent } from '@/utils/EventUtils'
 import { Input } from 'antd'
 import { useContext } from 'react'
+import * as O from '@/utils/option'
 
 export function SelectBox() {
   const { cells, changeCell, selected, selectBoxInfo } = useContext(EditorContext)
   const { i, j } = selected
   const { value, ...cellStyle } = cells[i][j]
-  const onChangeValue = useDebounce({ callback: e => changeCell(i, j, { value: e.target.value }), timeout: 300 })
+
   return (
     <div
       className="select-box"
@@ -33,9 +34,10 @@ export function SelectBox() {
           ...cellStyle,
           border: 'none',
         }}
-        key={`${i}-${j}`}
-        defaultValue={cells[i][j].value}
+        key={`${i}-${j}}`}
+        value={cells[i][j].value}
         onChange={e => changeCell(i, j, { value: e.target.value })}
+        // onChange={e => onChangeValue(e)}
       />
     </div>
   )

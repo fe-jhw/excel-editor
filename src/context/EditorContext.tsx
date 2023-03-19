@@ -37,6 +37,7 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
     redo,
     undo,
     addHistory,
+    addHistoryWithDebounce,
   } = useCells()
   const { selected, selectCell, selectBoxInfo, onCellClick } = useSelectBox()
   const {
@@ -96,6 +97,7 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
         redo,
         undo,
         addHistory,
+        addHistoryWithDebounce,
         selected,
         selectedCell,
         selectCell,

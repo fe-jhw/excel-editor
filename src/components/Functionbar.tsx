@@ -1,11 +1,14 @@
 import { EditorContext } from '@/context'
+import { useDebounce } from '@/hooks/useDebounce'
 import { changeNumToAlphabet } from '@/utils/SheetUtils'
 import { Divider, Input } from 'antd'
 import { useContext } from 'react'
+import * as O from '@/utils/option'
 
 export function Functionbar() {
   const { selected, cells, changeCell } = useContext(EditorContext)
   const { i, j } = selected
+
   return (
     <div className="functionbar">
       <Input
@@ -15,6 +18,7 @@ export function Functionbar() {
       />
       <Input
         style={{ width: 'calc(100% - 108px)' }}
+        key={`${i}-${j}`}
         value={cells[i][j].value}
         onChange={e => changeCell(i, j, { value: e.target.value })}
       />

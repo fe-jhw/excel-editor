@@ -1,15 +1,18 @@
 import { useRef } from 'react'
 
 interface UseDebounce {
-  ({ callback, timeout }: { callback: (...args: any) => any; timeout: number }): void
+  ({ callback, timeout }: { callback: (...args: any) => any; timeout: number }): (...args: any) => any
 }
 
 export const useDebounce: UseDebounce = ({ callback, timeout }) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
-  timerRef.current = setTimeout(() => {
+  return (...args: any) => {
     if (timerRef.current) {
       clearTimeout(timerRef.current)
+      timerRef.current = null
     }
-    callback()
-  }, timeout)
+    timerRef.current = setTimeout(() => {
+      callback(args)
+    }, timeout)
+  }
 }

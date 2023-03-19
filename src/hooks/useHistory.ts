@@ -1,3 +1,4 @@
+import { useDebounce } from '@/hooks/useDebounce'
 import { defaultCells } from '@/constants/SheetConstants'
 import { ICell } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
@@ -14,6 +15,7 @@ export interface UseHistoryReturns {
   redo: () => void
   undo: () => void
   addHistory: (history: History) => void
+  addHistoryWithDebounce: (history: History) => void
 }
 
 export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => {
@@ -21,9 +23,9 @@ export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => 
   const [curIdx, setCurIdx] = useState<number>(0)
   // cells가 변경될때마다 addhistory한다. redo undo일때 제외하고
 
-  useEffect(() => {
-    console.log(histories, curIdx)
-  }, [histories, curIdx])
+  // useEffect(() => {
+  //   console.log(histories)
+  // }, [histories])
 
   const addHistory = useCallback(
     (history: History) => {
@@ -32,6 +34,12 @@ export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => 
     },
     [setHisotries, setCurIdx, curIdx]
   )
+
+  // FIX: curIdx랑 꼬여서 제대로 작동하지 않음....
+  const addHistoryWithDebounce = useDebounce({
+    callback: addHistory,
+    timeout: 300,
+  })
 
   const canRedo = curIdx < histories.length - 1
 
@@ -48,5 +56,5 @@ export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => 
     setCurIdx(prev => prev - 1)
   }
 
-  return { canRedo, canUndo, redo, undo, addHistory }
+  return { canRedo, canUndo, redo, undo, addHistory, addHistoryWithDebounce }
 }
