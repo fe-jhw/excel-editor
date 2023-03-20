@@ -1,7 +1,7 @@
 import { ICell } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
 import produce from 'immer'
-import { defaultCell, defaultCells } from '@/constants/SheetConstants'
+import { CCell, defaultCell, defaultCells, getDefaultCell, getDefaultRow } from '@/constants/SheetConstants'
 import { getMinMaxIj, isInRange } from '@/utils/SheetUtils'
 import * as O from '@/utils/option'
 import { useHistory, UseHistoryReturns } from './useHistory'
@@ -78,7 +78,7 @@ export const useCells = (): UseCellsReturns => {
   const insertRowAbove: InsertRow = useCallback(
     (row: number): void => {
       const nextCells = produce(cells, draft => {
-        draft.splice(row, 0, new Array(cells[row].length).fill(defaultCell))
+        draft.splice(row, 0, getDefaultRow(cells[row].length))
       })
       setCells(nextCells)
       addHistory(nextCells)
@@ -88,7 +88,7 @@ export const useCells = (): UseCellsReturns => {
   const insertRowBelow: InsertRow = useCallback(
     (row: number): void => {
       const nextCells = produce(cells, draft => {
-        draft.splice(row + 1, 0, new Array(cells[row].length).fill(defaultCell))
+        draft.splice(row + 1, 0, getDefaultRow(cells[row].length))
       })
       setCells(nextCells)
       addHistory(nextCells)
@@ -99,7 +99,7 @@ export const useCells = (): UseCellsReturns => {
     (col: number): void => {
       const nextCells = produce(cells, draft => {
         for (let i = 0; i < cells.length; i++) {
-          draft[i].splice(col, 0, defaultCell)
+          draft[i].splice(col, 0, getDefaultCell())
         }
       })
       setCells(nextCells)
@@ -111,7 +111,7 @@ export const useCells = (): UseCellsReturns => {
     (col: number): void => {
       const nextCells = produce(cells, draft => {
         for (let i = 0; i < cells.length; i++) {
-          draft[i].splice(col + 1, 0, defaultCell)
+          draft[i].splice(col + 1, 0, getDefaultCell())
         }
       })
       setCells(nextCells)
@@ -126,7 +126,7 @@ export const useCells = (): UseCellsReturns => {
       const nextCells = produce(cells, draft => {
         for (let i = 0; i < cells.length; i++) {
           for (let j = sCol; j < cells[i].length; j++) {
-            draft[i][j] = O.getOrElseFromUndefined(draft[i][j + eCol - sCol + 1], defaultCell)
+            draft[i][j] = O.getOrElseFromUndefined(draft[i][j + eCol - sCol + 1], getDefaultCell())
           }
         }
       })
@@ -140,7 +140,7 @@ export const useCells = (): UseCellsReturns => {
     (sRow, eRow) => {
       const nextCells = produce(cells, draft => {
         for (let i = sRow; i < cells.length; i++) {
-          draft[i] = O.getOrElseFromUndefined(draft[i + eRow - sRow + 1], new Array(cells[i].length).fill(defaultCell))
+          draft[i] = O.getOrElseFromUndefined(draft[i + eRow - sRow + 1], getDefaultRow(cells[i].length))
         }
       })
       setCells(nextCells)
@@ -158,7 +158,7 @@ export const useCells = (): UseCellsReturns => {
             draft[i][j] = draft[i + _ei - _si + 1][j]
           }
           for (let i = cells.length - (_ei - _si); i < cells.length; i++) {
-            draft[i][j] = defaultCell
+            draft[i][j] = getDefaultCell()
           }
         }
       })
@@ -174,7 +174,7 @@ export const useCells = (): UseCellsReturns => {
       const nextCells = produce(cells, draft => {
         for (let i = _si; i <= _ei; i++) {
           for (let j = _sj; j < cells.length; j++) {
-            draft[i][j] = O.getOrElseFromUndefined(draft[i][j + _ej - _sj + 1], defaultCell)
+            draft[i][j] = O.getOrElseFromUndefined(draft[i][j + _ej - _sj + 1], getDefaultCell())
           }
         }
       })

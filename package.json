@@ -9,11 +9,13 @@
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
     "antd": "^5.2.0",
+    "framer-motion": "^10.6.0",
     "immer": "^9.0.19",
     "node-sass": "^8.0.0",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-uuid": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",

@@ -8,6 +8,7 @@ import { useContextMenu } from '@/hooks/useContextMenu'
 import { useIntersectionObserverRef } from '@/hooks/useIntersectionObserver'
 import * as O from '@/utils/option'
 import { useKeyHandler } from '@/hooks/useKeyHandler'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface RowProps {
   row: ICell[]
@@ -102,13 +103,12 @@ const Row = memo(function ({ row, i }: RowProps) {
   return (
     <tr>
       {row.map((cell: ICell, j: number) => (
-        <Cell cell={cell} key={j} i={i} j={j} />
+        <Cell cell={cell} key={cell.uuid} i={i} j={j} />
       ))}
     </tr>
   )
 })
 
-// TODO: Memo 적용 , equalProps custom
 const Cell = memo(function ({ cell, i, j }: CellProps) {
   const { value, ...cellStyle } = cell
   const { border, ...baseDivStyle } = cellStyle

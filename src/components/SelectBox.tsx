@@ -1,9 +1,6 @@
 import { EditorContext } from '@/context'
-import { useDebounce } from '@/hooks/useDebounce'
-import { blockDragEvent } from '@/utils/EventUtils'
 import { Input } from 'antd'
 import { useContext } from 'react'
-import * as O from '@/utils/option'
 
 export function SelectBox() {
   const { cells, changeCell, selected, selectBoxInfo } = useContext(EditorContext)

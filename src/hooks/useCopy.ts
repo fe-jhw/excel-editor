@@ -1,4 +1,4 @@
-import { defaultCell } from '@/constants/SheetConstants'
+import { defaultCell, getDefaultCell } from '@/constants/SheetConstants'
 import { ICell, SelectedArea } from '@/types'
 import { getMinMaxIj } from '@/utils/SheetUtils'
 import produce from 'immer'
@@ -59,12 +59,12 @@ export const useCopy = ({ selectedAreaSorted, selectArea, cells, setCell, setCel
     const nextCells = produce(cells, draft => {
       for (let i = _si; i <= _ei; i++) {
         if (i >= draft.length) {
-          draft.push(new Array(draft[0].length).fill(defaultCell))
+          draft.push(new Array(draft[0].length).fill(getDefaultCell()))
         }
         for (let j = _sj; j <= _ej; j++) {
           if (j >= draft[i].length) {
             for (let i = 0; i < draft.length; i++) {
-              draft[i].push(defaultCell)
+              draft[i].push(getDefaultCell())
             }
           }
           draft[i][j] = copyInfo.cells[i - si][j - sj]
@@ -75,7 +75,7 @@ export const useCopy = ({ selectedAreaSorted, selectArea, cells, setCell, setCel
         const [_si, _sj, _ei, _ej] = getMinMaxIj(si, sj, ei, ej)
         for (let i = _si; i <= _ei; i++) {
           for (let j = _sj; j <= _ej; j++) {
-            draft[i][j] = defaultCell
+            draft[i][j] = { ...defaultCell, uuid: draft[i][j].uuid }
           }
         }
         setCopyInfo(prev => ({ ...prev, status: 'empty' }))

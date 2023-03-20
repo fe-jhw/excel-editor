@@ -12,6 +12,7 @@ export interface ICell {
   textAlign?: TextAlign
   format?: Format
   function?: string
+  uuid: string
 }
 
 export type Format = 'general' | 'number' | 'money' | 'account' | 'percentage'
