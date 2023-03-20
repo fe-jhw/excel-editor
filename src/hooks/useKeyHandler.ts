@@ -5,7 +5,8 @@ type Dirs = 'Down' | 'Up' | 'Left' | 'Right'
 type ArrowKeys = `Arrow${Dirs}`
 
 export const useKeyHandler = () => {
-  const { selected, selectArea, selectCell } = useContext(EditorContext)
+  const { selected, selectArea, selectCell, redo, undo, canRedo, canUndo, copySelectedArea, paste } =
+    useContext(EditorContext)
 
   // TODO: 보이는 곳 밖으로 나갈시에 scroll 시켜야함
   const onArrowKey: KeyboardEventHandler = useCallback(
@@ -20,11 +21,50 @@ export const useKeyHandler = () => {
     [selectArea, selectCell, selected]
   )
 
-  const onCopy: KeyboardEventHandler = useCallback(e => {}, [])
-  const onCut: KeyboardEventHandler = useCallback(e => {}, [])
-  const onPaste: KeyboardEventHandler = useCallback(e => {}, [])
-  const onUndo: KeyboardEventHandler = useCallback(e => {}, [])
-  const onRedo: KeyboardEventHandler = useCallback(e => {}, [])
+  const onCopy: KeyboardEventHandler = useCallback(
+    e => {
+      if (e.key === 'c' && e.ctrlKey) {
+        copySelectedArea('copy')
+      }
+    },
+    [copySelectedArea]
+  )
+  const onCut: KeyboardEventHandler = useCallback(
+    e => {
+      if (e.key === 'x' && e.ctrlKey) {
+        copySelectedArea('cut')
+      }
+    },
+    [copySelectedArea]
+  )
+  const onPaste: KeyboardEventHandler = useCallback(
+    e => {
+      if (e.key === 'v' && e.ctrlKey) {
+        paste()
+      }
+    },
+    [paste]
+  )
+  const onUndo: KeyboardEventHandler = useCallback(
+    e => {
+      if (e.key === 'z' && e.ctrlKey) {
+        if (canUndo) {
+          undo()
+        }
+      }
+    },
+    [canUndo, undo]
+  )
+  const onRedo: KeyboardEventHandler = useCallback(
+    e => {
+      if (e.key === 'y' && e.ctrlKey) {
+        if (canRedo) {
+          redo()
+        }
+      }
+    },
+    [canRedo, redo]
+  )
   return { onArrowKey, onCopy, onCut, onPaste, onUndo, onRedo }
 }
 

@@ -43,7 +43,7 @@ const baseCellStyle = {
 export function Sheet() {
   const { selectedArea, cells, onCellClick, onCellDragStart, onCellDragging, onCellDragEnd } = useContext(EditorContext)
   const { contextMenu, onContextMenu } = useContextMenu()
-  const { onArrowKey } = useKeyHandler()
+  const { onArrowKey, onRedo, onUndo, onCopy, onCut, onPaste } = useKeyHandler()
   const onSheetMouseDown = useCallback(
     (e: MouseEvent) => {
       if (isMouseDownContextMenu(e)) {
@@ -68,7 +68,14 @@ export function Sheet() {
       onMouseDown={onSheetMouseDown}
       onMouseOver={onCellDragging}
       onMouseUp={onCellDragEnd}
-      onKeyDown={onArrowKey}
+      onKeyDown={e => {
+        onArrowKey(e)
+        onRedo(e)
+        onUndo(e)
+        onCopy(e)
+        onCut(e)
+        onPaste(e)
+      }}
       {...blockDragEvent}
       tabIndex={-1}
     >
