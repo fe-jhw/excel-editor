@@ -1,5 +1,6 @@
-import { defaultCellHeight, defaultCellWidth } from '@/constants/SheetConstants'
-import { Format, Selected, SelectedArea } from '@/types/Cell'
+import { defaultCell, defaultCellHeight, defaultCellWidth } from '@/constants/SheetConstants'
+import { Format, ICell, Selected, SelectedArea, TextAlign } from '@/types/Cell'
+import uuid from 'react-uuid'
 
 function addComma(number: string) {
   const parts = number.toString().split('.')
@@ -115,4 +116,44 @@ export function getMinMaxIj(
   const _ei = Math.max(si, ei)
   const _ej = Math.max(sj, ej)
   return [_si, _sj, _ei, _ej]
+}
+
+export class CCell implements ICell {
+  value: string
+  fontSize?: number
+  fontFamily?: string
+  fontWeight?: string | number
+  fontStyle?: string
+  border?: string
+  textDecoration?: string
+  color?: string
+  backgroundColor?: string
+  verticalAlign?: string
+  textAlign?: TextAlign
+  format?: Format
+  function?: string
+  uuid: string
+
+  constructor(
+    value = defaultCell.value,
+    fontSize = defaultCell.fontSize,
+    fontFamily = defaultCell.fontFamily,
+    format = defaultCell.format,
+    border = defaultCell.border,
+    backgroundColor = defaultCell.backgroundColor,
+    color = defaultCell.color,
+    textAlign = defaultCell.textAlign,
+    verticalAlign = defaultCell.verticalAlign
+  ) {
+    this.value = value
+    this.fontSize = fontSize
+    this.fontFamily = fontFamily
+    this.format = format
+    this.border = border
+    this.backgroundColor = backgroundColor
+    this.color = color
+    this.textAlign = textAlign
+    this.verticalAlign = verticalAlign
+    this.uuid = uuid()
+  }
 }

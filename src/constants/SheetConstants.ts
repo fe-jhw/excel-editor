@@ -1,6 +1,7 @@
 import { ICell, Selected, SelectBoxInfo, SelectAreaInfo, Format, TextAlign } from '@/types'
 import { fontFamiles } from './ToolBoxConstants'
 import uuid from 'react-uuid'
+import { CCell } from '@/utils/SheetUtils'
 
 export const defaultCell: Omit<ICell, 'uuid'> = {
   value: '',
@@ -12,46 +13,6 @@ export const defaultCell: Omit<ICell, 'uuid'> = {
   color: 'black',
   textAlign: 'left',
   verticalAlign: 'middle',
-}
-
-export class CCell implements ICell {
-  value: string
-  fontSize?: number
-  fontFamily?: string
-  fontWeight?: string | number
-  fontStyle?: string
-  border?: string
-  textDecoration?: string
-  color?: string
-  backgroundColor?: string
-  verticalAlign?: string
-  textAlign?: TextAlign
-  format?: Format
-  function?: string
-  uuid: string
-
-  constructor(
-    value = defaultCell.value,
-    fontSize = defaultCell.fontSize,
-    fontFamily = defaultCell.fontFamily,
-    format = defaultCell.format,
-    border = defaultCell.border,
-    backgroundColor = defaultCell.backgroundColor,
-    color = defaultCell.color,
-    textAlign = defaultCell.textAlign,
-    verticalAlign = defaultCell.verticalAlign
-  ) {
-    this.value = value
-    this.fontSize = fontSize
-    this.fontFamily = fontFamily
-    this.format = format
-    this.border = border
-    this.backgroundColor = backgroundColor
-    this.color = color
-    this.textAlign = textAlign
-    this.verticalAlign = verticalAlign
-    this.uuid = uuid()
-  }
 }
 
 export const getDefaultCell = () => {

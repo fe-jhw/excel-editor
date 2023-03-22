@@ -1,7 +1,7 @@
 import { ICell } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
 import produce from 'immer'
-import { CCell, defaultCell, defaultCells, getDefaultCell, getDefaultRow } from '@/constants/SheetConstants'
+import { defaultCell, defaultCells, getDefaultCell, getDefaultRow } from '@/constants/SheetConstants'
 import { getMinMaxIj, isInRange } from '@/utils/SheetUtils'
 import * as O from '@/utils/option'
 import { useHistory, UseHistoryReturns } from './useHistory'
