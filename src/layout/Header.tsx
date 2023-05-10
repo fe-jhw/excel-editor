@@ -1,6 +1,8 @@
 import { Input, Dropdown, Button, Divider } from 'antd'
 import type { MenuProps } from 'antd'
-import { useState } from 'react'
+import { ChangeEvent, ReactEventHandler, useCallback, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { fileState } from '@/data/store'
 export function Header() {
   return (
     <div className="header">
@@ -11,12 +13,20 @@ export function Header() {
 }
 
 function TitleBar() {
-  const [title, setTitle] = useState('')
+  const [file, setFile] = useRecoilState(fileState)
+
+  const onChangeTitle = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setFile(prev => ({ ...prev, title: e.target.value }))
+    },
+    [setFile]
+  )
+
   return (
     <div className="titlebar">
       <Input
-        value={title}
-        onChange={e => setTitle(e.target.value)}
+        value={file.title}
+        onChange={onChangeTitle}
         placeholder="제목을 입력해주세요."
         bordered={false}
         style={{

@@ -1,4 +1,4 @@
-import { defaultSelectBoxInfo, defaultCellHeight, defaultCellWidth } from '@/constants/SheetConstants'
+import { defaultSelectBoxInfo, defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
 import { ReactEventHandler, useState, useEffect } from 'react'
 import { Selected, SelectBoxInfo } from '@/types'
 import { parseCellId } from '@/utils/SheetUtils'

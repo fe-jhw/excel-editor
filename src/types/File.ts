@@ -6,7 +6,7 @@ export interface ISheet {
 }
 
 export interface IFile {
-  title: string | null
+  title: string
   sheets: ISheet[]
   currentSheetIdx: number
 }

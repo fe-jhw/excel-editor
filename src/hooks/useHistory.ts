@@ -1,5 +1,5 @@
 import { useDebounce } from '@/hooks/useDebounce'
-import { defaultCells } from '@/constants/SheetConstants'
+import { defaultCells } from '@/data/SheetConstants'
 import { ICell } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
 

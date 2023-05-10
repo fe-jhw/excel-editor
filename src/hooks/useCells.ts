@@ -1,10 +1,12 @@
 import { ICell } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
 import produce from 'immer'
-import { defaultCell, defaultCells, getDefaultCell, getDefaultRow } from '@/constants/SheetConstants'
+import { defaultCell, defaultCells, getDefaultCell, getDefaultRow } from '@/data/SheetConstants'
 import { getMinMaxIj, isInRange } from '@/utils/SheetUtils'
 import * as O from '@/utils/option'
 import { useHistory, UseHistoryReturns } from './useHistory'
+import { useRecoilState } from 'recoil'
+import { fileState } from '@/data/store'
 
 export interface UseCellsReturns extends UseHistoryReturns {
   cells: ICell[][]
@@ -20,6 +22,7 @@ export interface UseCellsReturns extends UseHistoryReturns {
   deleteRows: DeleteRows
   deleteShiftUp: DeleteShiftUp
   deleteShiftLeft: DeleteShiftLeft
+  changeSheet: ChangeSheet
 }
 
 type InsertCol = (col: number) => void
@@ -31,10 +34,28 @@ type DeleteShiftLeft = DeleteShiftUp
 type ChangeCell = (i: number, j: number, changes: Partial<ICell>) => void
 type ChangeCells = (si: number, sj: number, ei: number, ej: number, changes: Partial<ICell>) => void
 type SetCell = (i: number, j: number, cell: ICell) => void
+type ChangeSheet = (sheetIdx: number) => void
 
 export const useCells = (): UseCellsReturns => {
+  const [file, setFile] = useRecoilState(fileState)
   const [cells, setCells] = useState<ICell[][]>(defaultCells)
   const { canRedo, canUndo, redo, undo, addHistory, addHistoryWithDebounce } = useHistory({ setCells })
+
+  useEffect(() => {
+    setCells(file.sheets[file.currentSheetIdx].cells)
+  }, [file.currentSheetIdx, file.sheets])
+
+  const changeSheet: ChangeSheet = useCallback(
+    sheetIdx => {
+      setFile(prev =>
+        produce(prev, draft => {
+          draft.sheets[draft.currentSheetIdx].cells = cells
+          draft.currentSheetIdx = sheetIdx
+        })
+      )
+    },
+    [setFile, cells]
+  )
 
   const changeCell: ChangeCell = (i, j, changes) => {
     const nextCells = produce(cells, draft => {
@@ -203,5 +224,6 @@ export const useCells = (): UseCellsReturns => {
     undo,
     addHistory,
     addHistoryWithDebounce,
+    changeSheet,
   }
 }

@@ -18,38 +18,15 @@ export const EditorContext = createContext<IEditorContext>({} as IEditorContext)
 EditorContext.displayName = 'EditorContext'
 
 export const EditorProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    cells,
-    changeCell,
-    changeCells,
-    setCell,
-    setCells,
-    insertRowAbove,
-    insertRowBelow,
-    insertColLeft,
-    insertColRight,
-    deleteCols,
-    deleteRows,
-    deleteShiftLeft,
-    deleteShiftUp,
-    canRedo,
-    canUndo,
-    redo,
-    undo,
-    addHistory,
-    addHistoryWithDebounce,
-  } = useCells()
-  const { selected, selectCell, selectBoxInfo, onCellClick } = useSelectBox()
-  const {
-    selectedArea,
-    selectedAreaSorted,
-    selectArea,
-    selectAreaInfo,
-    onCellDragStart,
-    onCellDragging,
-    onCellDragEnd,
-  } = useSelectArea()
-  const { copyInfo, copySelectedArea, paste, isSomethingCopied } = useCopy({
+  const useCellsReturns = useCells()
+  const useSelectBoxReturns = useSelectBox()
+  const useSelectAreaReturns = useSelectArea()
+
+  const { cells, setCell, setCells, changeCell, changeCells } = useCellsReturns
+  const { selected } = useSelectBoxReturns
+  const { selectedArea, selectArea, selectedAreaSorted } = useSelectAreaReturns
+
+  const useCopyReturns = useCopy({
     selectedAreaSorted,
     selectArea,
     cells,
@@ -78,44 +55,14 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
   return (
     <EditorContext.Provider
       value={{
-        cells,
-        changeCell,
-        changeCells,
-        setCell,
-        setCells,
+        ...useCellsReturns,
+        ...useSelectBoxReturns,
+        ...useSelectAreaReturns,
+        ...useCopyReturns,
         changeSelectedCells,
-        insertRowAbove,
-        insertRowBelow,
-        insertColLeft,
-        insertColRight,
-        deleteCols,
-        deleteRows,
-        deleteShiftLeft,
-        deleteShiftUp,
-        canRedo,
-        canUndo,
-        redo,
-        undo,
-        addHistory,
-        addHistoryWithDebounce,
-        selected,
         selectedCell,
-        selectCell,
-        selectBoxInfo,
-        onCellClick,
-        selectedArea,
-        selectedAreaSorted,
-        selectArea,
-        selectAreaInfo,
-        onCellDragStart,
-        onCellDragging,
-        onCellDragEnd,
         activeColRange,
         activeRowRange,
-        copySelectedArea,
-        copyInfo,
-        paste,
-        isSomethingCopied,
       }}
     >
       {children}

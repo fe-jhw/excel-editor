@@ -1,4 +1,4 @@
-import { defaultCell, defaultCellHeight, defaultCellWidth } from '@/constants/SheetConstants'
+import { defaultCell, defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
 import { Format, ICell, Selected, SelectedArea, TextAlign } from '@/types/Cell'
 import uuid from 'react-uuid'
 

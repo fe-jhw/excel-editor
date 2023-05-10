@@ -27,10 +27,10 @@ import {
   FieldBinaryOutlined,
   DollarOutlined,
 } from '@ant-design/icons'
-import { fontFamiles, formats } from '@/constants/ToolBoxConstants'
+import { fontFamiles, formats } from '@/data/ToolBoxConstants'
 import { EditorContext } from '@/context'
 import * as O from '@/utils/option'
-import { defaultCell, MAX_FONT_SIZE, MIN_FONT_SIZE } from '@/constants/SheetConstants'
+import { defaultCell, MAX_FONT_SIZE, MIN_FONT_SIZE } from '@/data/SheetConstants'
 import { ToggleButton, CellStylePicker, TableStylePicker } from '@/components'
 
 const { Option } = Select

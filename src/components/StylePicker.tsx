@@ -1,4 +1,4 @@
-import { styles } from '@/constants/ToolBoxConstants'
+import { styles } from '@/data/ToolBoxConstants'
 import { EditorContext } from '@/context'
 import produce from 'immer'
 import { useCallback, useContext } from 'react'

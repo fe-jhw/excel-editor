@@ -1,6 +1,5 @@
 import { Toolbar, Functionbar, Sheet } from '@/components'
 import { HistoryBox } from '@/components/HistoryBox'
-import { EditorProvider } from '@/context'
 import { useEffect } from 'react'
 
 export function Editor() {
@@ -32,12 +31,10 @@ export function Editor() {
 
   return (
     <div>
-      <EditorProvider>
-        <HistoryBox />
-        <Toolbar />
-        <Functionbar />
-        <Sheet />
-      </EditorProvider>
+      <HistoryBox />
+      <Toolbar />
+      <Functionbar />
+      <Sheet />
     </div>
   )
 }

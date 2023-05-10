@@ -1,4 +1,4 @@
-import { defaultCell, getDefaultCell } from '@/constants/SheetConstants'
+import { defaultCell, getDefaultCell } from '@/data/SheetConstants'
 import { ICell, SelectedArea } from '@/types'
 import { getMinMaxIj } from '@/utils/SheetUtils'
 import produce from 'immer'
