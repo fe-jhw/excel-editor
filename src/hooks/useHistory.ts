@@ -23,10 +23,10 @@ export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => 
   const [historyInfo, setHistoryInfo] = useState<HistoryInfo>({ stack: [getDefaultCells(30, 30)], curIdx: 0 })
   // cells가 변경될때마다 addhistory한다. redo undo일때 제외하고
 
-  useEffect(() => {
-    console.log('---historyInfo---')
-    console.log(historyInfo)
-  }, [historyInfo])
+  // useEffect(() => {
+  //   console.log('---historyInfo---')
+  //   console.log(historyInfo)
+  // }, [historyInfo])
 
   const addHistory = useCallback(
     (history: History) => {

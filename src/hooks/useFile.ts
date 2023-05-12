@@ -38,7 +38,7 @@ export const useFile = ({
   useEffect(() => {
     // 시트 바뀔 시 해당 시트의 정보를 불러온다.
     const curSheet = file.sheets[file.currentSheetIdx]
-    console.log(`current sheet: ${curSheet.title}`)
+    // console.log(`current sheet: ${curSheet.title}`)
     // 1. cells
     setCells(curSheet.cells)
     // 2. history
