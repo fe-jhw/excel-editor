@@ -1,4 +1,11 @@
-import { defaultCell, defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
+import {
+  defaultCell,
+  defaultCellHeight,
+  defaultCellWidth,
+  defaultSelected,
+  defaultSelectedArea,
+} from '@/data/SheetConstants'
+import { ISheet } from '@/types'
 import { Format, ICell, Selected, SelectedArea, TextAlign } from '@/types/Cell'
 import uuid from 'react-uuid'
 
@@ -156,4 +163,27 @@ export class CCell implements ICell {
     this.verticalAlign = verticalAlign
     this.uuid = uuid()
   }
+}
+
+export function getEmptySheet(sheetNumber: number): ISheet {
+  return {
+    title: `Sheet ${sheetNumber}`,
+    cells: getDefaultCells(30, 30),
+    historyInfo: { stack: [], curIdx: -1 },
+    scrollPosition: { x: 0, y: 0 },
+    selected: defaultSelected,
+    selectedArea: defaultSelectedArea,
+  }
+}
+
+export const getDefaultCell = () => {
+  return new CCell()
+}
+
+export const getDefaultRow = (length: number) => {
+  return new Array(length).fill({}).map(_ => getDefaultCell())
+}
+
+export const getDefaultCells = (rowLen: number, colLen: number) => {
+  return new Array(rowLen).fill({}).map(_ => getDefaultRow(colLen))
 }

@@ -1,15 +1,12 @@
 import { IFile } from '@/types'
+import { getEmptySheet } from '@/utils/SheetUtils'
 import { atom } from 'recoil'
-import { defaultCells } from './SheetConstants'
 
 export const fileState = atom<IFile>({
   key: 'fileState',
   default: {
     title: '',
-    sheets: [
-      { title: 'Sheet 1', cells: defaultCells },
-      { title: 'Sheet 2', cells: defaultCells },
-    ],
+    sheets: [getEmptySheet(1), getEmptySheet(2)],
     currentSheetIdx: 0,
   },
 })

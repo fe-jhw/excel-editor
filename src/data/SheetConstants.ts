@@ -1,7 +1,6 @@
 import { ICell, Selected, SelectBoxInfo, SelectAreaInfo, Format, TextAlign } from '@/types'
 import { fontFamiles } from './ToolBoxConstants'
 import uuid from 'react-uuid'
-import { CCell } from '@/utils/SheetUtils'
 
 export const defaultCell: Omit<ICell, 'uuid'> = {
   value: '',
@@ -15,20 +14,6 @@ export const defaultCell: Omit<ICell, 'uuid'> = {
   verticalAlign: 'middle',
 }
 
-export const getDefaultCell = () => {
-  return new CCell()
-}
-
-export const getDefaultRow = (length: number) => {
-  return new Array(length).fill({}).map(_ => getDefaultCell())
-}
-
-export const getDefaultCells = (rowLen: number, colLen: number) => {
-  return new Array(rowLen).fill({}).map(_ => getDefaultRow(colLen))
-}
-
-export const defaultCells: ICell[][] = getDefaultCells(30, 30)
-
 export const defaultCellHeight = 28
 export const defaultCellWidth = 50
 
@@ -39,7 +24,16 @@ export const defaultSelectBoxInfo: SelectBoxInfo = {
   left: defaultCellWidth,
 }
 
+export const defaultSelected: Selected = { i: 0, j: 0 }
 export const defaultSelectAreaInfo: SelectAreaInfo = defaultSelectBoxInfo
+
+export const defaultSelectedArea = {
+  si: 0,
+  sj: 0,
+  ei: 0,
+  ej: 0,
+  active: true,
+}
 
 export const MAX_FONT_SIZE = 409
 export const MIN_FONT_SIZE = 1

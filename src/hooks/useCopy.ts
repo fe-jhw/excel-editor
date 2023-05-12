@@ -1,6 +1,6 @@
-import { defaultCell, getDefaultCell } from '@/data/SheetConstants'
+import { getDefaultCell, getMinMaxIj } from '@/utils/SheetUtils'
+import { defaultCell } from '@/data/SheetConstants'
 import { ICell, SelectedArea } from '@/types'
-import { getMinMaxIj } from '@/utils/SheetUtils'
 import produce from 'immer'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 

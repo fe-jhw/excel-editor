@@ -5,8 +5,14 @@ import { useSelectArea, UseSelectAreaReturns } from '@/hooks/useSelectArea'
 import { getActiveColumnRange, getActiveRowRange, getMinMaxIj } from '@/utils/SheetUtils'
 import { useCells, UseCellsReturns } from '@/hooks/useCells'
 import { useCopy, UseCopyReturns } from '@/hooks/useCopy'
+import { useFile, UseFileReturns } from '@/hooks/useFile'
 
-interface IEditorContext extends UseSelectBoxReturns, UseSelectAreaReturns, UseCellsReturns, UseCopyReturns {
+interface IEditorContext
+  extends UseSelectBoxReturns,
+    UseSelectAreaReturns,
+    UseCellsReturns,
+    UseCopyReturns,
+    UseFileReturns {
   cells: ICell[][]
   selectedCell: ICell
   activeColRange: [number, number]
@@ -22,8 +28,8 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
   const useSelectBoxReturns = useSelectBox()
   const useSelectAreaReturns = useSelectArea()
 
-  const { cells, setCell, setCells, changeCell, changeCells } = useCellsReturns
-  const { selected } = useSelectBoxReturns
+  const { cells, setCell, setCells, changeCell, changeCells, historyInfo, setHistoryInfo } = useCellsReturns
+  const { selected, selectCell } = useSelectBoxReturns
   const { selectedArea, selectArea, selectedAreaSorted } = useSelectAreaReturns
 
   const useCopyReturns = useCopy({
@@ -32,6 +38,17 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
     cells,
     setCell,
     setCells,
+  })
+
+  const useFileReturns = useFile({
+    cells,
+    setCells,
+    historyInfo,
+    setHistoryInfo,
+    selected,
+    selectCell,
+    selectArea,
+    selectedArea,
   })
 
   const changeSelectedCells = useCallback(
@@ -59,6 +76,7 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
         ...useSelectBoxReturns,
         ...useSelectAreaReturns,
         ...useCopyReturns,
+        ...useFileReturns,
         changeSelectedCells,
         selectedCell,
         activeColRange,

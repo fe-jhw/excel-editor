@@ -1,6 +1,6 @@
 import { EditorContext } from '@/context'
-import { defaultCells } from '@/data/SheetConstants'
 import { fileState } from '@/data/store'
+import { getEmptySheet } from '@/utils/SheetUtils'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { Tabs, Button } from 'antd'
 import produce from 'immer'
@@ -21,15 +21,15 @@ export function Footer() {
   })
 
   const onTabDoubleClick = useCallback(
-    (e: MouseEvent<HTMLSpanElement>) => {
-      if (!(e.target instanceof HTMLSpanElement)) {
-        return
-      }
-      setEditInfo({
-        editing: true,
-        targetId: e.target.dataset['id'],
-      })
-      console.dir(e.target)
+    (i: number, e: MouseEvent<HTMLSpanElement>) => {
+      //     if (!(e.target instanceof HTMLSpanElement)) {
+      //       return
+      //     }
+      //     setEditInfo({
+      //       editing: true,
+      //       targetId: e.target.dataset['id'],
+      //     })
+      //     console.dir(e.target)
     },
     [setEditInfo]
   )
@@ -38,10 +38,7 @@ export function Footer() {
     setFile(prev =>
       produce(prev, draft => {
         const newSheetNumber = draft.sheets.length + 1
-        draft.sheets.push({
-          title: `Sheet ${newSheetNumber}`,
-          cells: defaultCells,
-        })
+        draft.sheets.push(getEmptySheet(newSheetNumber))
       })
     )
   }, [setFile])

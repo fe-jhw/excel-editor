@@ -1,7 +1,7 @@
 import { parseCellId, getCellRectInfo, getAreaRect } from '@/utils/SheetUtils'
-import { ReactEventHandler, useState, useEffect, useRef, useMemo } from 'react'
+import { ReactEventHandler, useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { SelectedArea, SelectAreaInfo } from '@/types'
-import { defaultSelectAreaInfo, defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
+import { defaultSelectAreaInfo, defaultCellHeight, defaultCellWidth, defaultSelectedArea } from '@/data/SheetConstants'
 
 export interface UseSelectAreaReturns {
   selectedArea: SelectedArea
@@ -14,13 +14,7 @@ export interface UseSelectAreaReturns {
 }
 
 export const useSelectArea = (): UseSelectAreaReturns => {
-  const [selectedArea, setSelectedArea] = useState<SelectedArea>({
-    si: 0,
-    sj: 0,
-    ei: 0,
-    ej: 0,
-    active: false,
-  })
+  const [selectedArea, setSelectedArea] = useState<SelectedArea>(defaultSelectedArea)
   const [selectAreaInfo, setSelectAreaInfo] = useState<SelectAreaInfo>(defaultSelectAreaInfo)
   const isDragging = useRef(false)
 
@@ -32,7 +26,7 @@ export const useSelectArea = (): UseSelectAreaReturns => {
     }
   }, [selectedArea])
 
-  const selectArea = (selectedArea: SelectedArea) => setSelectedArea(selectedArea)
+  const selectArea = useCallback((selectedArea: SelectedArea) => setSelectedArea(selectedArea), [setSelectedArea])
 
   const onCellDragStart: ReactEventHandler = e => {
     isDragging.current = true
