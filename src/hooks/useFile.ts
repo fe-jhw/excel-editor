@@ -46,7 +46,7 @@ export const useFile = ({
     // 3. 스크롤 위치
     const domSheet = document.querySelector('.sheet')
     const { x, y } = curSheet.scrollPosition
-    domSheet?.scrollTo({ top: y, left: x })
+    domSheet?.scrollTo({ top: y, left: x, behavior: 'smooth' })
     // 4. 셀렉트 박스 정보
     selectCell(curSheet.selected)
     // 5. 셀렉트 에어리어 정보

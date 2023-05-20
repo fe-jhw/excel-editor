@@ -167,7 +167,7 @@ export class CCell implements ICell {
 
 export function getEmptySheet(sheetNumber: number): ISheet {
   return {
-    title: `Sheet ${sheetNumber}`,
+    title: `Sheet${sheetNumber}`,
     cells: getDefaultCells(30, 30),
     historyInfo: { stack: [], curIdx: -1 },
     scrollPosition: { x: 0, y: 0 },

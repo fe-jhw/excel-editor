@@ -9,7 +9,6 @@ export function Toolbar() {
       <FormatBox />
       <StyleBox />
       <CellBox />
-      <EditBox />
     </div>
   )
 }

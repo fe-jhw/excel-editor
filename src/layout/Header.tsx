@@ -38,48 +38,43 @@ function TitleBar() {
   )
 }
 
-const docsBarTitles = ['파일', '편집', '보기', '삽입', '형식', '데이터'] as const
+const docsBarTitles = ['제작자 정보'] as const
 
 type DocsBarTitles = (typeof docsBarTitles)[number]
 
+function openNewTab(url: string) {
+  window.open(url)
+}
+
 const docsBarItems: { [key in DocsBarTitles]: MenuProps['items'] } = {
-  파일: [
+  '제작자 정보': [
     {
       key: '1',
-      label: '새로 만들기',
+      label: '블로그',
+      onClick: () => {
+        openNewTab('https://hyunwoo12.tistory.com/')
+      },
     },
     {
       key: '2',
-      label: '열기',
+      label: '깃허브',
+      onClick: () => {
+        openNewTab('https://github.com/fe-jhw')
+      },
     },
     {
       key: '3',
-      label: '다운로드',
+      label: '포트폴리오',
+      onClick: () => {
+        openNewTab('https://www.notion.so/a26d72ab9f4041e38897117d3612ad0c')
+      },
     },
   ],
-  편집: [
-    {
-      key: '1',
-      label: '새로 만들기',
-    },
-    {
-      key: '2',
-      label: '열기',
-    },
-    {
-      key: '3',
-      label: '다운로드',
-    },
-  ],
-  보기: [],
-  삽입: [],
-  형식: [],
-  데이터: [],
 }
 
 function DocsBar() {
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '8px' }}>
       {docsBarTitles.map(title => (
         <Dropdown key={title} menu={{ items: docsBarItems[title] }} placement="bottomLeft" trigger={['click']}>
           <Button type="text" style={{ fontSize: '14px', fontWeight: 400 }}>
@@ -87,6 +82,9 @@ function DocsBar() {
           </Button>
         </Dropdown>
       ))}
+      <span style={{ fontSize: '14px' }}>
+        제작: <span style={{ fontWeight: 'bold', color: '#1677ff' }}>정현우</span>
+      </span>
     </div>
   )
 }
