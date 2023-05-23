@@ -24,11 +24,12 @@ export function SelectBox() {
         bordered={false}
         style={{
           position: 'relative',
-          height: cellStyle.fontSize,
+
           marginTop: '0px',
           borderRadius: 0,
           padding: 0,
           ...cellStyle,
+          height: cellStyle.fontSize,
           border: 'none',
         }}
         key={`${i}-${j}}`}

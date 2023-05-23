@@ -22,6 +22,9 @@ export interface HistoryInfo {
   curIdx: number
 }
 
+export type Width = number
+export type Height = number
+
 export interface ScrollPosition {
   x: number
   y: number

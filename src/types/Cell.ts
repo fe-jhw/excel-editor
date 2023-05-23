@@ -1,5 +1,7 @@
 export interface ICell {
   value: string
+  width: number
+  height: number
   fontSize?: number
   fontFamily?: string
   fontWeight?: string | number

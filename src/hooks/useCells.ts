@@ -4,6 +4,7 @@ import produce from 'immer'
 import { getMinMaxIj, isInRange, getDefaultCell, getDefaultRow, getDefaultCells } from '@/utils/SheetUtils'
 import * as O from '@/utils/option'
 import { useHistory, UseHistoryReturns } from './useHistory'
+import { defaultCellCol, defaultCellRow } from '@/data/SheetConstants'
 
 export interface UseCellsReturns extends UseHistoryReturns {
   cells: ICell[][]
@@ -28,11 +29,11 @@ type DeleteRows = DeleteCols
 type DeleteShiftUp = (si: number, sj: number, ei: number, ej: number) => void
 type DeleteShiftLeft = DeleteShiftUp
 type ChangeCell = (i: number, j: number, changes: Partial<ICell>) => void
-type ChangeCells = (si: number, sj: number, ei: number, ej: number, changes: Partial<ICell>) => void
+export type ChangeCells = (si: number, sj: number, ei: number, ej: number, changes: Partial<ICell>) => void
 export type SetCell = (i: number, j: number, cell: ICell) => void
 
 export const useCells = (): UseCellsReturns => {
-  const [cells, setCells] = useState<ICell[][]>(getDefaultCells(30, 30))
+  const [cells, setCells] = useState<ICell[][]>(getDefaultCells(defaultCellCol, defaultCellRow))
   const { canRedo, canUndo, redo, undo, historyInfo, setHistoryInfo, addHistory, addHistoryWithDebounce } = useHistory({
     setCells,
   })

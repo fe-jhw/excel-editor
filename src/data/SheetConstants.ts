@@ -2,8 +2,13 @@ import { ICell, Selected, SelectBoxInfo, SelectAreaInfo, Format, TextAlign } fro
 import { fontFamiles } from './ToolBoxConstants'
 import uuid from 'react-uuid'
 
+export const defaultCellHeight = 28
+export const defaultCellWidth = 50
+
 export const defaultCell: Omit<ICell, 'uuid'> = {
   value: '',
+  width: defaultCellWidth,
+  height: defaultCellHeight,
   fontSize: 11,
   fontFamily: fontFamiles[0].value,
   format: 'general',
@@ -14,8 +19,8 @@ export const defaultCell: Omit<ICell, 'uuid'> = {
   verticalAlign: 'middle',
 }
 
-export const defaultCellHeight = 28
-export const defaultCellWidth = 50
+export const defaultCellRow = 30
+export const defaultCellCol = 30
 
 export const defaultSelectBoxInfo: SelectBoxInfo = {
   width: 0,
@@ -34,6 +39,9 @@ export const defaultSelectedArea = {
   ej: 0,
   active: true,
 }
+
+export const defaultWidths = new Array(defaultCellCol).fill(defaultCellWidth)
+export const defaultHeights = new Array(defaultCellRow).fill(defaultCellHeight)
 
 export const MAX_FONT_SIZE = 409
 export const MIN_FONT_SIZE = 1

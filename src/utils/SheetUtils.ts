@@ -127,6 +127,8 @@ export function getMinMaxIj(
 
 export class CCell implements ICell {
   value: string
+  width: number
+  height: number
   fontSize?: number
   fontFamily?: string
   fontWeight?: string | number
@@ -143,6 +145,8 @@ export class CCell implements ICell {
 
   constructor(
     value = defaultCell.value,
+    width = defaultCell.width,
+    height = defaultCell.height,
     fontSize = defaultCell.fontSize,
     fontFamily = defaultCell.fontFamily,
     format = defaultCell.format,
@@ -153,6 +157,8 @@ export class CCell implements ICell {
     verticalAlign = defaultCell.verticalAlign
   ) {
     this.value = value
+    this.width = width
+    this.height = height
     this.fontSize = fontSize
     this.fontFamily = fontFamily
     this.format = format

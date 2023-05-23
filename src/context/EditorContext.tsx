@@ -6,6 +6,7 @@ import { getActiveColumnRange, getActiveRowRange, getMinMaxIj } from '@/utils/Sh
 import { useCells, UseCellsReturns } from '@/hooks/useCells'
 import { useCopy, UseCopyReturns } from '@/hooks/useCopy'
 import { useFile, UseFileReturns } from '@/hooks/useFile'
+import { useCellAdjuster, UseCellAdjusterReturns } from '@/hooks/useCellAdjuster'
 
 interface IEditorContext
   extends UseSelectBoxReturns,

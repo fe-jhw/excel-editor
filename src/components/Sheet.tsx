@@ -33,11 +33,11 @@ interface CellAutoAdderProps {
 const baseCellStyle = {
   border: '1px solid rgb(218, 220, 224)',
   height: '28px',
-  minHeight: '28px',
-  maxHeight: '28px',
-  minWidth: '50px',
+  // minHeight: '28px',
+  // maxHeight: '28px',
+  // minWidth: '50px',
   width: '50px',
-  maxWidth: '50px',
+  // maxWidth: '50px',
   overflow: 'hidden',
 }
 
@@ -112,6 +112,7 @@ const Row = memo(function ({ row, i }: RowProps) {
 const Cell = memo(function ({ cell, i, j }: CellProps) {
   const { value, ...cellStyle } = cell
   const { border, ...baseDivStyle } = cellStyle
+
   return (
     <td style={{ ...baseCellStyle, ...cellStyle }} id={`${i}-${j}`}>
       <div
