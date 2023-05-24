@@ -1,7 +1,7 @@
 import { ICell } from '@/types'
 import { useContext, useMemo, useState, useCallback, MouseEvent, memo, Fragment } from 'react'
 import { EditorContext } from '@/context'
-import { format, getColumnArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
+import { format, getCellRect, getColumnArr, getLengthArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
 import { isMouseDownContextMenu, blockDragEvent } from '@/utils/EventUtils'
 import { SelectBox, SelectArea, ContextMenu, CopyArea, CellAdjuster } from '@/components'
 import { useContextMenu } from '@/hooks/useContextMenu'
@@ -9,6 +9,7 @@ import { useIntersectionObserverRef } from '@/hooks/useIntersectionObserver'
 import * as O from '@/utils/option'
 import { useKeyHandler } from '@/hooks/useKeyHandler'
 import { AnimatePresence, motion } from 'framer-motion'
+import { defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
 
 interface RowProps {
   row: ICell[]
@@ -22,7 +23,7 @@ interface CellProps {
 }
 
 interface HeaderProps {
-  length: number
+  lengthArr: number[]
 }
 
 interface CellAutoAdderProps {
@@ -63,6 +64,9 @@ export function Sheet() {
     [onCellClick, onCellDragStart, selectedArea]
   )
 
+  const colLengthArr = getLengthArr('col', cells)
+  const rowLengthArr = getLengthArr('row', cells)
+
   return (
     <div
       className="sheet"
@@ -80,9 +84,9 @@ export function Sheet() {
       {...blockDragEvent}
       tabIndex={-1}
     >
-      <ColumnHeader length={cells[0].length} />
+      <ColumnHeader lengthArr={colLengthArr} />
       <div className="sheet-main" onContextMenu={onContextMenu}>
-        <RowHeader length={cells.length} />
+        <RowHeader lengthArr={rowLengthArr} />
         <ContextMenu {...contextMenu} />
         <SelectBox />
         <SelectArea />
@@ -110,11 +114,12 @@ const Row = memo(function ({ row, i }: RowProps) {
 })
 
 const Cell = memo(function ({ cell, i, j }: CellProps) {
-  const { value, ...cellStyle } = cell
+  const { value, width, height, ...cellStyle } = cell
   const { border, ...baseDivStyle } = cellStyle
+  const cellRect = getCellRect(width, height)
 
   return (
-    <td style={{ ...baseCellStyle, ...cellStyle }} id={`${i}-${j}`}>
+    <td style={{ ...baseCellStyle, ...cellStyle, ...cellRect }} id={`${i}-${j}`}>
       <div
         style={{
           ...baseDivStyle,
@@ -134,53 +139,57 @@ const Cell = memo(function ({ cell, i, j }: CellProps) {
   )
 })
 
-const RowHeader = memo(function ({ length }: HeaderProps) {
-  const rowArr = useMemo(() => getRowArr(length), [length])
+const RowHeader = memo(function ({ lengthArr }: HeaderProps) {
   const { activeRowRange } = useContext(EditorContext)
+  const cellRects = lengthArr.map(len => getCellRect(defaultCellWidth, len))
   return (
-    <table
-      className="table-header row-header"
-      onContextMenu={e => {
-        e.stopPropagation()
-      }}
-    >
-      <tbody>
-        {rowArr.map((num, idx) => (
-          <tr key={num}>
-            <td style={baseCellStyle} className={isInRange(idx, activeRowRange) ? 'active' : ''}>
-              {num}
-            </td>
+    <>
+      <table
+        className="table-header row-header"
+        onContextMenu={e => {
+          e.stopPropagation()
+        }}
+      >
+        <tbody>
+          {cellRects.map((rect, idx) => (
+            <tr key={idx}>
+              <td style={{ ...baseCellStyle, ...rect }} className={isInRange(idx, activeRowRange) ? 'active' : ''}>
+                {idx + 1}
+              </td>
+            </tr>
+          ))}
+          <tr>
+            <CellAutoAdder length={lengthArr.length} type="row" />
           </tr>
-        ))}
-        <tr>
-          <CellAutoAdder length={length} type="row" />
-        </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+      <CellAdjuster type="row" />
+    </>
   )
 })
 
-const ColumnHeader = memo(function ({ length }: HeaderProps) {
-  const columnArr = useMemo(() => getColumnArr(length), [length])
+const ColumnHeader = memo(function ({ lengthArr }: HeaderProps) {
   const { activeColRange } = useContext(EditorContext)
+  const cellRects = lengthArr.map(len => getCellRect(len, defaultCellHeight))
+  const selectAllRect = getCellRect(defaultCellWidth, defaultCellHeight)
   return (
     <>
       <table className="table-header column-header">
         <thead>
           <tr>
-            <td className="select-all-btn" style={baseCellStyle}></td>
-            {columnArr.map((num, idx) => (
-              <Fragment key={num}>
-                <td style={baseCellStyle} className={isInRange(idx, activeColRange) ? 'active' : ''}>
-                  {num}
+            <td className="select-all-btn" style={{ ...baseCellStyle, ...selectAllRect }}></td>
+            {cellRects.map((rect, idx) => (
+              <Fragment key={idx}>
+                <td style={{ ...baseCellStyle, ...rect }} className={isInRange(idx, activeColRange) ? 'active' : ''}>
+                  {idx + 1}
                 </td>
               </Fragment>
             ))}
-            <CellAutoAdder length={length} type="col" />
+            <CellAutoAdder length={lengthArr.length} type="col" />
           </tr>
         </thead>
       </table>
-      <CellAdjuster type="col" length={length} />
+      <CellAdjuster type="col" />
     </>
   )
 })

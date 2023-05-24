@@ -193,3 +193,20 @@ export const getDefaultRow = (length: number) => {
 export const getDefaultCells = (rowLen: number, colLen: number) => {
   return new Array(rowLen).fill({}).map(_ => getDefaultRow(colLen))
 }
+
+export const getLengthArr = (type: 'col' | 'row', cells: ICell[][]) => {
+  return type === 'col' ? cells[0].map(({ width }) => width) : cells.map(row => row[0]?.height)
+}
+
+export const getCellRect = (width: number, height: number) => {
+  const pxWidth = `${width}px`
+  const pxHeight = `${height}px`
+  return {
+    height: pxHeight,
+    minHeight: pxHeight,
+    maxHeight: pxHeight,
+    minWidth: pxWidth,
+    width: pxWidth,
+    maxWidth: pxWidth,
+  }
+}

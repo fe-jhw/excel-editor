@@ -22,6 +22,8 @@ export const defaultCell: Omit<ICell, 'uuid'> = {
 export const defaultCellRow = 30
 export const defaultCellCol = 30
 
+export const defaultAdjusterBorderThickness = 20
+
 export const defaultSelectBoxInfo: SelectBoxInfo = {
   width: 0,
   height: 0,

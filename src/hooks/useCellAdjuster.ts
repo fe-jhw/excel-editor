@@ -2,8 +2,9 @@ import { EditorContext } from '@/context'
 import { defaultCellHeight, defaultCellWidth, defaultHeights, defaultWidths } from '@/data/SheetConstants'
 import { Height, ICell, Width } from '@/types'
 import { setDragCursor } from '@/utils/EventUtils'
+import { getLengthArr } from '@/utils/SheetUtils'
 import produce from 'immer'
-import { ReactEventHandler, useCallback, useContext, useRef, useState } from 'react'
+import { ReactEventHandler, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { ChangeCells } from './useCells'
 
 type SetWidth = (idx: number, width: Width) => void
@@ -21,6 +22,13 @@ export interface UseCellAdjusterReturns {
   onBorderDragEnd: DivMouseEventHandler
   lengthArr: number[]
   totalLength: number
+  lineInfo: LineInfo
+}
+
+export interface LineInfo {
+  active: boolean
+  absPos: number
+  type: 'col' | 'row'
 }
 
 type DivMouseEventHandler = React.MouseEventHandler<HTMLDivElement>
@@ -29,8 +37,11 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
   const { cells, changeCells } = useContext(EditorContext)
   const isResizing = useRef(false)
   const adjustInfo = useRef({ originLen: 0, idx: -1, start: 0, end: 0 })
-  // length 대신 각 row,col 너비,높이 담긴 배열이 온다.
-  const lengthArr = type === 'col' ? cells[0].map(({ width }) => width) : cells.map(row => row[0]?.height)
+
+  const [lineInfo, setLineInfo] = useState<LineInfo>({ active: false, absPos: 0, type })
+  const lengthArr = getLengthArr(type, cells)
+
+  // const lengthArr = getLengthArr(type, cells)
   const totalLength =
     (type === 'col' ? defaultCellWidth : defaultCellHeight) +
     lengthArr.reduce((acc, cur) => {
@@ -58,35 +69,41 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
         e.stopPropagation()
         setDragCursor(type)
         isResizing.current = true
-        // console.log(target.getClientRects()[0])
         const { left, top, width, height } = target.getClientRects()[0]
-        // const start = type === 'col' ? e.screenX : e.screenY
         const start = type === 'col' ? left + width / 2 : top + height / 2
         adjustInfo.current.start = start
+        setLineInfo(prev => ({ ...prev, active: true, absPos: start }))
         adjustInfo.current.idx = parseInt(target.dataset['id'] ?? '-1')
         adjustInfo.current.originLen = lengthArr[adjustInfo.current.idx]
       }
     },
     [lengthArr, type]
   )
-  const onBorderDragging: DivMouseEventHandler = useCallback(e => {
-    if (!isResizing.current) {
-      return
-    }
-    e.stopPropagation()
-    console.log('드래그 중!')
-  }, [])
+  const onBorderDragging: DivMouseEventHandler = useCallback(
+    e => {
+      if (!isResizing.current) {
+        return
+      }
+      e.stopPropagation()
+      const absPos = type === 'col' ? e.clientX : e.clientY
+      setLineInfo(prev => ({ ...prev, absPos }))
+    },
+    [type]
+  )
   const onBorderDragEnd: DivMouseEventHandler = useCallback(
     e => {
       e.stopPropagation()
+      if (isResizing.current === false) {
+        return
+      }
       setDragCursor('empty')
       isResizing.current = false
       console.log('드래그 끝!')
-      const end = type === 'col' ? e.screenX : e.screenY
+      const end = type === 'col' ? e.clientX : e.clientY
+      setLineInfo(prev => ({ ...prev, active: false, absPos: end }))
       adjustInfo.current.end = end
 
       const diff = adjustInfo.current.end - adjustInfo.current.start
-      // console.log(adjustInfo.current.originLen, diff)
       if (type === 'col') {
         setWidth(adjustInfo.current.idx, adjustInfo.current.originLen + diff)
       } else {
@@ -104,5 +121,6 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
     onBorderDragEnd,
     lengthArr,
     totalLength,
+    lineInfo,
   }
 }
