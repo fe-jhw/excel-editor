@@ -170,15 +170,17 @@ body {
   }
   .cell-adjuster-line {
     position: absolute;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.3);
     z-index: 123456789;
     &.row {
-      width: 100%;
+      width: calc(100% + #{$base-cell-width});
       height: 1px;
+      left: -($base-cell-width);
     }
     &.col {
       width: 1px;
-      height: 100%;
+      height: calc(100% + #{$base-cell-height});
+      top: -($base-cell-height)
     }
   }
   .cell-adjuster {

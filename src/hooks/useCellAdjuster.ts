@@ -70,6 +70,7 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
         setDragCursor(type)
         isResizing.current = true
         const { left, top, width, height } = target.getClientRects()[0]
+        console.log(left, top, width, height)
         const start = type === 'col' ? left + width / 2 : top + height / 2
         adjustInfo.current.start = start
         setLineInfo(prev => ({ ...prev, active: true, absPos: start }))
@@ -85,7 +86,9 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
         return
       }
       e.stopPropagation()
+      // console.dir(e)
       const absPos = type === 'col' ? e.clientX : e.clientY
+      console.dir(e.nativeEvent)
       setLineInfo(prev => ({ ...prev, absPos }))
     },
     [type]

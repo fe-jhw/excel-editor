@@ -1,7 +1,16 @@
 import { ICell } from '@/types'
 import { useContext, useMemo, useState, useCallback, MouseEvent, memo, Fragment } from 'react'
 import { EditorContext } from '@/context'
-import { format, getCellRect, getColumnArr, getLengthArr, getRowArr, isInRange, parseCellId } from '@/utils/SheetUtils'
+import {
+  changeNumToAlphabet,
+  format,
+  getCellRect,
+  getColumnArr,
+  getLengthArr,
+  getRowArr,
+  isInRange,
+  parseCellId,
+} from '@/utils/SheetUtils'
 import { isMouseDownContextMenu, blockDragEvent } from '@/utils/EventUtils'
 import { SelectBox, SelectArea, ContextMenu, CopyArea, CellAdjuster } from '@/components'
 import { useContextMenu } from '@/hooks/useContextMenu'
@@ -172,6 +181,9 @@ const ColumnHeader = memo(function ({ lengthArr }: HeaderProps) {
   const { activeColRange } = useContext(EditorContext)
   const cellRects = lengthArr.map(len => getCellRect(len, defaultCellHeight))
   const selectAllRect = getCellRect(defaultCellWidth, defaultCellHeight)
+
+  const columnAlphabets = useMemo(() => getColumnArr(cellRects.length), [cellRects.length])
+
   return (
     <>
       <table className="table-header column-header">
@@ -181,7 +193,7 @@ const ColumnHeader = memo(function ({ lengthArr }: HeaderProps) {
             {cellRects.map((rect, idx) => (
               <Fragment key={idx}>
                 <td style={{ ...baseCellStyle, ...rect }} className={isInRange(idx, activeColRange) ? 'active' : ''}>
-                  {idx + 1}
+                  {columnAlphabets[idx]}
                 </td>
               </Fragment>
             ))}
