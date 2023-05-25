@@ -1,14 +1,15 @@
 import { Toolbar, Functionbar, Sheet } from '@/components'
 import { HistoryBox } from '@/components/HistoryBox'
-import { useEffect } from 'react'
+import { EditorContext } from '@/context'
+import { useContext, useEffect } from 'react'
 
 export function Editor() {
+  const { renewRecoilState } = useContext(EditorContext)
   //TODO: 커스텀훅으로 빼기
   useEffect(() => {
     window.addEventListener(
       'keydown',
       e => {
-        // if you need to filter <input> elements
         switch (e.keyCode) {
           case 37: // left
           case 39: // right
@@ -23,8 +24,7 @@ export function Editor() {
         }
       },
       {
-        capture: true, // this disables arrow key scrolling in modern Chrome
-        // passive: false, // this is optional, my code works without it
+        capture: true,
       }
     )
   }, [])

@@ -18,6 +18,7 @@ interface UseFileProps {
 }
 
 export interface UseFileReturns {
+  renewRecoilState: () => void
   changeSheet: ChangeSheet
 }
 
@@ -53,8 +54,23 @@ export const useFile = ({
     selectArea(curSheet.selectedArea)
   }, [file.currentSheetIdx, file.sheets, setCells, setHistoryInfo, selectCell, selectArea])
 
+  const renewRecoilState = useCallback((): void => {
+    // 현재 작업중인 시트 정보 recoilState에 갱신
+    setFile(prev =>
+      produce(prev, draft => {
+        const prevSheet = draft.sheets[draft.currentSheetIdx]
+        prevSheet.cells = cells
+        prevSheet.historyInfo = historyInfo
+        prevSheet.scrollPosition = getSheetScrollPosition()
+        prevSheet.selected = selected
+        prevSheet.selectedArea = selectedArea
+      })
+    )
+  }, [cells, historyInfo, selected, selectedArea, setFile])
+
   const changeSheet: ChangeSheet = useCallback(
     sheetIdx => {
+      //TODO: 중복 제거
       setFile(prev =>
         produce(prev, draft => {
           const prevSheet = draft.sheets[draft.currentSheetIdx]
@@ -70,7 +86,7 @@ export const useFile = ({
     [setFile, cells, historyInfo, selected, selectedArea]
   )
 
-  return { changeSheet }
+  return { renewRecoilState, changeSheet }
 }
 
 function getSheetScrollPosition(): ScrollPosition {

@@ -1,8 +1,12 @@
-import { Input, Dropdown, Button, Divider } from 'antd'
+import { Input, Dropdown, Button, Divider, Switch } from 'antd'
 import type { MenuProps } from 'antd'
-import { ChangeEvent, ReactEventHandler, useCallback, useState } from 'react'
+import { ChangeEvent, ReactEventHandler, useCallback, useContext, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { fileState } from '@/data/store'
+import { useToggle } from '@/hooks/useToggle'
+import { useInterval } from '@/hooks/useInterval'
+import { EditorContext } from '@/context'
+import { SaveOutlined, SaveTwoTone } from '@ant-design/icons'
 export function Header() {
   return (
     <div className="header">
@@ -38,7 +42,7 @@ function TitleBar() {
   )
 }
 
-const docsBarTitles = ['제작자 정보'] as const
+const docsBarTitles = ['제작자: 정현우'] as const
 
 type DocsBarTitles = (typeof docsBarTitles)[number]
 
@@ -47,7 +51,7 @@ function openNewTab(url: string) {
 }
 
 const docsBarItems: { [key in DocsBarTitles]: MenuProps['items'] } = {
-  '제작자 정보': [
+  '제작자: 정현우': [
     {
       key: '1',
       label: '블로그',
@@ -73,8 +77,39 @@ const docsBarItems: { [key in DocsBarTitles]: MenuProps['items'] } = {
 }
 
 function DocsBar() {
+  const { renewRecoilState } = useContext(EditorContext)
+  const [autoSave, toggleAutoSave] = useToggle(false)
+  const [lastEditTime, setLastEditTime] = useState(getNow())
+
+  const save = useCallback(() => {
+    renewRecoilState()
+    setLastEditTime(getNow())
+  }, [renewRecoilState])
+
+  useInterval(() => {
+    if (autoSave) {
+      save()
+    }
+  }, 60000)
+
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '8px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginLeft: '8px' }}>
+        <Button type="text" icon={<SaveTwoTone />} onClick={() => save()} />
+        <span className="edit-config-text" style={{ marginRight: '4px', fontSize: '14px' }}>
+          {lastEditTime} 저장됨
+        </span>
+        <Divider type="vertical" />
+        <span className="edit-config-text">자동저장</span>
+        <Switch
+          size="small"
+          style={{ marginLeft: '4px', marginTop: '2px' }}
+          checked={autoSave}
+          onClick={() => {
+            toggleAutoSave()
+          }}
+        />
+      </div>
       {docsBarTitles.map(title => (
         <Dropdown key={title} menu={{ items: docsBarItems[title] }} placement="bottomLeft" trigger={['click']}>
           <Button type="text" style={{ fontSize: '14px', fontWeight: 400 }}>
@@ -82,9 +117,25 @@ function DocsBar() {
           </Button>
         </Dropdown>
       ))}
-      <span style={{ fontSize: '14px' }}>
-        제작: <span style={{ fontWeight: 'bold', color: '#1677ff' }}>정현우</span>
-      </span>
     </div>
   )
+}
+
+function getNow(): string {
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = today.getMonth() + 1
+  const date = today.getDate()
+  const hours = today.getHours()
+
+  const minutes = today.getMinutes()
+  const seconds = today.getSeconds()
+  return `${year}/${month}/${date} ${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`
+}
+
+function formatTime(time: number): string {
+  if (time < 10) {
+    return `0${time}`
+  }
+  return `${time}`
 }
