@@ -79,12 +79,20 @@ const docsBarItems: { [key in DocsBarTitles]: MenuProps['items'] } = {
 function DocsBar() {
   const { renewRecoilState } = useContext(EditorContext)
   const [autoSave, toggleAutoSave] = useToggle(false)
-  const [lastEditTime, setLastEditTime] = useState(getNow())
+  const [file, setFile] = useRecoilState(fileState)
+
+  const { lastEditTime } = file
+  const setLastEditTime = useCallback(
+    (time: string) => {
+      setFile(prev => ({ ...prev, lastEditTime: time }))
+    },
+    [setFile]
+  )
 
   const save = useCallback(() => {
     renewRecoilState()
     setLastEditTime(getNow())
-  }, [renewRecoilState])
+  }, [renewRecoilState, setLastEditTime])
 
   useInterval(() => {
     if (autoSave) {
@@ -97,7 +105,7 @@ function DocsBar() {
       <div style={{ display: 'flex', alignItems: 'center', marginLeft: '8px' }}>
         <Button type="text" icon={<SaveTwoTone />} onClick={() => save()} />
         <span className="edit-config-text" style={{ marginRight: '4px', fontSize: '14px' }}>
-          {lastEditTime} 저장됨
+          {lastEditTime != null ? `${lastEditTime} 저장됨` : `저장되지 않음`}
         </span>
         <Divider type="vertical" />
         <span className="edit-config-text">자동저장</span>

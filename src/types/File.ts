@@ -11,6 +11,7 @@ export interface ISheet {
 
 export interface IFile {
   title: string
+  lastEditTime: string | null
   sheets: ISheet[]
   currentSheetIdx: number
 }
