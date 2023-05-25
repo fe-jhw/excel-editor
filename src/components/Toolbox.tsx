@@ -46,7 +46,7 @@ const SMALL_BTN_WIDTH = 32
 const MIDDLE_BTN_WIDTH = 52
 const SMALL_BTN_HEIGHT = 32
 
-function Toolbox({ firstLayer, secondLayer, title }: ToolboxProps) {
+const Toolbox = memo(({ firstLayer, secondLayer, title }: ToolboxProps) => {
   return (
     <Space direction="vertical" size={SPACE_GAP} align="center" className="toolbox">
       <Space size={SPACE_GAP}>{firstLayer}</Space>
@@ -54,6 +54,18 @@ function Toolbox({ firstLayer, secondLayer, title }: ToolboxProps) {
       <Typography.Text>{title}</Typography.Text>
     </Space>
   )
+})
+
+const Wrapper = ({ children }: { children: ReactNode }) => {
+  return (
+    <Space direction="vertical" size={SPACE_GAP} align="center" className="toolbox">
+      {children}
+    </Space>
+  )
+}
+
+const Layer = ({ children }: { children: ReactNode }) => {
+  return <Space size={SPACE_GAP}>{children}</Space>
 }
 
 export function Fontbox() {
