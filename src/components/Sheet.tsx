@@ -152,7 +152,7 @@ const RowHeader = memo(function ({ lengthArr }: HeaderProps) {
   const { activeRowRange } = useContext(EditorContext)
   const cellRects = lengthArr.map(len => getCellRect(defaultCellWidth, len))
   return (
-    <>
+    <div className="table-header-wrapper row">
       <table
         className="table-header row-header"
         onContextMenu={e => {
@@ -173,7 +173,7 @@ const RowHeader = memo(function ({ lengthArr }: HeaderProps) {
         </tbody>
       </table>
       <CellAdjuster type="row" />
-    </>
+    </div>
   )
 })
 
@@ -185,7 +185,7 @@ const ColumnHeader = memo(function ({ lengthArr }: HeaderProps) {
   const columnAlphabets = useMemo(() => getColumnArr(cellRects.length), [cellRects.length])
 
   return (
-    <>
+    <div className="table-header-wrapper col">
       <table className="table-header column-header">
         <thead>
           <tr>
@@ -202,7 +202,7 @@ const ColumnHeader = memo(function ({ lengthArr }: HeaderProps) {
         </thead>
       </table>
       <CellAdjuster type="col" />
-    </>
+    </div>
   )
 })
 

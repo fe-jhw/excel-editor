@@ -2,7 +2,7 @@ import { EditorContext } from '@/context'
 import { defaultAdjusterBorderThickness, defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
 import { LineInfo, useCellAdjuster } from '@/hooks/useCellAdjuster'
 import { setDragCursor } from '@/utils/EventUtils'
-import { useContext, useRef } from 'react'
+import { memo, useContext, useRef } from 'react'
 
 interface CellAdjusterProps {
   type: 'col' | 'row'
@@ -15,21 +15,18 @@ interface CellAdjusterBorderProps {
 }
 
 export function CellAdjuster({ type }: CellAdjusterProps) {
-  const {
-    lineInfo,
-    setWidth,
-    setHeight,
-    onBorderDragStart,
-    onBorderDragging,
-    onBorderDragEnd,
-    lengthArr,
-    totalLength,
-  } = useCellAdjuster({ type })
+  const { setWidth, setHeight, onBorderDragStart, onBorderDragging, onBorderDragEnd, lengthArr, totalLength } =
+    useCellAdjuster({ type })
   const style = type === 'col' ? { width: totalLength } : { height: totalLength }
   const absPosArr = getAbsPosArr(type, lengthArr)
   return (
-    <div onMouseDown={onBorderDragStart} onMouseMove={onBorderDragging} onMouseUp={onBorderDragEnd}>
-      <CellAdjusterLine lineInfo={lineInfo} />
+    <div
+      className={`cell-adjuster-wrapper ${type}`}
+      onMouseDown={onBorderDragStart}
+      onMouseMove={onBorderDragging}
+      onMouseUp={onBorderDragEnd}
+      onMouseLeave={onBorderDragEnd}
+    >
       <div className={`cell-adjuster ${type}`} style={style}>
         {absPosArr.map((absPos, idx) => (
           <CellAdjusterBorder key={idx} absPos={absPos} idx={idx} type={type} />
@@ -40,7 +37,7 @@ export function CellAdjuster({ type }: CellAdjusterProps) {
 }
 
 // TODO: memo 활용
-function CellAdjusterBorder({ absPos, idx, type }: CellAdjusterBorderProps) {
+const CellAdjusterBorder = memo(function ({ absPos, idx, type }: CellAdjusterBorderProps) {
   const borderStyle =
     type === 'col'
       ? {
@@ -50,22 +47,7 @@ function CellAdjusterBorder({ absPos, idx, type }: CellAdjusterBorderProps) {
           top: absPos,
         }
   return <div data-id={`${idx}`} className={`border ${type}`} style={borderStyle} draggable="true" />
-}
-
-const topAreaLen = 239
-
-function CellAdjusterLine({ lineInfo }: { lineInfo: LineInfo }) {
-  const { type, active, absPos } = lineInfo
-  const lineStyle =
-    type === 'col'
-      ? {
-          left: absPos,
-        }
-      : {
-          top: absPos - topAreaLen,
-        }
-  return <>{active ? <div className={`cell-adjuster-line ${type}`} style={lineStyle} /> : <></>}</>
-}
+})
 
 function getAbsPosArr(type: 'col' | 'row', lengthArr: number[]): number[] {
   const res = []

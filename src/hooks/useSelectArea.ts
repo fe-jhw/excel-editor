@@ -11,6 +11,7 @@ export interface UseSelectAreaReturns {
   onCellDragStart: ReactEventHandler
   onCellDragging: ReactEventHandler
   onCellDragEnd: ReactEventHandler
+  calcAreaInfo: () => void
 }
 
 export const useSelectArea = (): UseSelectAreaReturns => {
@@ -18,17 +19,10 @@ export const useSelectArea = (): UseSelectAreaReturns => {
   const [selectAreaInfo, setSelectAreaInfo] = useState<SelectAreaInfo>(defaultSelectAreaInfo)
   const isDragging = useRef(false)
 
-  useEffect(() => {
-    const { si, sj, ei, ej } = selectedArea
-    const rect = getAreaRect(si, sj, ei, ej)
-    if (rect) {
-      setSelectAreaInfo(rect)
-    }
-  }, [selectedArea])
-
   const selectArea = useCallback((selectedArea: SelectedArea) => setSelectedArea(selectedArea), [setSelectedArea])
 
   const onCellDragStart: ReactEventHandler = e => {
+    console.log('cell 드래그 시작!')
     isDragging.current = true
     const target = e.target as HTMLElement
     if (target.id) {
@@ -58,6 +52,18 @@ export const useSelectArea = (): UseSelectAreaReturns => {
     return { si: Math.min(si, ei), sj: Math.min(sj, ej), ei: Math.max(si, ei), ej: Math.max(sj, ej) }
   }, [selectedArea])
 
+  const calcAreaInfo = useCallback(() => {
+    const { si, sj, ei, ej } = selectedArea
+    const rect = getAreaRect(si, sj, ei, ej)
+    if (rect) {
+      setSelectAreaInfo(rect)
+    }
+  }, [selectedArea, setSelectAreaInfo])
+
+  useEffect(() => {
+    calcAreaInfo()
+  }, [calcAreaInfo])
+
   return {
     selectedArea,
     selectedAreaSorted,
@@ -66,5 +72,6 @@ export const useSelectArea = (): UseSelectAreaReturns => {
     onCellDragStart,
     onCellDragging,
     onCellDragEnd,
+    calcAreaInfo,
   }
 }

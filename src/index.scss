@@ -147,26 +147,38 @@ body {
   &:focus {
     outline: none;
   }
+  .table-header-wrapper {
+    position: sticky;
+    &.row {
+      left: 0;
+      z-index:6;
+    }
+    &.col {
+      top: 0;
+      z-index: 7;
+    }
+  }
   .table-header {
     text-align: center;
     background-color: $main-bg-color;
-    position: sticky;
+    &.row-header {
+      .active {
+        background:$selected-cell-color;
+        border-right: 1px solid $active-color !important;
+      }
+    }
+    &.column-header {
+      .active {
+        background:$selected-cell-color;
+        border-bottom: 1px solid $active-color !important;
+      }
+    }
   }
-  .row-header {
+  
+  .cell-adjuster-wrapper {
+    position: absolute;
     left: 0;
-    z-index:6;
-    .active {
-      background:$selected-cell-color;
-      border-right: 1px solid $active-color !important;
-    }
-  }
-  .column-header {
     top: 0;
-    z-index: 7;
-    .active {
-      background:$selected-cell-color;
-      border-bottom: 1px solid $active-color !important;
-    }
   }
   .cell-adjuster-line {
     position: absolute;

@@ -8,13 +8,23 @@ export interface UseSelectBoxReturns {
   selectCell: (selected: Selected) => void
   selectBoxInfo: SelectBoxInfo
   onCellClick: ReactEventHandler
+  calcBoxInfo: () => void
 }
 
 export const useSelectBox = (): UseSelectBoxReturns => {
   const [selected, setSelected] = useState<Selected>(defaultSelected)
   const [selectBoxInfo, setSelectBoxInfo] = useState<SelectBoxInfo>(defaultSelectBoxInfo)
 
-  useEffect(() => {
+  const selectCell = useCallback(({ i, j }: Selected) => setSelected({ i, j }), [setSelected])
+
+  const onCellClick: ReactEventHandler = e => {
+    const target = e.target as HTMLElement
+    if (target.id) {
+      selectCell(parseCellId(target.id))
+    }
+  }
+
+  const calcBoxInfo = useCallback(() => {
     if (selected !== null) {
       const { i, j } = selected
       const cellEl = document.getElementById(`${i}-${j}`)
@@ -30,13 +40,9 @@ export const useSelectBox = (): UseSelectBoxReturns => {
     }
   }, [selected])
 
-  const selectCell = useCallback(({ i, j }: Selected) => setSelected({ i, j }), [setSelected])
+  useEffect(() => {
+    calcBoxInfo()
+  }, [calcBoxInfo])
 
-  const onCellClick: ReactEventHandler = e => {
-    const target = e.target as HTMLElement
-    if (target.id) {
-      selectCell(parseCellId(target.id))
-    }
-  }
-  return { selected, selectCell, selectBoxInfo, onCellClick }
+  return { selected, selectCell, selectBoxInfo, onCellClick, calcBoxInfo }
 }

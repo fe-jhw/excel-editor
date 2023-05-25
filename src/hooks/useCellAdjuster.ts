@@ -22,7 +22,6 @@ export interface UseCellAdjusterReturns {
   onBorderDragEnd: DivMouseEventHandler
   lengthArr: number[]
   totalLength: number
-  lineInfo: LineInfo
 }
 
 export interface LineInfo {
@@ -34,32 +33,52 @@ export interface LineInfo {
 type DivMouseEventHandler = React.MouseEventHandler<HTMLDivElement>
 
 export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjusterReturns => {
-  const { cells, changeCells } = useContext(EditorContext)
+  const { cells, changeCells, calcAreaInfo, calcBoxInfo } = useContext(EditorContext)
   const isResizing = useRef(false)
   const adjustInfo = useRef({ originLen: 0, idx: -1, start: 0, end: 0 })
 
-  const [lineInfo, setLineInfo] = useState<LineInfo>({ active: false, absPos: 0, type })
   const lengthArr = getLengthArr(type, cells)
 
-  // const lengthArr = getLengthArr(type, cells)
   const totalLength =
     (type === 'col' ? defaultCellWidth : defaultCellHeight) +
     lengthArr.reduce((acc, cur) => {
       return acc + cur
     }, 0)
 
+  const recalcRects = useCallback(() => {
+    calcAreaInfo()
+    calcBoxInfo()
+  }, [calcAreaInfo, calcBoxInfo])
+
   const setWidth: SetWidth = useCallback(
     (col, width) => {
       changeCells(0, col, cells.length - 1, col, { width: width < 0 ? 0 : width })
+      setTimeout(recalcRects, 100)
     },
-    [cells.length, changeCells]
+    [cells.length, changeCells, recalcRects]
   )
 
   const setHeight: SetHeight = useCallback(
     (row, height) => {
       changeCells(row, 0, row, cells[0].length - 1, { height: height < 0 ? 0 : height })
+      setTimeout(recalcRects, 100)
     },
-    [cells, changeCells]
+    [cells, changeCells, recalcRects]
+  )
+
+  const adjustRect = useCallback(
+    (e: React.MouseEvent): void => {
+      const end = type === 'col' ? e.clientX : e.clientY
+      adjustInfo.current.end = end
+
+      const diff = adjustInfo.current.end - adjustInfo.current.start
+      if (type === 'col') {
+        setWidth(adjustInfo.current.idx, adjustInfo.current.originLen + diff)
+      } else {
+        setHeight(adjustInfo.current.idx, adjustInfo.current.originLen + diff)
+      }
+    },
+    [setHeight, setWidth, type]
   )
 
   const onBorderDragStart: DivMouseEventHandler = useCallback(
@@ -73,7 +92,6 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
         console.log(left, top, width, height)
         const start = type === 'col' ? left + width / 2 : top + height / 2
         adjustInfo.current.start = start
-        setLineInfo(prev => ({ ...prev, active: true, absPos: start }))
         adjustInfo.current.idx = parseInt(target.dataset['id'] ?? '-1')
         adjustInfo.current.originLen = lengthArr[adjustInfo.current.idx]
       }
@@ -86,12 +104,9 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
         return
       }
       e.stopPropagation()
-      // console.dir(e)
-      const absPos = type === 'col' ? e.clientX : e.clientY
-      console.dir(e.nativeEvent)
-      setLineInfo(prev => ({ ...prev, absPos }))
+      adjustRect(e)
     },
-    [type]
+    [adjustRect]
   )
   const onBorderDragEnd: DivMouseEventHandler = useCallback(
     e => {
@@ -101,19 +116,9 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
       }
       setDragCursor('empty')
       isResizing.current = false
-      console.log('드래그 끝!')
-      const end = type === 'col' ? e.clientX : e.clientY
-      setLineInfo(prev => ({ ...prev, active: false, absPos: end }))
-      adjustInfo.current.end = end
-
-      const diff = adjustInfo.current.end - adjustInfo.current.start
-      if (type === 'col') {
-        setWidth(adjustInfo.current.idx, adjustInfo.current.originLen + diff)
-      } else {
-        setHeight(adjustInfo.current.idx, adjustInfo.current.originLen + diff)
-      }
+      adjustRect(e)
     },
-    [setHeight, setWidth, type]
+    [adjustRect]
   )
 
   return {
@@ -124,6 +129,5 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
     onBorderDragEnd,
     lengthArr,
     totalLength,
-    lineInfo,
   }
 }
