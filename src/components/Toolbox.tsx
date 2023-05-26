@@ -68,6 +68,9 @@ const Layer = ({ children }: { children: ReactNode }) => {
   return <Space size={SPACE_GAP}>{children}</Space>
 }
 
+Toolbox.Wrapper = Wrapper
+Toolbox.Layer = Layer
+
 export function Fontbox() {
   const { selectedCell, changeSelectedCells } = useContext(EditorContext)
 

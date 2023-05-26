@@ -22,7 +22,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true,
-
+    "forceConsistentCasingInFileNames": true,
     // Modules Configuration
     "baseUrl": ".",
     "paths": {
@@ -45,5 +45,5 @@
     "esModuleInterop": true,
     "isolatedModules": true
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }
