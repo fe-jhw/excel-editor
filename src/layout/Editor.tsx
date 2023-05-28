@@ -1,4 +1,5 @@
-import { Toolbar, Functionbar, Sheet } from '@/components'
+import { Functionbar, Sheet } from '@/components'
+import { Toolbar } from '@/features/ToolBor'
 import { HistoryBox } from '@/components/HistoryBox'
 import { EditorContext } from '@/context'
 import { useContext, useEffect } from 'react'

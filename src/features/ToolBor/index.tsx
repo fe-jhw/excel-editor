@@ -1,10 +1,9 @@
-import { Divider, Space } from 'antd'
-import { Fontbox, FormatBox, AlignBox, StyleBox, CellBox, EditBox } from './Toolbox'
+import { AlignBox, CellBox, FontBox, FormatBox, StyleBox } from './components'
 
 export function Toolbar() {
   return (
     <div className="toolbar">
-      <Fontbox />
+      <FontBox />
       <AlignBox />
       <FormatBox />
       <StyleBox />

@@ -1,5 +1,4 @@
 import { ICell, Selected, SelectBoxInfo, SelectAreaInfo, Format, TextAlign } from '@/types'
-import { fontFamiles } from './ToolBoxConstants'
 import uuid from 'react-uuid'
 
 export const defaultCellHeight = 28
@@ -10,7 +9,7 @@ export const defaultCell: Omit<ICell, 'uuid'> = {
   width: defaultCellWidth,
   height: defaultCellHeight,
   fontSize: 11,
-  fontFamily: fontFamiles[0].value,
+  fontFamily: "'Noto Sans KR', sans-serif",
   format: 'general',
   border: '1px solid rgb(218, 220, 224)',
   backgroundColor: 'white',

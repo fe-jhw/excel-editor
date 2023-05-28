@@ -1,4 +1,3 @@
-import { styles } from '@/data/ToolBoxConstants'
 import { EditorContext } from '@/context'
 import produce from 'immer'
 import { useCallback, useContext } from 'react'
@@ -7,6 +6,25 @@ interface CellStyle {
   border?: string
   backgroundColor?: string
   color?: string
+}
+
+const styles = {
+  cell: [
+    { name: '표준', border: '1px solid lightgray', backgroundColor: '#fff', color: '#000' },
+    { name: '나쁨', border: 'none', backgroundColor: '#FFC7CE', color: '#BE5882' },
+    { name: '보통', border: 'none', backgroundColor: '#FFEB9C', color: '#000' },
+    { name: '좋음', border: 'none', backgroundColor: '#C6EFCE', color: '#000' },
+  ],
+  table: [
+    {
+      header: { border: 'none', backgroundColor: '#C6EFCE', color: '#000' },
+      body: { border: 'none', backgroundColor: '#FFC7CE', color: '#BE5882' },
+    },
+    {
+      header: { border: 'none', backgroundColor: 'blue', color: '#fff' },
+      body: { border: 'none', backgroundColor: 'skyblue', color: 'black' },
+    },
+  ],
 }
 
 // TODO: Cell, Table 컴포넌트 하나로 합쳐보기

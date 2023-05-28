@@ -9,13 +9,13 @@ import { Button, Dropdown, InputNumber, Select } from 'antd'
 import { useContext } from 'react'
 import { ChromePicker } from 'react-color'
 import { ToggleButton } from '@/components/ToggleButton'
-import { ToolBox } from '@/features/ToolBar/ToolBox'
-import { SPACE_GAP, SMALL_BTN_WIDTH, MIDDLE_BTN_WIDTH, fontFamiles } from '@/features/ToolBar/data/constants'
+import { ToolBox } from './ToolBox'
+import { SPACE_GAP, SMALL_BTN_WIDTH, MIDDLE_BTN_WIDTH, fontFamiles } from '../data/constants'
 import * as O from '@/utils/option'
 import { EditorContext } from '@/context/EditorContext'
 import { defaultCell, MAX_FONT_SIZE, MIN_FONT_SIZE } from '@/data/SheetConstants'
 
-export function Fontbox() {
+export function FontBox() {
   const { selectedCell, changeSelectedCells } = useContext(EditorContext)
 
   return (
