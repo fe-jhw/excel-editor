@@ -47,5 +47,5 @@ export const defaultSelectedArea = {
 export const defaultWidths = new Array(defaultCellCol).fill(defaultCellWidth)
 export const defaultHeights = new Array(defaultCellRow).fill(defaultCellHeight)
 
-export const MAX_FONT_SIZE = 409
+export const MAX_FONT_SIZE = 20
 export const MIN_FONT_SIZE = 1

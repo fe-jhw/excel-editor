@@ -49,6 +49,7 @@ const baseCellStyle = {
   width: '50px',
   // maxWidth: '50px',
   overflow: 'hidden',
+  // whiteSpace: ,
 }
 
 export function Sheet() {
@@ -100,7 +101,7 @@ export function Sheet() {
         <SelectBox />
         <SelectArea />
         <CopyArea />
-        <table>
+        <table className="sheet-table">
           <tbody>
             {cells.map((row: ICell[], i: number) => (
               <Row row={row} key={i} i={i} />
@@ -134,6 +135,7 @@ const Cell = memo(function ({ cell, i, j }: CellProps) {
           ...baseDivStyle,
           // width,
           height: `${O.getOrElseFromUndefined(cellStyle.fontSize, 11) + 4}px`,
+          // height: '100%',
           display: 'flex',
           justifyContent:
             cellStyle.textAlign === 'right' ? 'flex-end' : cellStyle.textAlign === 'left' ? 'flex-start' : 'center',

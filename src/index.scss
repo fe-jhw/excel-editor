@@ -236,6 +236,9 @@ body {
     display: flex;
     flex-direction: row;
   }
+  .sheet-table {
+    table-layout: fixed;
+  }
   .select-all-btn {
     position: sticky;
     top: 0;
