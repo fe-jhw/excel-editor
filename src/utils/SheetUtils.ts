@@ -175,7 +175,7 @@ export function getEmptySheet(sheetNumber: number): ISheet {
   return {
     title: `Sheet${sheetNumber}`,
     cells: getDefaultCells(30, 30),
-    historyInfo: { stack: [], curIdx: -1 },
+    historyInfo: { stack: [getDefaultCells(30, 30)], curIdx: 0 },
     scrollPosition: { x: 0, y: 0 },
     selected: defaultSelected,
     selectedArea: defaultSelectedArea,

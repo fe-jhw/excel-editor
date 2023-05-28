@@ -12,6 +12,7 @@ export interface UseCellsReturns extends UseHistoryReturns {
   changeCells: ChangeCells
   setCell: SetCell
   setCells: React.Dispatch<React.SetStateAction<ICell[][]>>
+  setCellsWithHistory: (nextCells: ICell[][]) => void
   insertRowAbove: InsertRow
   insertRowBelow: InsertRow
   insertColLeft: InsertCol
@@ -38,15 +39,21 @@ export const useCells = (): UseCellsReturns => {
     setCells,
   })
 
+  const setCellsWithHistory = useCallback(
+    (nextCells: ICell[][]) => {
+      setCells(nextCells)
+      addHistory(nextCells)
+    },
+    [setCells, addHistory]
+  )
+
   const changeCell: ChangeCell = (i, j, changes) => {
     const nextCells = produce(cells, draft => {
       if (isInRange(i, [0, cells.length]) && isInRange(j, [0, cells[i].length])) {
         draft[i][j] = { ...draft[i][j], ...changes }
       }
     })
-    setCells(nextCells)
-    // input value 변경시를 위해 history add에 debounce 적용
-    addHistory(nextCells)
+    setCellsWithHistory(nextCells)
   }
 
   const changeCells: ChangeCells = (si, sj, ei, ej, changes) => {
@@ -65,8 +72,7 @@ export const useCells = (): UseCellsReturns => {
         }
       }
     })
-    setCells(nextCells)
-    addHistory(nextCells)
+    setCellsWithHistory(nextCells)
   }
   const setCell: SetCell = (i, j, cell) => {
     setCells(prev =>
@@ -82,20 +88,18 @@ export const useCells = (): UseCellsReturns => {
       const nextCells = produce(cells, draft => {
         draft.splice(row, 0, getDefaultRow(cells[row].length))
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
     },
-    [cells, setCells, addHistory]
+    [cells, setCellsWithHistory]
   )
   const insertRowBelow: InsertRow = useCallback(
     (row: number): void => {
       const nextCells = produce(cells, draft => {
         draft.splice(row + 1, 0, getDefaultRow(cells[row].length))
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
     },
-    [cells, setCells, addHistory]
+    [cells, setCellsWithHistory]
   )
   const insertColLeft: InsertCol = useCallback(
     (col: number): void => {
@@ -104,10 +108,9 @@ export const useCells = (): UseCellsReturns => {
           draft[i].splice(col, 0, getDefaultCell())
         }
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
     },
-    [cells, setCells, addHistory]
+    [cells, setCellsWithHistory]
   )
   const insertColRight: InsertCol = useCallback(
     (col: number): void => {
@@ -116,10 +119,9 @@ export const useCells = (): UseCellsReturns => {
           draft[i].splice(col + 1, 0, getDefaultCell())
         }
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
     },
-    [cells, setCells, addHistory]
+    [cells, setCellsWithHistory]
   )
 
   //TODO: 중복 너무 많음 행열, 추가 삭제
@@ -132,10 +134,9 @@ export const useCells = (): UseCellsReturns => {
           }
         }
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
     },
-    [cells, setCells, addHistory]
+    [cells, setCellsWithHistory]
   )
 
   const deleteRows: DeleteRows = useCallback(
@@ -145,10 +146,9 @@ export const useCells = (): UseCellsReturns => {
           draft[i] = O.getOrElseFromUndefined(draft[i + eRow - sRow + 1], getDefaultRow(cells[i].length))
         }
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
     },
-    [cells, setCells, addHistory]
+    [cells, setCellsWithHistory]
   )
 
   const deleteShiftUp: DeleteShiftUp = useCallback(
@@ -164,10 +164,9 @@ export const useCells = (): UseCellsReturns => {
           }
         }
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
     },
-    [cells, setCells, addHistory]
+    [cells, setCellsWithHistory]
   )
 
   const deleteShiftLeft: DeleteShiftLeft = useCallback(
@@ -180,10 +179,9 @@ export const useCells = (): UseCellsReturns => {
           }
         }
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
     },
-    [cells, setCells, addHistory]
+    [cells, setCellsWithHistory]
   )
   return {
     cells,
@@ -191,6 +189,7 @@ export const useCells = (): UseCellsReturns => {
     changeCells,
     setCell,
     setCells,
+    setCellsWithHistory,
     insertRowAbove,
     insertRowBelow,
     insertColLeft,

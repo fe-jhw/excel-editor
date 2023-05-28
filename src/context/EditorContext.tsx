@@ -29,11 +29,12 @@ export const EditorProvider = ({ children }: { children: ReactNode }) => {
   const useSelectBoxReturns = useSelectBox()
   const useSelectAreaReturns = useSelectArea()
 
-  const { cells, setCell, setCells, changeCell, changeCells, historyInfo, setHistoryInfo } = useCellsReturns
+  const { cells, setCell, setCells, changeCell, changeCells, historyInfo, addHistory, setHistoryInfo } = useCellsReturns
   const { selected, selectCell } = useSelectBoxReturns
   const { selectedArea, selectArea, selectedAreaSorted } = useSelectAreaReturns
 
   const useCopyReturns = useCopy({
+    addHistory,
     selectedAreaSorted,
     selectArea,
     cells,

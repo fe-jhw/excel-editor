@@ -55,7 +55,7 @@ const TABLE_EXAMPLE_COL = 5
 const TABLE_EXAMPLE_ROW = 3
 
 export function TableStylePicker() {
-  const { selectedAreaSorted, changeCells, cells, setCells, addHistory } = useContext(EditorContext)
+  const { selectedAreaSorted, changeCells, cells, setCells, setCellsWithHistory } = useContext(EditorContext)
   //TODO: changeCells 2개 setCells로 변경하기~
   const onStyleChange = useCallback(
     (header: CellStyle, body: CellStyle) => {
@@ -72,12 +72,11 @@ export function TableStylePicker() {
           }
         }
       })
-      setCells(nextCells)
-      addHistory(nextCells)
+      setCellsWithHistory(nextCells)
       // changeCells(si, sj, si, ej, header)
       // changeCells(si + 1, sj, ei, ej, body)
     },
-    [selectedAreaSorted, cells, setCells, addHistory]
+    [selectedAreaSorted, cells, setCellsWithHistory]
   )
   return (
     <div className="style-picker">

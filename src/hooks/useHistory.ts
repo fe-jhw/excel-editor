@@ -32,7 +32,7 @@ export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => 
     (history: History) => {
       setHistoryInfo((prev: HistoryInfo) =>
         produce(prev, draft => {
-          draft.stack.push(history)
+          draft.stack = [...draft.stack.slice(0, draft.curIdx + 1), history]
           draft.curIdx += 1
         })
       )

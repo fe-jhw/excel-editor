@@ -1,6 +1,6 @@
 import { getDefaultCell, getMinMaxIj } from '@/utils/SheetUtils'
 import { defaultCell } from '@/data/SheetConstants'
-import { ICell, SelectedArea } from '@/types'
+import { ICell, SelectedArea, History } from '@/types'
 import produce from 'immer'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -14,6 +14,7 @@ interface CopyInfo {
 }
 
 interface UseCopyProps {
+  addHistory: (history: History) => void
   selectedAreaSorted: Omit<SelectedArea, 'active'>
   selectArea: (selected: SelectedArea) => void
   cells: ICell[][]
@@ -28,7 +29,14 @@ export interface UseCopyReturns {
   isSomethingCopied: boolean
 }
 
-export const useCopy = ({ selectedAreaSorted, selectArea, cells, setCell, setCells }: UseCopyProps): UseCopyReturns => {
+export const useCopy = ({
+  addHistory,
+  selectedAreaSorted,
+  selectArea,
+  cells,
+  setCell,
+  setCells,
+}: UseCopyProps): UseCopyReturns => {
   const [copyInfo, setCopyInfo] = useState<CopyInfo>({ si: 0, sj: 0, ei: 0, ej: 0, status: 'empty', cells: [] })
 
   useEffect(() => {
@@ -82,6 +90,7 @@ export const useCopy = ({ selectedAreaSorted, selectArea, cells, setCell, setCel
       }
     })
     setCells(nextCells)
+    addHistory(nextCells)
     if (copyInfo.status === 'cut') {
       setCopyInfo(prev => ({ ...prev, status: 'empty' }))
     }
