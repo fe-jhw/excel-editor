@@ -48,6 +48,7 @@ export function Footer() {
           changeSheet(parseInt(key))
         }}
         style={{ backgroundColor: '#F5F5F5' }}
+        activeKey={`${file.currentSheetIdx}`}
       />
     </>
   )
