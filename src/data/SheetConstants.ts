@@ -16,6 +16,9 @@ export const defaultCell: Omit<ICell, 'uuid'> = {
   color: 'black',
   textAlign: 'left',
   verticalAlign: 'middle',
+  fontWeight: undefined,
+  fontStyle: undefined,
+  textDecoration: undefined,
 }
 
 export const defaultCellRow = 30
