@@ -52,34 +52,7 @@ body {
   min-height: $min-body-height;
 }
 
-.historybox {
-  position: absolute;
-  top: 2px;
-  right: 0px;
-}
-
-.header {
-  border-bottom: $border;
-  background-color: $main-bg-color;
-  height: $header-height;
-}
-
-.titlebar {
-  border-bottom: $border;
-}
-
-.edit-config-text {
-  margin-right: 4px;
-  font-size: 14px;
-}
-
-.toolbar {
-  height: $toolbar-height;
-  padding-top: 4px;
-  border-bottom: $border;
-  background-color: #F5F5F5;
-}
-
+// antd css override
 .toolbox {
   border-right: $border;
   padding: 0 8px;

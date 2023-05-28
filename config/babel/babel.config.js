@@ -1,24 +1,25 @@
 const presets = [
   [
-    "@babel/preset-env",
+    '@babel/preset-env',
     {
-      targets: "> 0.25%, not dead",
-      useBuiltIns: "entry",
+      targets: '> 0.25%, not dead',
+      useBuiltIns: 'entry',
       corejs: 3,
     },
   ],
   [
-    "@babel/preset-react",
+    '@babel/preset-react',
     {
-      runtime: "automatic",
+      runtime: 'automatic',
+      importSource: '@emotion/react',
     },
   ],
-  "@babel/preset-typescript",
+  '@babel/preset-typescript',
 ]
 
-const plugins = []
-if (process.env["NODE_ENV"] === "development") {
-  plugins.push(require.resolve("react-refresh/babel"))
+const plugins = ['@emotion/babel-plugin']
+if (process.env['NODE_ENV'] === 'development') {
+  plugins.push(require.resolve('react-refresh/babel'))
 }
 
 module.exports = { presets, plugins }
