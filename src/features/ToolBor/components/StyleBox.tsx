@@ -1,4 +1,4 @@
-import { CellStylePicker, TableStylePicker } from '@/components'
+import { CellStylePicker, TableStylePicker } from './StylePicker'
 import { FormOutlined, TableOutlined } from '@ant-design/icons'
 import { Button, Dropdown } from 'antd'
 import { ToolBox } from './ToolBox'

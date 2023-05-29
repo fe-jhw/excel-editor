@@ -4,13 +4,15 @@ import { changeNumToAlphabet } from '@/utils/SheetUtils'
 import { Divider, Input } from 'antd'
 import { useContext } from 'react'
 import * as O from '@/utils/option'
+import { css } from '@emotion/react'
+import { border, color, height } from '@/data/variables.style'
 
 export function Functionbar() {
   const { selected, cells, changeCell } = useContext(EditorContext)
   const { i, j } = selected
 
   return (
-    <div className="functionbar">
+    <div css={functionBarCss}>
       <Input
         style={{ width: '100px', marginRight: '4px' }}
         readOnly
@@ -25,3 +27,10 @@ export function Functionbar() {
     </div>
   )
 }
+
+const functionBarCss = css`
+  padding: 4px 0;
+  border-bottom: ${border.basic};
+  background-color: ${color['main-bg']};
+  height: ${height.functionbar};
+`
