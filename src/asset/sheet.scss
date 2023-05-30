@@ -1,69 +1,4 @@
-$main-bg-color: #F5F5F5;
-$border: 1px solid #dadce0;
-$header-height: 70px;
-$toolbar-height: 100px;
-$functionbar-height: 40px;
-$footer-height: 46px;
-$min-body-height: 600px;
-$base-cell-width: 50px;
-$base-cell-height: 28px;
-$cell-adjuster-border-thickness: 20px;
-// $selected-cell-color: rgba(211,211,211,0.8);
-$selected-cell-color: rgba(0,0,0,0.2);
-$active-color: rgb(22, 119, 255);
-
-@keyframes border-dance {
-  0% {
-    background-position: left top, right bottom, left bottom, right   top;
-  }
-  100% {
-    background-position: left 15px top, right 15px bottom , left bottom 15px , right   top 15px;
-  }
-}
-
-*{
-  box-sizing: border-box;
-  font-family: 'Noto Sans KR', sans-serif;
-  ::selection {
-    background-color: inherit;
-    color: inherit;
-  }
-}
-
-body.col-resizing * {
-  cursor: col-resize !important;
-}
-body.row-resizing * {
-  cursor: row-resize !important;
-}
-
-input {
-  &::selection {
-    background-color: $active-color !important;
-    color: white !important;
-  }
-}
-
-body {
-  margin: 0;
-  width: 100vw;
-  min-width: 800px;
-  height: 100vh;
-  min-height: $min-body-height;
-}
-
-// antd css override
-.toolbox {
-  border-right: $border;
-  padding: 0 8px;
-  .button-active {
-    color:$active-color;
-    border: 1px solid $active-color;
-  }
-  .color-box {
-    font-size: 16px;
-  }
-}
+@import "variables.scss";
 
 .sheet {
   width: 100%;
@@ -205,22 +140,11 @@ body {
   }
 }
 
-.footer {
-  height: $footer-height;
+@keyframes border-dance {
+  0% {
+    background-position: left top, right bottom, left bottom, right   top;
+  }
+  100% {
+    background-position: left 15px top, right 15px bottom , left bottom 15px , right   top 15px;
+  }
 }
-
-// ant-tabs style 수정
-.ant-tabs-content-holder {
-  display: none;
-}
-
-.ant-tabs-nav {
-  margin-top: 0 !important;
-}
-// 
-  
-// ant-number-input padding 조정
-.ant-input-number-input {
-  padding: 0 4px !important;
-}
-//

@@ -1,4 +1,5 @@
-import { Functionbar, Sheet } from '@/components'
+import { Functionbar } from '@/components'
+import { Sheet } from '@/features/Sheet'
 import { Toolbar } from '@/features/ToolBor'
 import { HistoryBox } from '@/components/HistoryBox'
 import { EditorContext } from '@/context'

@@ -1,0 +1,62 @@
+@import "variables.scss";
+
+*{
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+  ::selection {
+    background-color: inherit;
+    color: inherit;
+  }
+}
+
+body.col-resizing * {
+  cursor: col-resize !important;
+}
+body.row-resizing * {
+  cursor: row-resize !important;
+}
+
+input {
+  &::selection {
+    background-color: $active-color !important;
+    color: white !important;
+  }
+}
+
+body {
+  margin: 0;
+  width: 100vw;
+  min-width: 800px;
+  height: 100vh;
+  min-height: $min-body-height;
+}
+
+// antd css override
+.toolbox {
+  border-right: $border;
+  padding: 0 8px;
+  .button-active {
+    color:$active-color;
+    border: 1px solid $active-color;
+  }
+  .color-box {
+    font-size: 16px;
+  }
+}
+//
+
+// ant-tabs style 수정
+.ant-tabs-content-holder {
+  display: none;
+}
+
+.ant-tabs-nav {
+  margin-top: 0 !important;
+}
+// 
+  
+// ant-number-input padding 조정
+.ant-input-number-input {
+  padding: 0 4px !important;
+}
+//
