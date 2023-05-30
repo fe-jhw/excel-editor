@@ -36,7 +36,7 @@ export function DocsBar() {
 
   return (
     <div css={wrapperCss}>
-      <div css={saveCss}>
+      <div css={saveSectionCss}>
         <Button type="text" icon={<SaveTwoTone />} onClick={() => save()} />
         <span css={saveTextCss}>{lastEditTime != null ? `${lastEditTime} 저장됨` : `저장되지 않음`}</span>
         <Divider type="vertical" />
@@ -52,7 +52,7 @@ export function DocsBar() {
       </div>
       {docsBarTitles.map(title => (
         <Dropdown key={title} menu={{ items: docsBarItems[title] }} placement="bottomLeft" trigger={['click']}>
-          <Button type="text" style={{ fontSize: '14px', fontWeight: 400 }}>
+          <Button type="text" css={docsBarButtonCss}>
             {title}
           </Button>
         </Dropdown>
@@ -68,7 +68,7 @@ const wrapperCss = css({
   paddingRight: '8px',
 })
 
-const saveCss = css({
+const saveSectionCss = css({
   display: 'flex',
   alignItems: 'center',
   marginLeft: '8px',
@@ -77,4 +77,9 @@ const saveCss = css({
 const saveTextCss = css`
   margin-right: 4px;
   font-size: 14px;
+`
+
+const docsBarButtonCss = css`
+  font-size: 14px;
+  font-weight: 400;
 `

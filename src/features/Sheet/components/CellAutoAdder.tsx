@@ -1,5 +1,6 @@
 import { EditorContext } from '@/context'
 import { useIntersectionObserverRef } from '@/hooks/useIntersectionObserver'
+import { css } from '@emotion/react'
 import { useCallback, useContext } from 'react'
 
 interface CellAutoAdderProps {
@@ -19,5 +20,9 @@ export function CellAutoAdder({ length, type }: CellAutoAdderProps) {
   const adderRef = useIntersectionObserverRef<HTMLTableCellElement>({
     callback: iOcallback,
   })
-  return <td style={{ visibility: 'hidden' }} ref={adderRef} />
+  return <td css={cellAutoAdderCss} ref={adderRef} />
 }
+
+const cellAutoAdderCss = css`
+  visibility: hidden;
+`

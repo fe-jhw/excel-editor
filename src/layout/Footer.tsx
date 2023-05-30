@@ -7,6 +7,7 @@ import produce from 'immer'
 import { useCallback, useContext, useState, MouseEvent, ChangeEvent, useMemo, useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import * as O from '@/utils/option'
+import { css } from '@emotion/react'
 
 export function Footer() {
   const { changeSheet } = useContext(EditorContext)
@@ -80,17 +81,21 @@ function Tab({ id, title }: TabProps) {
       onChange={onTabTitleChange}
       // onDoubleClick={onDoubleClick}
       maxLength={7}
+      css={tabTitleInputCss}
       style={{
-        width: '90px',
-        background: 'transparent',
-        border: 'none',
-        outline: 'none',
         color: file.currentSheetIdx === id ? '#1677ff' : '',
         fontWeight: file.currentSheetIdx === id ? 'bold' : '',
-        textAlign: 'center',
-        cursor: 'pointer',
       }}
       // disabled={!isEditing}
     />
   )
 }
+
+const tabTitleInputCss = css({
+  width: '90px',
+  background: 'transparent',
+  border: 'none',
+  outline: 'none',
+  textAlign: 'center',
+  cursor: 'pointer',
+})

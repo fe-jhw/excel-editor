@@ -20,13 +20,10 @@ export const Cell = memo(function ({ cell, i, j }: CellProps) {
       <div
         style={{
           ...baseDivStyle,
-          // width,
           height: `${O.getOrElseFromUndefined(cellStyle.fontSize, 11) + 4}px`,
-          // height: '100%',
           display: 'flex',
           justifyContent:
             cellStyle.textAlign === 'right' ? 'flex-end' : cellStyle.textAlign === 'left' ? 'flex-start' : 'center',
-          // alignItems: verticalAlign === 'top' ? 'flex-start' : verticalAlign === 'bottom' ? 'flex-end' : 'center',
           alignItems: 'center',
         }}
         id={`${i}-${j}`}
