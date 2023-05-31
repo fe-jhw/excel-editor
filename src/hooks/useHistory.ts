@@ -1,5 +1,5 @@
 import { useDebounce } from '@/hooks/useDebounce'
-import { ICell, History, HistoryInfo } from '@/types'
+import { ICell, History, HistoryInfo } from 'editor'
 import { useCallback, useEffect, useState } from 'react'
 import produce from 'immer'
 import { getDefaultCell, getDefaultCells } from '@/utils/SheetUtils'

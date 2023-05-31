@@ -1,4 +1,4 @@
-import { ICell } from '@/types'
+import { ICell } from 'editor'
 import { format, getCellRect } from '@/utils/SheetUtils'
 import { memo } from 'react'
 import { baseCellStyle } from '../data/constants'

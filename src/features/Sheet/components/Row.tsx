@@ -1,4 +1,4 @@
-import { ICell } from '@/types'
+import { ICell } from 'editor'
 import { memo } from 'react'
 import { Cell } from './Cell'
 

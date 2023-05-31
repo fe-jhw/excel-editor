@@ -1,21 +1,21 @@
-import { defaultSelectBoxInfo, defaultCellHeight, defaultCellWidth, defaultSelected } from '@/data/SheetConstants'
+import { defaultSelectBoxInfo, defaultCellHeight, defaultCellWidth, defaultSelectedCell } from '@/data/SheetConstants'
 import { ReactEventHandler, useState, useEffect, useCallback } from 'react'
-import { Selected, SelectBoxInfo } from '@/types'
+import { SelectedCell, SelectBoxInfo } from 'editor'
 import { parseCellId } from '@/utils/SheetUtils'
 
 export interface UseSelectBoxReturns {
-  selected: Selected
-  selectCell: (selected: Selected) => void
+  selected: SelectedCell
+  selectCell: (selected: SelectedCell) => void
   selectBoxInfo: SelectBoxInfo
   onCellClick: ReactEventHandler
   calcBoxInfo: () => void
 }
 
 export const useSelectBox = (): UseSelectBoxReturns => {
-  const [selected, setSelected] = useState<Selected>(defaultSelected)
+  const [selected, setSelected] = useState<SelectedCell>(defaultSelectedCell)
   const [selectBoxInfo, setSelectBoxInfo] = useState<SelectBoxInfo>(defaultSelectBoxInfo)
 
-  const selectCell = useCallback(({ i, j }: Selected) => setSelected({ i, j }), [setSelected])
+  const selectCell = useCallback(({ i, j }: SelectedCell) => setSelected({ i, j }), [setSelected])
 
   const onCellClick: ReactEventHandler = e => {
     const target = e.target as HTMLElement

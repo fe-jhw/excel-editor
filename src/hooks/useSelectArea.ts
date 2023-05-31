@@ -1,6 +1,6 @@
 import { parseCellId, getCellRectInfo, getAreaRect } from '@/utils/SheetUtils'
 import { ReactEventHandler, useState, useEffect, useRef, useMemo, useCallback } from 'react'
-import { SelectedArea, SelectAreaInfo } from '@/types'
+import { SelectedArea, SelectAreaInfo } from 'editor'
 import { defaultSelectAreaInfo, defaultCellHeight, defaultCellWidth, defaultSelectedArea } from '@/data/SheetConstants'
 
 export interface UseSelectAreaReturns {

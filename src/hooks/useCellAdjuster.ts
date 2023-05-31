@@ -1,14 +1,14 @@
 import { EditorContext } from '@/context'
 import { defaultCellHeight, defaultCellWidth, defaultHeights, defaultWidths } from '@/data/SheetConstants'
-import { Height, ICell, Width } from '@/types'
+import { ICell } from 'editor'
 import { setDragCursor } from '@/utils/EventUtils'
 import { getLengthArr } from '@/utils/SheetUtils'
 import produce from 'immer'
 import { ReactEventHandler, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { ChangeCells } from './useCells'
 
-type SetWidth = (idx: number, width: Width) => void
-type SetHeight = (idx: number, height: Height) => void
+type SetWidth = (idx: number, width: number) => void
+type SetHeight = (idx: number, height: number) => void
 
 export interface UseCellAdjusterProps {
   type: 'col' | 'row'

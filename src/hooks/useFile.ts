@@ -1,6 +1,6 @@
 import { EditorContext } from '@/context'
 import { fileState } from '@/data/store'
-import { ICell, History, HistoryInfo, ScrollPosition, Selected, SelectedArea } from '@/types'
+import { ICell, History, HistoryInfo, ScrollPosition, SelectedCell, SelectedArea } from 'editor'
 import produce from 'immer'
 import { useCallback, useContext, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
@@ -11,8 +11,8 @@ interface UseFileProps {
   setCells: React.Dispatch<React.SetStateAction<ICell[][]>>
   historyInfo: HistoryInfo
   setHistoryInfo: React.Dispatch<React.SetStateAction<HistoryInfo>>
-  selected: Selected
-  selectCell: (selected: Selected) => void
+  selected: SelectedCell
+  selectCell: (selected: SelectedCell) => void
   selectedArea: SelectedArea
   selectArea: (selected: SelectedArea) => void
 }

@@ -1,5 +1,5 @@
 import { EditorContext } from '@/context'
-import { ICell } from '@/types'
+import { ICell } from 'editor'
 // import { Button } from 'antd'
 import { MemoizedButton as Button } from './MemoizedButton'
 import { ReactNode, useCallback, useContext } from 'react'

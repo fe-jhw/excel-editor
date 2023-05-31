@@ -1,4 +1,4 @@
-import { IFile } from '@/types'
+import { IFile } from 'editor'
 import { getEmptySheet } from '@/utils/SheetUtils'
 import { atom, AtomEffect } from 'recoil'
 

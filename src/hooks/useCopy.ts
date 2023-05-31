@@ -1,6 +1,6 @@
 import { getDefaultCell, getMinMaxIj } from '@/utils/SheetUtils'
 import { defaultCell } from '@/data/SheetConstants'
-import { ICell, SelectedArea, History } from '@/types'
+import { ICell, SelectedArea, History } from 'editor'
 import produce from 'immer'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -96,7 +96,7 @@ export const useCopy = ({
     }
     // 붙여넣기한 영역 선택처리
     selectArea({ si: _si, sj: _sj, ei: _ei, ej: _ej, active: true })
-  }, [cells, setCells, selectedAreaSorted, copyInfo, selectArea])
+  }, [selectedAreaSorted, copyInfo, cells, setCells, addHistory, selectArea])
 
   const isSomethingCopied = useMemo(() => copyInfo.status !== 'empty', [copyInfo])
 

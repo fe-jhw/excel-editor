@@ -2,11 +2,11 @@ import {
   defaultCell,
   defaultCellHeight,
   defaultCellWidth,
-  defaultSelected,
+  defaultSelectedCell,
   defaultSelectedArea,
 } from '@/data/SheetConstants'
-import { ISheet } from '@/types'
-import { Format, ICell, Selected, SelectedArea, TextAlign } from '@/types/Cell'
+import { ISheet, Format, ICell, SelectedCell, SelectedArea, TextAlign } from 'editor'
+
 import uuid from 'react-uuid'
 
 function addComma(number: string) {
@@ -56,14 +56,14 @@ export function changeNumToAlphabet(num: number): string {
   return ret
 }
 
-export function getActiveRowRange(selected: Selected, selectedArea: SelectedArea): [start: number, end: number] {
+export function getActiveRowRange(selected: SelectedCell, selectedArea: SelectedArea): [start: number, end: number] {
   if (selectedArea.active) {
     return [selectedArea.si, selectedArea.ei]
   }
   return [selected.i, selected.i]
 }
 
-export function getActiveColumnRange(selected: Selected, selectedArea: SelectedArea): [start: number, end: number] {
+export function getActiveColumnRange(selected: SelectedCell, selectedArea: SelectedArea): [start: number, end: number] {
   if (selectedArea.active) {
     return [selectedArea.sj, selectedArea.ej]
   }
@@ -77,7 +77,7 @@ export function isInRange(idx: number, [start, end]: [number, number]): boolean 
   return false
 }
 
-export function parseCellId(id: string): Selected {
+export function parseCellId(id: string): SelectedCell {
   const [i, j] = id.split('-').map((str: string) => parseInt(str))
   return { i, j }
 }
@@ -177,7 +177,7 @@ export function getEmptySheet(sheetNumber: number): ISheet {
     cells: getDefaultCells(30, 30),
     historyInfo: { stack: [getDefaultCells(30, 30)], curIdx: 0 },
     scrollPosition: { x: 0, y: 0 },
-    selected: defaultSelected,
+    selected: defaultSelectedCell,
     selectedArea: defaultSelectedArea,
   }
 }

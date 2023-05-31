@@ -1,4 +1,4 @@
-import { ICell } from '@/types'
+import { ICell } from 'editor'
 import { useCallback, useEffect, useState } from 'react'
 import produce from 'immer'
 import { getMinMaxIj, isInRange, getDefaultCell, getDefaultRow, getDefaultCells } from '@/utils/SheetUtils'
@@ -22,7 +22,6 @@ export interface UseCellsReturns extends UseHistoryReturns {
   deleteShiftUp: DeleteShiftUp
   deleteShiftLeft: DeleteShiftLeft
 }
-
 type InsertCol = (col: number) => void
 type InsertRow = (row: number) => void
 type DeleteCols = (s: number, e: number) => void

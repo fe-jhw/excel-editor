@@ -1,5 +1,5 @@
 import { EditorContext } from '@/context'
-import { SelectAreaInfo } from '@/types'
+import { SelectAreaInfo } from 'editor'
 import { blockDragEvent } from '@/utils/EventUtils'
 import { getAreaRect } from '@/utils/SheetUtils'
 import { useContext, useEffect, useState } from 'react'

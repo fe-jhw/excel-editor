@@ -1,5 +1,5 @@
 import { useSelectBox, UseSelectBoxReturns } from '@/hooks'
-import { ICell } from '@/types'
+import { HistoryInfo, ICell } from 'editor'
 import { createContext, ReactNode, useCallback, useMemo, useState } from 'react'
 import { useSelectArea, UseSelectAreaReturns } from '@/hooks/useSelectArea'
 import { getActiveColumnRange, getActiveRowRange, getMinMaxIj } from '@/utils/SheetUtils'
