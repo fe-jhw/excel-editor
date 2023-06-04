@@ -1,7 +1,7 @@
-import { EditorContext } from '@/context'
 import { fileState } from '@/data/store'
 import { useInterval } from '@/hooks/useInterval'
 import { useToggle } from '@/hooks/useToggle'
+import { useFile } from '@/hooks/useFile'
 import { SaveTwoTone } from '@ant-design/icons'
 import { css } from '@emotion/react'
 import { Button, Divider, Dropdown, Switch } from 'antd'
@@ -11,7 +11,7 @@ import { docsBarItems, docsBarTitles } from '../data/constants'
 import { getNow } from '../utils/getNow'
 
 export function DocsBar() {
-  const { renewRecoilState } = useContext(EditorContext)
+  const { renewRecoilState } = useFile()
   const [autoSave, toggleAutoSave] = useToggle(false)
   const [file, setFile] = useRecoilState(fileState)
 

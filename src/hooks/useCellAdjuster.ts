@@ -1,14 +1,12 @@
-import { EditorContext } from '@/context'
+import { useSelectArea } from './useSelectArea'
+import { useEditorValues } from '@/context/_EditorContext'
 import { defaultCellHeight, defaultCellWidth, defaultHeights, defaultWidths } from '@/data/SheetConstants'
 import { ICell } from 'editor'
 import { setDragCursor } from '@/utils/EventUtils'
 import { getLengthArr } from '@/utils/SheetUtils'
 import produce from 'immer'
 import { ReactEventHandler, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { ChangeCells } from './useCells'
-
-type SetWidth = (idx: number, width: number) => void
-type SetHeight = (idx: number, height: number) => void
+import { useChangeCells } from './useChangeCells'
 
 export interface UseCellAdjusterProps {
   type: 'col' | 'row'
@@ -24,6 +22,9 @@ export interface UseCellAdjusterReturns {
   totalLength: number
 }
 
+type SetWidth = (idx: number, width: number) => void
+type SetHeight = (idx: number, height: number) => void
+
 export interface LineInfo {
   active: boolean
   absPos: number
@@ -33,7 +34,12 @@ export interface LineInfo {
 type DivMouseEventHandler = React.MouseEventHandler<HTMLDivElement>
 
 export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjusterReturns => {
-  const { cells, changeCells, calcAreaInfo, calcBoxInfo } = useContext(EditorContext)
+  // const { cells, changeCells, calcAreaInfo, calcBoxInfo } = useContext(EditorContext)
+  const { cells } = useEditorValues()
+  const { changeCells } = useChangeCells()
+  const { calcSelectedAreaRect } = useSelectArea()
+  const { calcSelectedCellRect } = useSelectCell()
+
   const isResizing = useRef(false)
   const adjustInfo = useRef({ originLen: 0, idx: -1, start: 0, end: 0 })
 
@@ -46,9 +52,9 @@ export const useCellAdjuster = ({ type }: UseCellAdjusterProps): UseCellAdjuster
     }, 0)
 
   const recalcRects = useCallback(() => {
-    calcAreaInfo()
-    calcBoxInfo()
-  }, [calcAreaInfo, calcBoxInfo])
+    calcSelectedAreaRect()
+    calcSelectedCellRect()
+  }, [calcSelectedAreaRect, calcSelectedCellRect])
 
   const setWidth: SetWidth = useCallback(
     (col, width) => {

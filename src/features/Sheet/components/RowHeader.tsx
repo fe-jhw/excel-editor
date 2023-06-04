@@ -1,17 +1,17 @@
 import { CellAdjuster } from './CellAdjuster'
-import { EditorContext } from '@/context'
 import { defaultCellWidth } from '@/data/SheetConstants'
 import { getCellRect, isInRange } from '@/utils/SheetUtils'
 import { memo, useContext } from 'react'
 import { baseCellStyle } from '../data/constants'
 import { CellAutoAdder } from './CellAutoAdder'
+import { useHeader } from '@/hooks/useHeader'
 
 interface RowHeaderProps {
   lengthArr: number[]
 }
 
 export const RowHeader = memo(function ({ lengthArr }: RowHeaderProps) {
-  const { activeRowRange } = useContext(EditorContext)
+  const { activeRowRange } = useHeader()
   const cellRects = lengthArr.map(len => getCellRect(defaultCellWidth, len))
   return (
     <div className="table-header-wrapper row">

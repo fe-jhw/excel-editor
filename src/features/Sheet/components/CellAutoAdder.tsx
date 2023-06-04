@@ -1,7 +1,7 @@
-import { EditorContext } from '@/context'
 import { useIntersectionObserverRef } from '@/hooks/useIntersectionObserver'
+import { useInsertCells } from '@/hooks/useInsertCells'
 import { css } from '@emotion/react'
-import { useCallback, useContext } from 'react'
+import { useCallback } from 'react'
 
 interface CellAutoAdderProps {
   length: number
@@ -9,7 +9,7 @@ interface CellAutoAdderProps {
 }
 
 export function CellAutoAdder({ length, type }: CellAutoAdderProps) {
-  const { insertColRight, insertRowBelow } = useContext(EditorContext)
+  const { insertColRight, insertRowBelow } = useInsertCells()
   const iOcallback = useCallback(() => {
     if (type === 'col') {
       insertColRight(length - 1)

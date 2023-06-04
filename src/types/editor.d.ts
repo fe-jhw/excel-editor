@@ -54,6 +54,7 @@ declare module 'editor' {
     j: number
   }
 
+  // TODO: 삭제하기
   export interface SelectBoxInfo {
     width: number
     height: number
@@ -69,5 +70,24 @@ declare module 'editor' {
     active: boolean
   }
 
+  export interface CopiedArea {
+    si: number
+    sj: number
+    ei: number
+    ej: number
+    status: 'cut' | 'copy' | 'empty'
+    cells: ICell[][]
+  }
+
+  // TODO: 삭제하기
   export interface SelectAreaInfo extends SelectBoxInfo {}
+
+  export interface SelectedCellRect {
+    width: number
+    height: number
+    top: number
+    left: number
+  }
+
+  export interface SelectedAreaRect extends SelectedCellRect {}
 }

@@ -1,4 +1,3 @@
-import { EditorContext } from '@/context'
 import { defaultAdjusterBorderThickness, defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
 import { LineInfo, useCellAdjuster } from '@/hooks/useCellAdjuster'
 import { setDragCursor } from '@/utils/EventUtils'

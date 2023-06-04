@@ -1,8 +1,11 @@
+import { useEditorValues, useEditorActions } from '@/context/_EditorContext'
 import { getDefaultCell, getMinMaxIj } from '@/utils/SheetUtils'
 import { defaultCell } from '@/data/SheetConstants'
 import { ICell, SelectedArea, History } from 'editor'
 import produce from 'immer'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useHistory } from './useHistory'
+import { useChangeCells } from './useChangeCells'
 
 interface CopyInfo {
   si: number
@@ -13,15 +16,6 @@ interface CopyInfo {
   cells: ICell[][]
 }
 
-interface UseCopyProps {
-  addHistory: (history: History) => void
-  selectedAreaSorted: Omit<SelectedArea, 'active'>
-  selectArea: (selected: SelectedArea) => void
-  cells: ICell[][]
-  setCell: (i: number, j: number, cell: ICell) => void
-  setCells: React.Dispatch<React.SetStateAction<ICell[][]>>
-}
-
 export interface UseCopyReturns {
   copySelectedArea: (status: 'cut' | 'copy') => void
   copyInfo: CopyInfo
@@ -29,14 +23,13 @@ export interface UseCopyReturns {
   isSomethingCopied: boolean
 }
 
-export const useCopy = ({
-  addHistory,
-  selectedAreaSorted,
-  selectArea,
-  cells,
-  setCell,
-  setCells,
-}: UseCopyProps): UseCopyReturns => {
+export const useCopy = (): UseCopyReturns => {
+  const { cells } = useEditorValues()
+  const { setSelectedArea, setCells } = useEditorActions()
+  const { changeCells } = useChangeCells()
+  const { addHistory } = useHistory()
+  const { selectedAreaSorted } = useSelectArea()
+
   const [copyInfo, setCopyInfo] = useState<CopyInfo>({ si: 0, sj: 0, ei: 0, ej: 0, status: 'empty', cells: [] })
 
   useEffect(() => {
@@ -95,8 +88,8 @@ export const useCopy = ({
       setCopyInfo(prev => ({ ...prev, status: 'empty' }))
     }
     // 붙여넣기한 영역 선택처리
-    selectArea({ si: _si, sj: _sj, ei: _ei, ej: _ej, active: true })
-  }, [selectedAreaSorted, copyInfo, cells, setCells, addHistory, selectArea])
+    setSelectedArea({ si: _si, sj: _sj, ei: _ei, ej: _ej, active: true })
+  }, [selectedAreaSorted, copyInfo, cells, setCells, addHistory, setSelectedArea])
 
   const isSomethingCopied = useMemo(() => copyInfo.status !== 'empty', [copyInfo])
 

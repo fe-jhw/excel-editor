@@ -1,21 +1,10 @@
-import { EditorContext } from '@/context'
+import { useEditorActions, useEditorValues } from '@/context/_EditorContext'
 import { fileState } from '@/data/store'
-import { ICell, History, HistoryInfo, ScrollPosition, SelectedCell, SelectedArea } from 'editor'
+import { ScrollPosition } from 'editor'
 import produce from 'immer'
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import * as O from '@/utils/option'
-
-interface UseFileProps {
-  cells: ICell[][]
-  setCells: React.Dispatch<React.SetStateAction<ICell[][]>>
-  historyInfo: HistoryInfo
-  setHistoryInfo: React.Dispatch<React.SetStateAction<HistoryInfo>>
-  selected: SelectedCell
-  selectCell: (selected: SelectedCell) => void
-  selectedArea: SelectedArea
-  selectArea: (selected: SelectedArea) => void
-}
 
 export interface UseFileReturns {
   renewRecoilState: () => void
@@ -24,22 +13,14 @@ export interface UseFileReturns {
 
 type ChangeSheet = (sheetIdx: number) => void
 
-export const useFile = ({
-  cells,
-  setCells,
-  historyInfo,
-  setHistoryInfo,
-  selected,
-  selectCell,
-  selectedArea,
-  selectArea,
-}: UseFileProps) => {
+export const useFile = () => {
+  const { cells, historyInfo, selectedArea, selectedCell } = useEditorValues()
+  const { setCells, setHistoryInfo, setSelectedCell, setSelectedArea } = useEditorActions()
   const [file, setFile] = useRecoilState(fileState)
 
   useEffect(() => {
     // 시트 바뀔 시 해당 시트의 정보를 불러온다.
     const curSheet = file.sheets[file.currentSheetIdx]
-    // console.log(`current sheet: ${curSheet.title}`)
     // 1. cells
     setCells(curSheet.cells)
     // 2. history
@@ -49,10 +30,10 @@ export const useFile = ({
     const { x, y } = curSheet.scrollPosition
     domSheet?.scrollTo({ top: y, left: x, behavior: 'smooth' })
     // 4. 셀렉트 박스 정보
-    selectCell(curSheet.selected)
+    setSelectedCell(curSheet.selected)
     // 5. 셀렉트 에어리어 정보
-    selectArea(curSheet.selectedArea)
-  }, [file.currentSheetIdx, file.sheets, setCells, setHistoryInfo, selectCell, selectArea])
+    setSelectedArea(curSheet.selectedArea)
+  }, [file.currentSheetIdx, file.sheets, setCells, setHistoryInfo, setSelectedCell, setSelectedArea])
 
   const renewRecoilState = useCallback((): void => {
     // 현재 작업중인 시트 정보 recoilState에 갱신
@@ -62,11 +43,11 @@ export const useFile = ({
         prevSheet.cells = cells
         prevSheet.historyInfo = historyInfo
         prevSheet.scrollPosition = getSheetScrollPosition()
-        prevSheet.selected = selected
+        prevSheet.selectedCell = selectedCell
         prevSheet.selectedArea = selectedArea
       })
     )
-  }, [cells, historyInfo, selected, selectedArea, setFile])
+  }, [cells, historyInfo, selectedCell, selectedArea, setFile])
 
   const changeSheet: ChangeSheet = useCallback(
     sheetIdx => {
@@ -77,13 +58,13 @@ export const useFile = ({
           prevSheet.cells = cells
           prevSheet.historyInfo = historyInfo
           prevSheet.scrollPosition = getSheetScrollPosition()
-          prevSheet.selected = selected
+          prevSheet.selectedCell = selectedCell
           prevSheet.selectedArea = selectedArea
           draft.currentSheetIdx = sheetIdx
         })
       )
     },
-    [setFile, cells, historyInfo, selected, selectedArea]
+    [setFile, cells, historyInfo, selectedCell, selectedArea]
   )
 
   return { renewRecoilState, changeSheet }

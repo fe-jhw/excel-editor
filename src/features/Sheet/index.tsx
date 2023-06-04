@@ -2,22 +2,27 @@ import { SelectBox } from './components/SelectBox'
 import { SelectArea } from './components/SelectArea'
 import { ContextMenu } from './components/ContextMenu'
 import { CopyArea } from './components/CopyArea'
-import { EditorContext } from '@/context'
 import { useContextMenu } from '@/hooks/useContextMenu'
 import { useKeyHandler } from '@/hooks/useKeyHandler'
 import { ICell } from 'editor'
 import { blockDragEvent, isMouseDownContextMenu } from '@/utils/EventUtils'
 import { getLengthArr, isInRange, parseCellId } from '@/utils/SheetUtils'
-import { useCallback, MouseEvent, useContext } from 'react'
+import { useCallback, MouseEvent } from 'react'
 import { ColumnHeader } from './components/ColumnHeader'
 import { Row } from './components/Row'
 import { RowHeader } from './components/RowHeader'
 import '@/asset/sheet.scss'
+import { useEditorValues } from '@/context/_EditorContext'
+import { useSelectCell } from '@/hooks/useSelectCell'
+import { useSelectArea } from '@/hooks/useSelectArea'
 
 export function Sheet() {
-  const { selectedArea, cells, onCellClick, onCellDragStart, onCellDragging, onCellDragEnd } = useContext(EditorContext)
+  const { selectedArea, cells } = useEditorValues()
+  const { onCellClick } = useSelectCell()
+  const { onCellDragStart, onCellDragging, onCellDragEnd } = useSelectArea()
   const { contextMenu, onContextMenu } = useContextMenu()
   const { onArrowKey, onRedo, onUndo, onCopy, onCut, onPaste } = useKeyHandler()
+
   const onSheetMouseDown = useCallback(
     (e: MouseEvent) => {
       if (isMouseDownContextMenu(e)) {

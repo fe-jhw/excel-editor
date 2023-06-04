@@ -1,5 +1,4 @@
 import { ToggleButton } from '@/components'
-import { EditorContext } from '@/context'
 import {
   AlignCenterOutlined,
   AlignLeftOutlined,
@@ -8,30 +7,31 @@ import {
   VerticalAlignMiddleOutlined,
   VerticalAlignTopOutlined,
 } from '@ant-design/icons'
-import { useContext } from 'react'
+import { useTargetCell } from '../hooks/useTargetCell'
 import { ToolBox } from './ToolBox'
 
 export function AlignBox() {
   // TODO: 각 Box별로 중복되는 애 처리하기
   // TODO: textAlign typing 한거 자세히 정리하기
-  const { selectedCell, changeSelectedCells } = useContext(EditorContext)
+  const targetCell = useTargetCell()
+
   return (
     <ToolBox.Wrapper>
       <ToolBox.Layer>
         <ToggleButton
-          value={selectedCell?.verticalAlign}
+          value={targetCell?.verticalAlign}
           valueIfActive="top"
           propertyName="verticalAlign"
           icon={<VerticalAlignTopOutlined />}
         />
         <ToggleButton
-          value={selectedCell?.verticalAlign}
+          value={targetCell?.verticalAlign}
           valueIfActive="middle"
           propertyName="verticalAlign"
           icon={<VerticalAlignMiddleOutlined />}
         />
         <ToggleButton
-          value={selectedCell?.verticalAlign}
+          value={targetCell?.verticalAlign}
           valueIfActive="bottom"
           propertyName="verticalAlign"
           icon={<VerticalAlignBottomOutlined />}
@@ -39,19 +39,19 @@ export function AlignBox() {
       </ToolBox.Layer>
       <ToolBox.Layer>
         <ToggleButton
-          value={selectedCell?.textAlign}
+          value={targetCell?.textAlign}
           valueIfActive="left"
           propertyName="textAlign"
           icon={<AlignLeftOutlined />}
         />
         <ToggleButton
-          value={selectedCell?.textAlign}
+          value={targetCell?.textAlign}
           valueIfActive="center"
           propertyName="textAlign"
           icon={<AlignCenterOutlined />}
         />
         <ToggleButton
-          value={selectedCell?.textAlign}
+          value={targetCell?.textAlign}
           valueIfActive="right"
           propertyName="textAlign"
           icon={<AlignRightOutlined />}

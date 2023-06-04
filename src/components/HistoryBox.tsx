@@ -1,11 +1,10 @@
-import { EditorContext } from '@/context'
+import { useHistory } from '@/hooks/useHistory'
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { css } from '@emotion/react'
 import { Button } from 'antd'
-import { useContext } from 'react'
 
 export function HistoryBox() {
-  const { redo, undo, canRedo, canUndo } = useContext(EditorContext)
+  const { redo, undo, canRedo, canUndo } = useHistory()
   return (
     <div css={historyBoxCss}>
       <Button icon={<ArrowLeftOutlined />} onClick={undo} disabled={!canUndo} type="text" />

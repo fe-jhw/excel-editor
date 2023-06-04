@@ -1,8 +1,6 @@
-import { EditorContext } from '@/context'
-import { blockDragEvent } from '@/utils/EventUtils'
-import { useContext } from 'react'
+import { useSelectArea } from '@/hooks/useSelectArea'
 
 export function SelectArea() {
-  const { selectedArea, selectAreaInfo } = useContext(EditorContext)
-  return <>{selectedArea.active && <div className="select-area" style={selectAreaInfo} />}</>
+  const { selectedArea, selectAreaRect } = useSelectArea()
+  return <>{selectedArea.active && <div className="select-area" style={selectAreaRect} />}</>
 }

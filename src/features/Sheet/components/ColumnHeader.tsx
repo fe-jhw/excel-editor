@@ -1,19 +1,20 @@
 import { CellAdjuster } from './CellAdjuster'
-import { EditorContext } from '@/context'
 import { defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
 import { getCellRect, getColumnArr, isInRange } from '@/utils/SheetUtils'
-import { Fragment, memo, useContext, useMemo } from 'react'
+import { Fragment, memo, useMemo } from 'react'
 import { baseCellStyle } from '../data/constants'
 import { CellAutoAdder } from './CellAutoAdder'
+import { useEditorValues } from '@/context/_EditorContext'
 
 interface ColumnHeaderProps {
   lengthArr: number[]
 }
 
 export const ColumnHeader = memo(function ({ lengthArr }: ColumnHeaderProps) {
-  const { activeColRange } = useContext(EditorContext)
-  const cellRects = lengthArr.map(len => getCellRect(len, defaultCellHeight))
-  const selectAllRect = getCellRect(defaultCellWidth, defaultCellHeight)
+  const { selectedCell, selectedArea } = useEditorValues()
+  const activeColRange = useMemo(() => getActiveColumnRange(selectedCell, selectedArea), [selectedArea, selectedCell])
+  const cellRects = useMemo(() => lengthArr.map(len => getCellRect(len, defaultCellHeight)), [lengthArr])
+  const selectAllRect = useMemo(() => getCellRect(defaultCellWidth, defaultCellHeight), [])
 
   const columnAlphabets = useMemo(() => getColumnArr(cellRects.length), [cellRects.length])
 

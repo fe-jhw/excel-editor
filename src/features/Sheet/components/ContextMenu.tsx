@@ -1,16 +1,18 @@
 import { ClearOutlined, CopyOutlined, DeleteOutlined, ScissorOutlined, FileOutlined } from '@ant-design/icons'
 import { MenuProps, Modal, Menu } from 'antd'
-import { useCallback, useContext } from 'react'
-import { EditorContext } from '@/context'
+import { useCallback } from 'react'
 import { defaultCell } from '@/data/SheetConstants'
 import { MenuItemType } from 'antd/es/menu/hooks/useItems'
 import { IContextMenu, MENU_HEIGHT, MENU_WIDTH, Placement } from '@/hooks/useContextMenu'
 import { blockDragEvent } from '@/utils/EventUtils'
+import { useEditorValues } from '@/context/_EditorContext'
+import { useChangeCells } from '@/hooks/useChangeCells'
+import { useCopy } from '@/hooks/useCopy'
+import { useDeleteCells } from '@/hooks/useDeleteCells'
 
 interface ContextMenuProps extends IContextMenu {}
 
 type MenuKey = 'cut' | 'copy' | 'paste' | 'delete' | 'clear'
-
 type MenuItem = Required<MenuProps>['items'][number]
 
 const items: MenuItem[] = [
@@ -44,17 +46,10 @@ const items: MenuItem[] = [
 ]
 
 export function ContextMenu({ open, x, y }: ContextMenuProps) {
-  const {
-    selectedArea,
-    changeSelectedCells,
-    copySelectedArea,
-    paste,
-    isSomethingCopied,
-    deleteCols,
-    deleteRows,
-    deleteShiftUp,
-    deleteShiftLeft,
-  } = useContext(EditorContext)
+  const { selectedArea } = useEditorValues()
+  const { changeSelectedCells } = useChangeCells()
+  const { copySelectedArea, paste, isSomethingCopied } = useCopy()
+  const { deleteCols, deleteRows, deleteShiftUp, deleteShiftLeft } = useDeleteCells()
 
   const clearSelectedCells = useCallback(() => {
     changeSelectedCells(defaultCell)

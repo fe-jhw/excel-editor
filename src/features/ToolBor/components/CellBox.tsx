@@ -1,4 +1,5 @@
-import { EditorContext } from '@/context'
+import { useEditorValues } from '@/context/_EditorContext'
+import { useInsertCells } from '@/hooks/useInsertCells'
 import {
   InsertRowAboveOutlined,
   InsertRowBelowOutlined,
@@ -10,7 +11,8 @@ import { useCallback, useContext } from 'react'
 import { ToolBox } from './ToolBox'
 
 export function CellBox() {
-  const { selectedArea, insertRowAbove, insertRowBelow, insertColLeft, insertColRight } = useContext(EditorContext)
+  const { selectedArea } = useEditorValues()
+  const { insertRowAbove, insertRowBelow, insertColLeft, insertColRight } = useInsertCells()
   const insertRowAboveSelected = useCallback(() => {
     insertRowAbove(selectedArea.si)
   }, [selectedArea, insertRowAbove])

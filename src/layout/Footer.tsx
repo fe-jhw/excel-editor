@@ -1,4 +1,3 @@
-import { EditorContext } from '@/context'
 import { fileState } from '@/data/store'
 import { getEmptySheet } from '@/utils/SheetUtils'
 import { PlusCircleOutlined } from '@ant-design/icons'
@@ -8,9 +7,10 @@ import { useCallback, useContext, useState, MouseEvent, ChangeEvent, useMemo, us
 import { useRecoilState, useRecoilValue } from 'recoil'
 import * as O from '@/utils/option'
 import { css } from '@emotion/react'
+import { useFile } from '@/hooks/useFile'
 
 export function Footer() {
-  const { changeSheet } = useContext(EditorContext)
+  const { changeSheet } = useFile()
   const [file, setFile] = useRecoilState(fileState)
 
   const addSheet = useCallback(() => {

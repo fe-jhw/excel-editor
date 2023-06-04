@@ -1,12 +1,7 @@
-import { useDebounce } from '@/hooks/useDebounce'
-import { ICell, History, HistoryInfo } from 'editor'
-import { useCallback, useEffect, useState } from 'react'
+import { useEditorActions, useEditorValues } from '@/context/_EditorContext'
+import { HistoryInfo, History } from 'editor'
 import produce from 'immer'
-import { getDefaultCell, getDefaultCells } from '@/utils/SheetUtils'
-
-interface UseHistoryProps {
-  setCells: React.Dispatch<React.SetStateAction<ICell[][]>>
-}
+import { useCallback, useMemo } from 'react'
 
 export interface UseHistoryReturns {
   canRedo: boolean
@@ -16,17 +11,11 @@ export interface UseHistoryReturns {
   historyInfo: HistoryInfo
   setHistoryInfo: React.Dispatch<React.SetStateAction<HistoryInfo>>
   addHistory: (history: History) => void
-  addHistoryWithDebounce: (history: History) => void
 }
 
-export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => {
-  const [historyInfo, setHistoryInfo] = useState<HistoryInfo>({ stack: [getDefaultCells(30, 30)], curIdx: 0 })
-  // cells가 변경될때마다 addhistory한다. redo undo일때 제외하고
-
-  // useEffect(() => {
-  //   console.log('---historyInfo---')
-  //   console.log(historyInfo)
-  // }, [historyInfo])
+export const useHistory = (): UseHistoryReturns => {
+  const { historyInfo } = useEditorValues()
+  const { setHistoryInfo, setCells } = useEditorActions()
 
   const addHistory = useCallback(
     (history: History) => {
@@ -40,18 +29,14 @@ export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => 
     [setHistoryInfo]
   )
 
-  // FIX: curIdx랑 꼬여서 제대로 작동하지 않음....
-  const addHistoryWithDebounce = useDebounce({
-    callback: addHistory,
-    timeout: 300,
-  })
+  const canRedo = useMemo(
+    () => historyInfo.curIdx < historyInfo.stack.length - 1,
+    [historyInfo.curIdx, historyInfo.stack.length]
+  )
 
-  const canRedo = historyInfo.curIdx < historyInfo.stack.length - 1
+  const canUndo = useMemo(() => historyInfo.curIdx > 0, [historyInfo.curIdx])
 
-  const canUndo = historyInfo.curIdx > 0
-
-  const redo = () => {
-    // console.log('redo!', `setCells(histories[${curIdx + 1}]})`, histories[curIdx + 1][0][0])
+  const redo = useCallback(() => {
     const { stack, curIdx } = historyInfo
     setCells(stack[curIdx + 1])
     setHistoryInfo((prev: HistoryInfo) =>
@@ -59,9 +44,9 @@ export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => 
         draft.curIdx += 1
       })
     )
-  }
+  }, [historyInfo, setCells, setHistoryInfo])
 
-  const undo = () => {
+  const undo = useCallback(() => {
     const { stack, curIdx } = historyInfo
     setCells(stack[curIdx - 1])
     setHistoryInfo((prev: HistoryInfo) =>
@@ -69,7 +54,7 @@ export const useHistory = ({ setCells }: UseHistoryProps): UseHistoryReturns => 
         draft.curIdx -= 1
       })
     )
-  }
+  }, [historyInfo, setCells, setHistoryInfo])
 
-  return { canRedo, canUndo, redo, undo, addHistory, historyInfo, setHistoryInfo, addHistoryWithDebounce }
+  return { canRedo, canUndo, redo, undo, addHistory, historyInfo, setHistoryInfo }
 }

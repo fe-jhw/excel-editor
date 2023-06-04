@@ -1,15 +1,17 @@
 import { useEditorActions, useEditorValues } from '@/context/_EditorContext'
-import { useCallback, KeyboardEventHandler } from 'react'
-import { useCopy } from './useCopy'
+import { ReactEventHandler, useContext, useCallback, KeyboardEventHandler } from 'react'
 import { useHistory } from './useHistory'
 
 type Dirs = 'Down' | 'Up' | 'Left' | 'Right'
 type ArrowKeys = `Arrow${Dirs}`
 
-export const useKeyHandler = () => {
+export const useKeyOnSheet = () => {
   const { selectedCell } = useEditorValues()
-  const { setSelectedCell, setSelectedArea } = useEditorActions()
+
+  const { setSelectedArea, setSelectedCell } = useEditorActions()
+
   const { redo, undo, canRedo, canUndo } = useHistory()
+
   const { copySelectedArea, paste } = useCopy()
 
   // TODO: 보이는 곳 밖으로 나갈시에 scroll 시켜야함

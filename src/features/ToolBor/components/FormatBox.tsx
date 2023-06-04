@@ -1,24 +1,25 @@
 import { ToggleButton } from '@/components'
-import { EditorContext } from '@/context'
 import { defaultCell } from '@/data/SheetConstants'
 import { DollarOutlined, FieldBinaryOutlined, PercentageOutlined } from '@ant-design/icons'
 import { Select } from 'antd'
-import { useContext } from 'react'
 import { formats, SMALL_BTN_WIDTH, SPACE_GAP } from '../data/constants'
 import { ToolBox } from './ToolBox'
 import * as O from '@/utils/option'
+import { useTargetCell } from '../hooks/useTargetCell'
+import { useChangeCells } from '@/hooks/useChangeCells'
 
 const { Option } = Select
 
 export function FormatBox() {
-  const { selectedCell, changeSelectedCells } = useContext(EditorContext)
+  const { targetCell } = useTargetCell()
+  const { changeSelectedCells } = useChangeCells()
 
   return (
     <ToolBox.Wrapper>
       <ToolBox.Layer>
         <Select
           style={{ width: `${3 * SMALL_BTN_WIDTH + 2 * SPACE_GAP}px` }}
-          value={O.getOrElseFromUndefined(selectedCell?.format, defaultCell.format)}
+          value={O.getOrElseFromUndefined(targetCell?.format, defaultCell.format)}
           onSelect={value => changeSelectedCells({ format: value })}
         >
           {formats.map(format => (
@@ -31,19 +32,19 @@ export function FormatBox() {
       </ToolBox.Layer>
       <ToolBox.Layer>
         <ToggleButton
-          value={selectedCell?.format}
+          value={targetCell?.format}
           valueIfActive="money"
           propertyName="format"
           icon={<DollarOutlined />}
         />
         <ToggleButton
-          value={selectedCell?.format}
+          value={targetCell?.format}
           valueIfActive="percentage"
           propertyName="format"
           icon={<PercentageOutlined />}
         />
         <ToggleButton
-          value={selectedCell?.format}
+          value={targetCell?.format}
           valueIfActive="number"
           propertyName="format"
           icon={<FieldBinaryOutlined />}

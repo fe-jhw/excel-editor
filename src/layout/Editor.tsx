@@ -2,11 +2,9 @@ import { Functionbar } from '@/components'
 import { Sheet } from '@/features/Sheet'
 import { Toolbar } from '@/features/ToolBor'
 import { HistoryBox } from '@/components/HistoryBox'
-import { EditorContext } from '@/context'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 
 export function Editor() {
-  const { renewRecoilState } = useContext(EditorContext)
   //TODO: 커스텀훅으로 빼기
   useEffect(() => {
     window.addEventListener(
