@@ -1,4 +1,4 @@
-import { useEditorValues } from '@/context/_EditorContext'
+import { useEditorValues } from '@/context/EditorContext'
 import { ICell } from 'editor'
 import { useMemo } from 'react'
 

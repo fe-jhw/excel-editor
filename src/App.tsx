@@ -1,5 +1,5 @@
 import { Header, Editor, Footer } from '@/layout'
-import { EditorProvider } from '@/context/_EditorContext'
+import { EditorProvider } from '@/context/EditorContext'
 import { RecoilRoot } from 'recoil'
 
 function App() {

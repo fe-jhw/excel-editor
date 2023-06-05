@@ -1,4 +1,4 @@
-import { useEditorValues } from '@/context/_EditorContext'
+import { useEditorValues } from '@/context/EditorContext'
 import { useInsertCells } from '@/hooks/useInsertCells'
 import {
   InsertRowAboveOutlined,

@@ -1,12 +1,13 @@
-import { useSelectArea } from './useSelectArea'
-import { useEditorValues } from '@/context/_EditorContext'
+import { useSelectArea } from '../../../hooks/useSelectArea'
+import { useEditorValues } from '@/context/EditorContext'
 import { defaultCellHeight, defaultCellWidth, defaultHeights, defaultWidths } from '@/data/SheetConstants'
 import { ICell } from 'editor'
 import { setDragCursor } from '@/utils/EventUtils'
 import { getLengthArr } from '@/utils/SheetUtils'
 import produce from 'immer'
 import { ReactEventHandler, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { useChangeCells } from './useChangeCells'
+import { useChangeCells } from '../../../hooks/useChangeCells'
+import { useSelectCell } from '../../../hooks/useSelectCell'
 
 export interface UseCellAdjusterProps {
   type: 'col' | 'row'

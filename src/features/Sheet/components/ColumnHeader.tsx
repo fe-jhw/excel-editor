@@ -4,15 +4,15 @@ import { getCellRect, getColumnArr, isInRange } from '@/utils/SheetUtils'
 import { Fragment, memo, useMemo } from 'react'
 import { baseCellStyle } from '../data/constants'
 import { CellAutoAdder } from './CellAutoAdder'
-import { useEditorValues } from '@/context/_EditorContext'
+import { useEditorValues } from '@/context/EditorContext'
+import { useHeader } from '@/features/Sheet/hooks/useHeader'
 
 interface ColumnHeaderProps {
   lengthArr: number[]
 }
 
 export const ColumnHeader = memo(function ({ lengthArr }: ColumnHeaderProps) {
-  const { selectedCell, selectedArea } = useEditorValues()
-  const activeColRange = useMemo(() => getActiveColumnRange(selectedCell, selectedArea), [selectedArea, selectedCell])
+  const { activeColRange } = useHeader()
   const cellRects = useMemo(() => lengthArr.map(len => getCellRect(len, defaultCellHeight)), [lengthArr])
   const selectAllRect = useMemo(() => getCellRect(defaultCellWidth, defaultCellHeight), [])
 

@@ -1,4 +1,4 @@
-import { useEditorValues, useEditorActions } from '@/context/_EditorContext'
+import { useEditorValues, useEditorActions } from '@/context/EditorContext'
 import { getDefaultCell, getMinMaxIj } from '@/utils/SheetUtils'
 import { defaultCell } from '@/data/SheetConstants'
 import { ICell, SelectedArea, History } from 'editor'
@@ -6,6 +6,7 @@ import produce from 'immer'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHistory } from './useHistory'
 import { useChangeCells } from './useChangeCells'
+import { useSelectArea } from './useSelectArea'
 
 interface CopyInfo {
   si: number
@@ -26,7 +27,6 @@ export interface UseCopyReturns {
 export const useCopy = (): UseCopyReturns => {
   const { cells } = useEditorValues()
   const { setSelectedArea, setCells } = useEditorActions()
-  const { changeCells } = useChangeCells()
   const { addHistory } = useHistory()
   const { selectedAreaSorted } = useSelectArea()
 

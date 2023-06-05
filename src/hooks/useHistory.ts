@@ -1,4 +1,4 @@
-import { useEditorActions, useEditorValues } from '@/context/_EditorContext'
+import { useEditorActions, useEditorValues } from '@/context/EditorContext'
 import { HistoryInfo, History } from 'editor'
 import produce from 'immer'
 import { useCallback, useMemo } from 'react'

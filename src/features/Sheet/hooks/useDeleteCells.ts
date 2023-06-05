@@ -1,7 +1,9 @@
-import { getDefaultCell } from '@/utils/SheetUtils'
+import { getDefaultCell, getDefaultRow, getMinMaxIj } from '@/utils/SheetUtils'
 import produce from 'immer'
 import { useCallback } from 'react'
 import * as O from '@/utils/option'
+import { useEditorValues } from '@/context/EditorContext'
+import { useChangeCells } from '../../../hooks/useChangeCells'
 
 interface UseDeleteCellsReturns {
   deleteCols: DeleteCols
@@ -16,6 +18,8 @@ type DeleteShiftUp = (si: number, sj: number, ei: number, ej: number) => void
 type DeleteShiftLeft = DeleteShiftUp
 
 export const useDeleteCells = (): UseDeleteCellsReturns => {
+  const { cells } = useEditorValues()
+  const { setCellsWithHistory } = useChangeCells()
   const deleteCols: DeleteCols = useCallback(
     (sCol, eCol) => {
       const nextCells = produce(cells, draft => {

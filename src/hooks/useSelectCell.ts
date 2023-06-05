@@ -1,25 +1,19 @@
-import { useEditorValues, useEditorActions } from '@/context/_EditorContext'
-import {
-  defaultselectedCellRect,
-  defaultCellHeight,
-  defaultCellWidth,
-  defaultSelectedCell,
-} from '@/data/SheetConstants'
+import { useEditorValues, useEditorActions } from '@/context/EditorContext'
+import { defaultCellWidth, defaultSelectedCellRect } from '@/data/SheetConstants'
 import { ReactEventHandler, useState, useEffect, useCallback } from 'react'
 import { SelectedCell, SelectedCellRect } from 'editor'
 import { parseCellId } from '@/utils/SheetUtils'
 
-export interface UseSelectBoxReturns {
-  selectedCellRect: selectedCellRect
+export interface UseSelectCellReturns {
+  selectedCellRect: SelectedCellRect
   onCellClick: ReactEventHandler
-  calcBoxRect: () => void
+  calcSelectedCellRect: () => void
 }
 
-export const useSelectCell = (): UseSelectBoxReturns => {
-  // const [selected, setSelected] = useState<SelectedCell>(defaultSelectedCell)
+export const useSelectCell = (): UseSelectCellReturns => {
   const { selectedCell } = useEditorValues()
   const { setSelectedCell } = useEditorActions()
-  const [selectedCellRect, setSelectedCellRect] = useState<selectedCellRect>(defaultSelectedCellRect)
+  const [selectedCellRect, setSelectedCellRect] = useState<SelectedCellRect>(defaultSelectedCellRect)
 
   const onCellClick: ReactEventHandler = useCallback(e => {
     const target = e.target as HTMLElement
@@ -28,7 +22,7 @@ export const useSelectCell = (): UseSelectBoxReturns => {
     }
   }, [])
 
-  const calcBoxRect = useCallback(() => {
+  const calcSelectedCellRect = useCallback(() => {
     if (selectedCell !== null) {
       const { i, j } = selectedCell
       const cellEl = document.getElementById(`${i}-${j}`)
@@ -45,8 +39,8 @@ export const useSelectCell = (): UseSelectBoxReturns => {
   }, [selectedCell])
 
   useEffect(() => {
-    calcBoxRect()
-  }, [calcBoxRect])
+    calcSelectedCellRect()
+  }, [calcSelectedCellRect])
 
-  return { selectedCellRect, onCellClick, calcBoxRect }
+  return { selectedCellRect, onCellClick, calcSelectedCellRect }
 }

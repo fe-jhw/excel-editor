@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useEditorValues } from '@/context/_EditorContext'
+import { useEditorValues } from '@/context/EditorContext'
 import { getActiveColumnRange, getActiveRowRange } from '@/utils/SheetUtils'
 
 interface UseHeaderReturns {

@@ -4,7 +4,7 @@ import { getCellRect, isInRange } from '@/utils/SheetUtils'
 import { memo, useContext } from 'react'
 import { baseCellStyle } from '../data/constants'
 import { CellAutoAdder } from './CellAutoAdder'
-import { useHeader } from '@/hooks/useHeader'
+import { useHeader } from '@/features/Sheet/hooks/useHeader'
 
 interface RowHeaderProps {
   lengthArr: number[]

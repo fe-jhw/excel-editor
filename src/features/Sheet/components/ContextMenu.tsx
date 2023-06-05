@@ -3,12 +3,12 @@ import { MenuProps, Modal, Menu } from 'antd'
 import { useCallback } from 'react'
 import { defaultCell } from '@/data/SheetConstants'
 import { MenuItemType } from 'antd/es/menu/hooks/useItems'
-import { IContextMenu, MENU_HEIGHT, MENU_WIDTH, Placement } from '@/hooks/useContextMenu'
+import { IContextMenu, MENU_HEIGHT, MENU_WIDTH, Placement } from '@/features/Sheet/hooks/useContextMenu'
 import { blockDragEvent } from '@/utils/EventUtils'
-import { useEditorValues } from '@/context/_EditorContext'
+import { useEditorValues } from '@/context/EditorContext'
 import { useChangeCells } from '@/hooks/useChangeCells'
 import { useCopy } from '@/hooks/useCopy'
-import { useDeleteCells } from '@/hooks/useDeleteCells'
+import { useDeleteCells } from '@/features/Sheet/hooks/useDeleteCells'
 
 interface ContextMenuProps extends IContextMenu {}
 

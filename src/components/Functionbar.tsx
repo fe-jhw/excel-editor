@@ -3,7 +3,7 @@ import { changeNumToAlphabet } from '@/utils/SheetUtils'
 import { Divider, Input } from 'antd'
 import { css } from '@emotion/react'
 import { border, color, height } from '@/data/variables.style'
-import { useEditorValues } from '@/context/_EditorContext'
+import { useEditorValues } from '@/context/EditorContext'
 import { useChangeCells } from '@/hooks/useChangeCells'
 
 export function Functionbar() {

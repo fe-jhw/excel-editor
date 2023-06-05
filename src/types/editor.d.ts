@@ -11,7 +11,7 @@ declare module 'editor' {
     cells: ICell[][]
     historyInfo: HistoryInfo
     scrollPosition: ScrollPosition
-    selected: Selected
+    selectedCell: SelectedCell
     selectedArea: SelectedArea
   }
 

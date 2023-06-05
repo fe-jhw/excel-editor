@@ -1,5 +1,5 @@
 import { defaultAdjusterBorderThickness, defaultCellHeight, defaultCellWidth } from '@/data/SheetConstants'
-import { LineInfo, useCellAdjuster } from '@/hooks/useCellAdjuster'
+import { LineInfo, useCellAdjuster } from '@/features/Sheet/hooks/useCellAdjuster'
 import { setDragCursor } from '@/utils/EventUtils'
 import { memo, useContext, useRef } from 'react'
 

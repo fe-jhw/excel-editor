@@ -1,4 +1,13 @@
-import { ICell, SelectedCell, SelectBoxInfo, SelectAreaInfo, Format, TextAlign } from 'editor'
+import {
+  ICell,
+  SelectedCell,
+  SelectBoxInfo,
+  SelectAreaInfo,
+  Format,
+  TextAlign,
+  SelectedCellRect,
+  SelectedAreaRect,
+} from 'editor'
 import uuid from 'react-uuid'
 
 export const defaultCellHeight = 28
@@ -26,7 +35,7 @@ export const defaultCellCol = 30
 
 export const defaultAdjusterBorderThickness = 20
 
-export const defaultSelectBoxInfo: SelectBoxInfo = {
+export const defaultSelectedCellRect: SelectedCellRect = {
   width: 0,
   height: 0,
   top: defaultCellHeight,
@@ -34,7 +43,7 @@ export const defaultSelectBoxInfo: SelectBoxInfo = {
 }
 
 export const defaultSelectedCell: SelectedCell = { i: 0, j: 0 }
-export const defaultSelectAreaInfo: SelectAreaInfo = defaultSelectBoxInfo
+export const defaultSelectedAreaRect: SelectedAreaRect = defaultSelectedCellRect
 
 export const defaultSelectedArea = {
   si: 0,

@@ -1,4 +1,4 @@
-import { useEditorActions, useEditorValues } from '@/context/_EditorContext'
+import { useEditorActions, useEditorValues } from '@/context/EditorContext'
 import { fileState } from '@/data/store'
 import { ScrollPosition } from 'editor'
 import produce from 'immer'
@@ -30,7 +30,7 @@ export const useFile = () => {
     const { x, y } = curSheet.scrollPosition
     domSheet?.scrollTo({ top: y, left: x, behavior: 'smooth' })
     // 4. 셀렉트 박스 정보
-    setSelectedCell(curSheet.selected)
+    setSelectedCell(curSheet.selectedCell)
     // 5. 셀렉트 에어리어 정보
     setSelectedArea(curSheet.selectedArea)
   }, [file.currentSheetIdx, file.sheets, setCells, setHistoryInfo, setSelectedCell, setSelectedArea])

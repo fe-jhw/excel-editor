@@ -12,11 +12,13 @@ import { ToggleButton } from '@/components/ToggleButton'
 import { ToolBox } from './ToolBox'
 import { SPACE_GAP, SMALL_BTN_WIDTH, MIDDLE_BTN_WIDTH, fontFamiles } from '../data/constants'
 import * as O from '@/utils/option'
-import { EditorContext } from '@/context/EditorContext'
 import { defaultCell, MAX_FONT_SIZE, MIN_FONT_SIZE } from '@/data/SheetConstants'
+import { useTargetCell } from '../hooks/useTargetCell'
+import { useChangeCells } from '@/hooks/useChangeCells'
 
 export function FontBox() {
-  const { selectedCell, changeSelectedCells } = useContext(EditorContext)
+  const { targetCell } = useTargetCell()
+  const { changeSelectedCells } = useChangeCells()
 
   return (
     <ToolBox.Wrapper>
@@ -24,7 +26,7 @@ export function FontBox() {
         <Select
           style={{ width: `${3 * SMALL_BTN_WIDTH + 3 * SPACE_GAP + MIDDLE_BTN_WIDTH}px` }}
           onSelect={value => changeSelectedCells({ fontFamily: value })}
-          value={O.getOrElseFromUndefined(selectedCell?.fontFamily, defaultCell.fontFamily)}
+          value={O.getOrElseFromUndefined(targetCell?.fontFamily, defaultCell.fontFamily)}
         >
           {fontFamiles.map(fontFamily => (
             <Select.Option key={fontFamily.label} value={fontFamily.value}>
@@ -37,25 +39,25 @@ export function FontBox() {
           controls={true}
           max={MAX_FONT_SIZE}
           min={MIN_FONT_SIZE}
-          value={O.getOrElseFromUndefined(selectedCell?.fontSize, defaultCell.fontSize)}
+          value={O.getOrElseFromUndefined(targetCell?.fontSize, defaultCell.fontSize)}
           onChange={value => changeSelectedCells({ fontSize: O.getOrElseFromNull(value, defaultCell.fontSize) })}
         />
       </ToolBox.Layer>
       <ToolBox.Layer>
         <ToggleButton
-          value={selectedCell?.fontWeight}
+          value={targetCell?.fontWeight}
           valueIfActive={'bold'}
           propertyName="fontWeight"
           icon={<BoldOutlined />}
         />
         <ToggleButton
-          value={selectedCell?.fontStyle}
+          value={targetCell?.fontStyle}
           valueIfActive={'italic'}
           propertyName="fontStyle"
           icon={<ItalicOutlined />}
         />
         <ToggleButton
-          value={selectedCell?.textDecoration}
+          value={targetCell?.textDecoration}
           valueIfActive={'underline'}
           propertyName="textDecoration"
           icon={<UnderlineOutlined />}
@@ -66,7 +68,7 @@ export function FontBox() {
             <ChromePicker
               disableAlpha
               onChange={color => changeSelectedCells({ backgroundColor: color.hex })}
-              color={O.getOrElseFromUndefined(selectedCell?.backgroundColor, '#fff')}
+              color={O.getOrElseFromUndefined(targetCell?.backgroundColor, '#fff')}
             />
           )}
         >
@@ -74,7 +76,7 @@ export function FontBox() {
             <span
               className="color-box"
               style={{
-                color: O.getOrElseFromUndefined(selectedCell?.backgroundColor, '#fff'),
+                color: O.getOrElseFromUndefined(targetCell?.backgroundColor, '#fff'),
               }}
             >
               ■
@@ -87,12 +89,12 @@ export function FontBox() {
             <ChromePicker
               disableAlpha
               onChange={color => changeSelectedCells({ color: color.hex })}
-              color={O.getOrElseFromUndefined(selectedCell?.color, '#000')}
+              color={O.getOrElseFromUndefined(targetCell?.color, '#000')}
             />
           )}
         >
           <Button icon={<FontColorsOutlined />} style={{ padding: '0 4px', width: MIDDLE_BTN_WIDTH }}>
-            <span className="color-box" style={{ color: O.getOrElseFromUndefined(selectedCell?.color, '#000') }}>
+            <span className="color-box" style={{ color: O.getOrElseFromUndefined(targetCell?.color, '#000') }}>
               ■
             </span>
           </Button>

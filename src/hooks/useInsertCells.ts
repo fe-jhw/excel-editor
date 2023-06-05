@@ -1,5 +1,8 @@
+import { useEditorValues } from '@/context/EditorContext'
 import { getDefaultCell, getDefaultRow } from '@/utils/SheetUtils'
+import produce from 'immer'
 import { useCallback } from 'react'
+import { useChangeCells } from './useChangeCells'
 
 interface UseIntertCellsReturns {
   insertRowAbove: InsertRow
@@ -12,6 +15,8 @@ type InsertCol = (col: number) => void
 type InsertRow = (row: number) => void
 
 export const useInsertCells = (): UseIntertCellsReturns => {
+  const { cells } = useEditorValues()
+  const { setCellsWithHistory } = useChangeCells()
   const insertRowAbove: InsertRow = useCallback(
     (row: number): void => {
       const nextCells = produce(cells, draft => {

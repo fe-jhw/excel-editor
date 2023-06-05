@@ -13,7 +13,7 @@ import { ToolBox } from './ToolBox'
 export function AlignBox() {
   // TODO: 각 Box별로 중복되는 애 처리하기
   // TODO: textAlign typing 한거 자세히 정리하기
-  const targetCell = useTargetCell()
+  const { targetCell } = useTargetCell()
 
   return (
     <ToolBox.Wrapper>

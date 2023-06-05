@@ -1,18 +1,17 @@
-import { SelectedCell } from '../types/editor'
-import { useEditorValues, useEditorActions } from '@/context/_EditorContext'
-import { parseCellId, getCellRectInfo, getAreaRect } from '@/utils/SheetUtils'
+import { useEditorValues, useEditorActions } from '@/context/EditorContext'
+import { parseCellId, getAreaRect } from '@/utils/SheetUtils'
 import { ReactEventHandler, useState, useEffect, useRef, useMemo, useCallback } from 'react'
-import { SelectedArea, SelectAreaInfo, SelectedAreaRect } from 'editor'
-import { defaultSelectAreaInfo, defaultCellHeight, defaultCellWidth, defaultSelectedArea } from '@/data/SheetConstants'
+import { SelectedArea, SelectedAreaRect } from 'editor'
+import { defaultSelectedAreaRect } from '@/data/SheetConstants'
 
 export interface UseSelectAreaReturns {
   selectedArea: SelectedArea
   selectedAreaSorted: Omit<SelectedArea, 'active'>
-  selectAreaInfo: SelectAreaInfo
+  selectedAreaRect: SelectedAreaRect
   onCellDragStart: ReactEventHandler
   onCellDragging: ReactEventHandler
   onCellDragEnd: ReactEventHandler
-  calcAreaInfo: () => void
+  calcSelectedAreaRect: () => void
 }
 
 export const useSelectArea = (): UseSelectAreaReturns => {
@@ -57,7 +56,7 @@ export const useSelectArea = (): UseSelectAreaReturns => {
     return { si: Math.min(si, ei), sj: Math.min(sj, ej), ei: Math.max(si, ei), ej: Math.max(sj, ej) }
   }, [selectedArea])
 
-  const calcAreaRect = useCallback(() => {
+  const calcSelectedAreaRect = useCallback(() => {
     const { si, sj, ei, ej } = selectedArea
     const rect = getAreaRect(si, sj, ei, ej)
     if (rect) {
@@ -66,8 +65,8 @@ export const useSelectArea = (): UseSelectAreaReturns => {
   }, [selectedArea, setSelectedAreaRect])
 
   useEffect(() => {
-    calcAreaRect()
-  }, [calcAreaRect])
+    calcSelectedAreaRect()
+  }, [calcSelectedAreaRect])
 
   return {
     selectedArea,
@@ -76,6 +75,6 @@ export const useSelectArea = (): UseSelectAreaReturns => {
     onCellDragStart,
     onCellDragging,
     onCellDragEnd,
-    calcAreaRect,
+    calcSelectedAreaRect,
   }
 }
