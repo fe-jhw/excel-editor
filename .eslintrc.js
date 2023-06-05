@@ -19,8 +19,10 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'eslint-config-prettier',
     'plugin:react/recommended',
+    'plugin:testing-library/react',
+    'plugin:jest-dom/recommended',
   ],
-  plugins: ['@typescript-eslint', 'import', 'prettier', 'react', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'import', 'prettier', 'react', 'react-hooks', 'testing-library', 'jest-dom'],
   settings: { react: { version: 'detect' } },
 
   rules: {

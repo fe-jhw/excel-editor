@@ -13,12 +13,18 @@ export function Functionbar() {
 
   return (
     <div css={functionBarCss}>
-      <Input style={{ width: '100px', marginRight: '4px' }} readOnly value={`${changeNumToAlphabet(j + 1)}${i + 1}`} />
+      <Input
+        style={{ width: '100px', marginRight: '4px' }}
+        readOnly
+        value={`${changeNumToAlphabet(j + 1)}${i + 1}`}
+        data-testid="coordInput"
+      />
       <Input
         style={{ width: 'calc(100% - 108px)' }}
         key={`${i}-${j}`}
         value={cells[i][j].value}
         onChange={e => changeCells(i, j, i, j, { value: e.target.value })}
+        data-testid="valueInput"
       />
     </div>
   )
