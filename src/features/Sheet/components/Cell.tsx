@@ -27,6 +27,7 @@ export const Cell = memo(function ({ cell, i, j }: CellProps) {
           alignItems: 'center',
         }}
         id={`${i}-${j}`}
+        data-testid={`${i}-${j}`}
       >
         {format(cell.value, O.getOrElseFromUndefined(cell.format, 'general'))}
       </div>

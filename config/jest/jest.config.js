@@ -35,4 +35,5 @@ module.exports = {
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1', // webpack alias 사용하려면 똑같이 맞춰야 module import 에러 발생하지 않음
   },
+  restoreMocks: true,
 }

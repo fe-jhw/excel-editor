@@ -26,6 +26,7 @@ export function TitleBar() {
           fontSize: '18px',
           fontWeight: 400,
         }}
+        data-testid="titleInput"
       />
     </div>
   )
