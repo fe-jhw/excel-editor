@@ -24,7 +24,11 @@ export const RowHeader = memo(function ({ lengthArr }: RowHeaderProps) {
         <tbody>
           {cellRects.map((rect, idx) => (
             <tr key={idx}>
-              <td style={{ ...baseCellStyle, ...rect }} className={isInRange(idx, activeRowRange) ? 'active' : ''}>
+              <td
+                style={{ ...baseCellStyle, ...rect }}
+                className={isInRange(idx, activeRowRange) ? 'active' : ''}
+                data-testid={`row-header-${idx}`}
+              >
                 {idx + 1}
               </td>
             </tr>

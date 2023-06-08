@@ -26,7 +26,11 @@ export const ColumnHeader = memo(function ({ lengthArr }: ColumnHeaderProps) {
             <td className="select-all-btn" style={{ ...baseCellStyle, ...selectAllRect }}></td>
             {cellRects.map((rect, idx) => (
               <Fragment key={idx}>
-                <td style={{ ...baseCellStyle, ...rect }} className={isInRange(idx, activeColRange) ? 'active' : ''}>
+                <td
+                  style={{ ...baseCellStyle, ...rect }}
+                  className={isInRange(idx, activeColRange) ? 'active' : ''}
+                  data-testid={`column-header-${idx}`}
+                >
                   {columnAlphabets[idx]}
                 </td>
               </Fragment>

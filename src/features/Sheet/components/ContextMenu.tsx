@@ -93,7 +93,7 @@ export function ContextMenu({ open, x, y }: ContextMenuProps) {
   return (
     <>
       {open && (
-        <div className="context-menu" style={{ left: x, top: y }}>
+        <div className="context-menu" data-testid="context-menu" style={{ left: x, top: y }}>
           <Menu
             items={items.map(item => {
               if (item?.key === 'paste' && !isSomethingCopied) {

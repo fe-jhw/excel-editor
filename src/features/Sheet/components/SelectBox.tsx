@@ -29,6 +29,7 @@ export function SelectBox() {
           cellStyle.verticalAlign === 'top' ? 'start' : cellStyle.verticalAlign === 'bottom' ? 'end' : 'center',
         backgroundColor: cellStyle.backgroundColor,
       }}
+      data-testid="select-box"
     >
       <Input
         bordered={false}

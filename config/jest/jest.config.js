@@ -33,6 +33,7 @@ module.exports = {
     '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
+    '^.+\\.(css|less|scss)$': 'babel-jest',
     '@/(.*)': '<rootDir>/src/$1', // webpack alias 사용하려면 똑같이 맞춰야 module import 에러 발생하지 않음
   },
   restoreMocks: true,
