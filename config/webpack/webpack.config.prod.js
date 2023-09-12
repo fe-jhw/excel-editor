@@ -1,4 +1,5 @@
 const path = require('path')
+const glob = require('glob')
 const os = require('os')
 const { merge } = require('webpack-merge')
 const common = require('./webpack.config.common.js')
@@ -8,6 +9,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { PurgeCSSPlugin } = require('purgecss-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin")
+
+const PATHS = {
+  src: path.join(__dirname, '../../src'),
+}
 
 module.exports = merge(common, {
   mode: 'production',
@@ -41,11 +48,22 @@ module.exports = merge(common, {
       statsFilename: 'bundle-stats.json',
     }),
     new CleanWebpackPlugin(),
+    new PurgeCSSPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    }),
   ],
 
   optimization: {
+    splitChunks: { chunks: 'all' },
     minimize: true,
     minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true, // 콘솔 로그를 제거한다
+          },
+        },
+      }),
       new CssMinimizerPlugin({
         parallel: os.cpus().length - 1,
       }),

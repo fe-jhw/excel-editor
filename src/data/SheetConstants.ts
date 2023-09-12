@@ -30,8 +30,8 @@ export const defaultCell: Omit<ICell, 'uuid'> = {
   textDecoration: undefined,
 }
 
-export const defaultCellRow = 30
-export const defaultCellCol = 30
+export const defaultCellRow = 50
+export const defaultCellCol = 50
 
 export const defaultAdjusterBorderThickness = 20
 

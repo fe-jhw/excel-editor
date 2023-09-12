@@ -1,6 +1,17 @@
 import { border, color, height } from '@/data/variables.style'
-import { DocsBar, TitleBar } from '@/features/Header'
+const DocsBar = lazy(() =>
+  import('@/features/Header').then(({ DocsBar }) => ({
+    default: DocsBar,
+  }))
+)
+const TitleBar = lazy(() =>
+  import('@/features/Header').then(({ TitleBar }) => ({
+    default: TitleBar,
+  }))
+)
+
 import { css } from '@emotion/react'
+import { lazy } from 'react'
 
 export function Header() {
   return (

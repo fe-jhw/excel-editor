@@ -1,16 +1,45 @@
-import { SelectBox } from './components/SelectBox'
-import { SelectArea } from './components/SelectArea'
-import { ContextMenu } from './components/ContextMenu'
-import { CopyArea } from './components/CopyArea'
+import { useCallback, MouseEvent, lazy } from 'react'
+const SelectBox = lazy(() =>
+  import('./components/SelectBox').then(({ SelectBox }) => ({
+    default: SelectBox,
+  }))
+)
+const SelectArea = lazy(() =>
+  import('./components/SelectArea').then(({ SelectArea }) => ({
+    default: SelectArea,
+  }))
+)
+const ContextMenu = lazy(() =>
+  import('./components/ContextMenu').then(({ ContextMenu }) => ({
+    default: ContextMenu,
+  }))
+)
+const CopyArea = lazy(() =>
+  import('./components/CopyArea').then(({ CopyArea }) => ({
+    default: CopyArea,
+  }))
+)
 import { useContextMenu } from '@/features/Sheet/hooks/useContextMenu'
 import { useKeyHandler } from '@/features/Sheet/hooks/useKeyHandler'
 import { ICell } from 'editor'
 import { blockDragEvent, isMouseDownContextMenu } from '@/utils/EventUtils'
 import { getLengthArr, isInRange, parseCellId } from '@/utils/SheetUtils'
-import { useCallback, MouseEvent } from 'react'
-import { ColumnHeader } from './components/ColumnHeader'
-import { Row } from './components/Row'
-import { RowHeader } from './components/RowHeader'
+
+const ColumnHeader = lazy(() =>
+  import('./components/ColumnHeader').then(({ ColumnHeader }) => ({
+    default: ColumnHeader,
+  }))
+)
+const Row = lazy(() =>
+  import('./components/Row').then(({ Row }) => ({
+    default: Row,
+  }))
+)
+const RowHeader = lazy(() =>
+  import('./components/RowHeader').then(({ RowHeader }) => ({
+    default: RowHeader,
+  }))
+)
 import '@/asset/sheet.scss'
 import { useEditorValues } from '@/context/EditorContext'
 import { useSelectCell } from '@/hooks/useSelectCell'

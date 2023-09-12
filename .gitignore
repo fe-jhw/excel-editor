@@ -12,3 +12,9 @@
 
 .editorconfig
 .eslintcache
+
+dist/*
+dist/bundle-report.html
+dist/bundle-stats.json
+dist/index.html
+dist/static/*
