@@ -1,12 +1,11 @@
 import { ToggleButton } from '@/components'
-import {
-  AlignCenterOutlined,
-  AlignLeftOutlined,
-  AlignRightOutlined,
-  VerticalAlignBottomOutlined,
-  VerticalAlignMiddleOutlined,
-  VerticalAlignTopOutlined,
-} from '@ant-design/icons'
+
+import AlignCenterOutlined from '@ant-design/icons/AlignCenterOutlined'
+import AlignLeftOutlined from '@ant-design/icons/AlignLeftOutlined'
+import AlignRightOutlined from '@ant-design/icons/AlignRightOutlined'
+import VerticalAlignBottomOutlined from '@ant-design/icons/VerticalAlignBottomOutlined'
+import VerticalAlignMiddleOutlined from '@ant-design/icons/VerticalAlignMiddleOutlined'
+import VerticalAlignTopOutlined from '@ant-design/icons/VerticalAlignTopOutlined'
 import { useTargetCell } from '../hooks/useTargetCell'
 import { ToolBox } from './ToolBox'
 

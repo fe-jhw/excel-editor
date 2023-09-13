@@ -1,10 +1,8 @@
-import {
-  BgColorsOutlined,
-  BoldOutlined,
-  FontColorsOutlined,
-  ItalicOutlined,
-  UnderlineOutlined,
-} from '@ant-design/icons'
+import BgColorsOutlined from '@ant-design/icons/BgColorsOutlined'
+import BoldOutlined from '@ant-design/icons/BoldOutlined'
+import FontColorsOutlined from '@ant-design/icons/FontColorsOutlined'
+import ItalicOutlined from '@ant-design/icons/ItalicOutlined'
+import UnderlineOutlined from '@ant-design/icons/UnderlineOutlined'
 import { Button, Dropdown, InputNumber, Select } from 'antd'
 import { useContext } from 'react'
 import { ChromePicker } from 'react-color'

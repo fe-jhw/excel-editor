@@ -1,5 +1,6 @@
 import { useHistory } from '@/hooks/useHistory'
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons'
+import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined'
+import ArrowRightOutlined from '@ant-design/icons/ArrowRightOutlined'
 import { css } from '@emotion/react'
 import { Button } from 'antd'
 

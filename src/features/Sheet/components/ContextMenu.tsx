@@ -1,4 +1,9 @@
-import { ClearOutlined, CopyOutlined, DeleteOutlined, ScissorOutlined, FileOutlined } from '@ant-design/icons'
+import ClearOutlined from '@ant-design/icons/ClearOutlined'
+import CopyOutlined from '@ant-design/icons/CopyOutlined'
+import DeleteOutlined from '@ant-design/icons/DeleteOutlined'
+import ScissorOutlined from '@ant-design/icons/ScissorOutlined'
+import FileOutlined from '@ant-design/icons/FileOutlined'
+
 import { MenuProps, Modal, Menu } from 'antd'
 import { useCallback } from 'react'
 import { defaultCell } from '@/data/SheetConstants'

@@ -10,7 +10,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { PurgeCSSPlugin } = require('purgecss-webpack-plugin')
-const TerserPlugin = require("terser-webpack-plugin")
+const TerserPlugin = require('terser-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 const PATHS = {
   src: path.join(__dirname, '../../src'),
@@ -48,9 +49,17 @@ module.exports = merge(common, {
       statsFilename: 'bundle-stats.json',
     }),
     new CleanWebpackPlugin(),
-    new PurgeCSSPlugin({
-      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    new CompressionPlugin({
+      deleteOriginalAssets: true,
+      algorithm: 'gzip',
+      test: /\.(js|css|html)$/,
+      threshold: 10240, // 압축을 적용할 파일 크기의 최소값 (10KB)
+      minRatio: 0.8, // 압축률이 80% 이상일 경우에만 압축을 적용
     }),
+    // PurgeCSSPlugin은 쓰는 css도 자꾸 날린다..
+    // new PurgeCSSPlugin({
+    //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    // }),
   ],
 
   optimization: {

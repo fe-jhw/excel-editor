@@ -1,11 +1,10 @@
 import { useEditorValues } from '@/context/EditorContext'
 import { useInsertCells } from '@/hooks/useInsertCells'
-import {
-  InsertRowAboveOutlined,
-  InsertRowBelowOutlined,
-  InsertRowLeftOutlined,
-  InsertRowRightOutlined,
-} from '@ant-design/icons'
+
+import InsertRowAboveOutlined from '@ant-design/icons/InsertRowAboveOutlined'
+import InsertRowBelowOutlined from '@ant-design/icons/InsertRowBelowOutlined'
+import InsertRowLeftOutlined from '@ant-design/icons/InsertRowLeftOutlined'
+import InsertRowRightOutlined from '@ant-design/icons/InsertRowRightOutlined'
 import { Button } from 'antd'
 import { useCallback, useContext } from 'react'
 import { ToolBox } from './ToolBox'

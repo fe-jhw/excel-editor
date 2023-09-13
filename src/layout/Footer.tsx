@@ -1,6 +1,6 @@
 import { fileState } from '@/data/store'
 import { getEmptySheet } from '@/utils/SheetUtils'
-import { PlusCircleOutlined } from '@ant-design/icons'
+import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined'
 import { Tabs, Button, Input } from 'antd'
 import produce from 'immer'
 import { useCallback, useContext, useState, MouseEvent, ChangeEvent, useMemo, useEffect } from 'react'

@@ -3,14 +3,12 @@ export const SMALL_BTN_WIDTH = 32
 export const MIDDLE_BTN_WIDTH = 52
 export const SMALL_BTN_HEIGHT = 32
 
-import {
-  FieldTimeOutlined,
-  FontSizeOutlined,
-  FieldBinaryOutlined,
-  DollarOutlined,
-  AccountBookOutlined,
-  PercentageOutlined,
-} from '@ant-design/icons'
+import FieldTimeOutlined from '@ant-design/icons/FieldTimeOutlined'
+import FontSizeOutlined from '@ant-design/icons/FontSizeOutlined'
+import FieldBinaryOutlined from '@ant-design/icons/FieldBinaryOutlined'
+import DollarOutlined from '@ant-design/icons/DollarOutlined'
+import AccountBookOutlined from '@ant-design/icons/AccountBookOutlined'
+import PercentageOutlined from '@ant-design/icons/PercentageOutlined'
 
 export const fontFamiles = [
   {
